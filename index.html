@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konec Home App Realse Note</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>版本发布月报</title>
     <style>
         :root {
             --primary-color: #FFD700;
@@ -21,6 +20,12 @@
             --fix-color: #5c6bc0;
             --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            
+            /* 降低饱和度的节点颜色 */
+            --main-color: #5B8DC9;
+            --branch-color: #E09B47;
+            --branch-start-color: #6BBE59;
+            --branch-merge-color: #E06B6B;
         }
 
         * {
@@ -39,9 +44,9 @@
             margin: 0;
             min-height: 100vh;
         }
-
+        
         .container {
-            max-width: 850px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0;
             background: white;
@@ -52,30 +57,13 @@
 
         .header-bg {
             background: linear-gradient(135deg, #FFD700 0%, #FFDF4F 100%);
-            height: 120px;
+            height: 100;
             position: relative;
         }
 
         .header-content {
             position: relative;
-            padding: 20px 30px;
-            margin-top: -60px;
-        }
-
-        .app-logo {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-gold) 100%);
-            border-radius: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-            box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
-            border: 4px solid white;
+            padding: 40px 30px 20px;
         }
 
         .release-title {
@@ -84,259 +72,193 @@
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
-            color: var(--text-color);
+            color: white;
             margin: 10px 0 5px;
             text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .release-subtitle {
-            font-size: 14px;
-            color: var(--text-secondary);
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
             text-align: center;
             margin-bottom: 30px;
             font-weight: 500;
         }
 
-        .info-cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
+        .main-content {
+            padding: 40px 30px;
         }
-
-        .info-card {
-            background: white;
-            padding: 15px 20px;
+        
+        #diagram-container {
+            width: 100%;
+            overflow-x: auto;
+            background-color: var(--light-gray);
             border-radius: 12px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            flex: 1 1 200px;
+            padding: 30px 20px;
+            margin-top: 20px;
             box-shadow: var(--card-shadow);
-            border: 1px solid var(--light-gray);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .info-card:hover {
+        #diagram-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        svg {
+            width: 100%;
+            min-width: 1200px;
+            height: 600px;
+        }
+        
+        .main-line {
+            stroke: var(--main-color);
+            stroke-width: 3;
+            fill: none;
+            opacity: 0.8;
+        }
+        
+        .branch-line {
+            stroke: var(--branch-color);
+            stroke-width: 2.5;
+            fill: none;
+            stroke-dasharray: 0;
+            opacity: 0.8;
+        }
+        
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .node:hover circle {
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
         }
-
-        .card-icon {
-            margin-right: 15px;
-            color: var(--primary-color);
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: var(--light-gold);
-            border-radius: 10px;
+        
+        .main-node {
+            fill: var(--main-color);
+            stroke: white;
+            stroke-width: 3;
         }
-
-        .card-content {
-            flex: 1;
+        
+        .branch-node {
+            fill: var(--branch-color);
+            stroke: white;
+            stroke-width: 3;
         }
-
-        .info-label {
+        
+        .branch-start-node {
+            fill: var(--branch-start-color);
+            stroke: white;
+            stroke-width: 3;
+        }
+        
+        .branch-merge-node {
+            fill: var(--branch-merge-color);
+            stroke: white;
+            stroke-width: 3;
+        }
+        
+        .node-label {
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 4px;
-            display: block;
-            color: var(--text-secondary);
+            fill: var(--text-color);
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        
+        .date-label {
             font-size: 12px;
+            fill: var(--text-secondary);
+            text-anchor: middle;
+            pointer-events: none;
         }
-
-        .info-value {
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .main-content {
-            padding: 20px 30px 40px;
-        }
-
-        .section {
-            margin-bottom: 40px;
-            background: white;
+        
+        .tooltip {
+            position: fixed;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+            color: white;
+            padding: 16px 20px;
             border-radius: 12px;
-            padding: 5px 0;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tooltip.visible {
+            opacity: 1;
         }
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: 15px;
+        .tooltip div {
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
-        .section-icon {
-            font-size: 20px;
+        .tooltip div:last-child {
+            margin-bottom: 0;
+        }
+
+        .tooltip strong {
             color: var(--primary-color);
-            margin-right: 15px;
-            width: 36px;
-            height: 36px;
-            background-color: var(--light-gold);
-            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: 12px;
+            font-size: 14px;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .legend-item {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
+        .legend-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-text {
+            font-weight: 500;
             color: var(--text-color);
         }
 
-        .feature-list {
-            list-style: none;
-            padding: 0 20px;
-        }
-
-        .feature-item {
-            margin-bottom: 20px;
+        .generated-time {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 20px;
             padding: 15px;
             background-color: var(--light-gray);
-            border-radius: 10px;
-            position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .feature-title {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: var(--text-color);
-        }
-
-        .feature-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .feedback-button {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-color) 95%, var(--dark-gold) 100%);
-            color: #333;
-            font-weight: bold;
-            text-align: center;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            margin: 20px 0;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-        }
-
-        .feedback-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
-            background: linear-gradient(135deg, #FFE44D 0%, var(--primary-color) 100%);
-        }
-
-        .feedback-button i {
-            margin-right: 8px;
-        }
-
-        .testing-period {
-            text-align: center;
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 30px;
-            padding: 30px;
-            background-color: var(--light-gray);
-            border-radius: 12px;
-        }
-
-        .feature-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            border-radius: 50px;
-            font-size: 11px;
-            color: white;
-            margin-left: 10px;
-            font-weight: 500;
-        }
-
-        .feature-tag i {
-            margin-right: 4px;
-            font-size: 10px;
-        }
-
-        .new-tag {
-            background-color: var(--success-color);
-        }
-
-        .improved-tag {
-            background-color: var(--primary-color);
-            color: #333;
-        }
-
-        .fixed-tag {
-            background-color: var(--fix-color);
-        }
-
-        .verification-code {
-            background-color: var(--light-gold);
-            border: 1px dashed var(--primary-color);
-            padding: 8px 15px;
             border-radius: 8px;
-            margin: 10px 0;
-            display: inline-block;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: var(--text-color);
-        }
-
-        .sub-feature-list {
-            margin-top: 15px;
-            margin-left: 15px;
-            border-left: 2px solid var(--light-gold);
-            padding-left: 15px;
-        }
-
-        .sub-feature-item {
-            margin-bottom: 12px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .sub-feature-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 10px;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-        }
-
-        .footnote {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            border-top: 1px solid var(--border-color);
         }
 
         /* 响应式设计 */
@@ -355,260 +277,422 @@
             }
             
             .main-content {
-                padding: 15px 20px 30px;
-            }
-            
-            .info-cards {
-                flex-direction: column;
-            }
-            
-            .info-card {
-                width: 100%;
-                flex: none;
+                padding: 10px 10px;
             }
             
             h1 {
-                font-size: 22px;
-            }
-            
-            .app-logo {
-                width: 70px;
-                height: 70px;
                 font-size: 26px;
+            }
+
+            .legend {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .legend-item {
+                flex: 1 1 150px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header-bg"></div>
-        <div class="header-content">
-            <div class="app-logo" style="background: none; border: none; box-shadow: none; padding: 0;">
-                <img src="https://framerusercontent.com/images/NoNWiYznj8n7ClIm07V3D3oZ8.png" alt="Konec App Logo" style="width: 80px; height: 80px; border-radius: 16px;">
-            </div>
-            <div class="release-title">
-                <h1>Konec Home</h1>
-                <div class="release-subtitle">Release Note | 2025年4月30日</div>
-            </div>
-            
-            <div class="info-cards">
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-code-branch"></i>
-                    </div>
-                    <div class="card-content">
-                        <span class="info-label">版本号</span>
-                        <span class="info-value">v1.0.13.155</span>
-                    </div>
+        <div class="header-bg">
+            <div class="header-content">
+                <div class="release-title">
+                    <h1>本月版本分支图</h1>
                 </div>
-                
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="card-content">
-                        <span class="info-label">发布日期</span>
-                        <span class="info-value">2025年4月30日</span>
-                    </div>
-                </div>
-                
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="card-content">
-                        <span class="info-label">支持平台</span>
-                        <span class="info-value">Android 5.0+ & iOS 13.0+</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="info-cards">
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="card-content">
-                        <span class="info-label">测试周期</span>
-                        <span class="info-value">2025年4月30日 - 2025年5月30日</span>
-                    </div>
-                </div>
-                
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-hourglass-end"></i>
-                    </div>
-                    <div class="card-content">
-                        <span class="info-label">反馈截止日期</span>
-                        <span class="info-value">2025年5月30日</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 25px;">
-                <a href="https://docs.google.com/spreadsheets/d/1YQXJ65JOPARyuR4Z2SJ_EJeWc6L-NNU_4FCTejrbmgQ/edit?gid=1838084313#gid=1838084313" class="feedback-button" target="_blank">
-                    <i class="fas fa-comment-dots"></i> 点击此按钮反馈
-                </a>
             </div>
         </div>
 
         <div class="main-content">
-            <div class="section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-plus-circle"></i>
-                    </div>
-                    <div class="section-title">新增功能</div>
+            <div id="diagram-container">
+                <svg id="release-diagram"></svg>
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--main-color);"></div>
+                    <span class="legend-text">主版本</span>
                 </div>
-                <ul class="feature-list">
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-robot" style="color: var(--success-color); margin-right: 8px;"></i>
-                            AI 功能开放
-                            <span class="feature-tag new-tag"><i class="fas fa-star"></i>新增</span>
-                        </div>
-                        <div class="feature-description">
-                            验证码 <span class="verification-code">KONECAI</span>
-                            <br>开放 AI Beta 功能，允许用户能够查看和控制设备，快速创建一件执行和自动化场景，查看设备日志。
-                        </div>
-                    </li>
-                    
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-chart-line" style="color: var(--success-color); margin-right: 8px;"></i>
-                            合并 App埋点功能
-                            <span class="feature-tag new-tag"><i class="fas fa-star"></i>新增</span>
-                        </div>
-                        <div class="feature-description">
-                            合入埋点，自动记录生产环境中的错误、崩溃及异常情况，帮助我们快速定位和解决问题。
-                        </div>
-                    </li>
-                    
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-tablet-alt" style="color: var(--success-color); margin-right: 8px;"></i>
-                            设备面板重构
-                            <span class="feature-tag new-tag"><i class="fas fa-star"></i>新增</span>
-                        </div>
-                        <div class="feature-description">
-                            Contact Sensor 和 Smart Lock K9 门锁使用新的 UI 风格面板，核心功能保持不变。
-                        </div>
-                    </li>
-                    
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-lock" style="color: var(--success-color); margin-right: 8px;"></i>
-                            新设备合入
-                            <span class="feature-tag new-tag"><i class="fas fa-star"></i>新增</span>
-                        </div>
-                        <div class="feature-description">
-                            新增支持 Konec Smart Lock T01 Pro 门锁。
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-arrow-up"></i>
-                    </div>
-                    <div class="section-title">已改进功能</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--branch-color);"></div>
+                    <span class="legend-text">分支版本</span>
                 </div>
-                <ul class="feature-list">
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-sync-alt" style="color: var(--primary-color); margin-right: 8px;"></i>
-                            基于v1.0.12.137的用户反馈修复
-                            <span class="feature-tag improved-tag"><i class="fas fa-arrow-up"></i>改进</span>
-                        </div>
-                        <div class="feature-description">
-                            根据用户使用体验优化了以下功能：
-                        </div>
-                        <div class="sub-feature-list">
-                            <div class="sub-feature-item">
-                                灯组绑定流程中新增"手动进入呼吸模式"选项，解决用户在自动绑定过程中遇到个别单灯无法通过自动开关进入配网模式。
-                            </div>
-                            <div class="sub-feature-item">
-                                增加了房间排序功能。
-                            </div>
-                            <div class="sub-feature-item">
-                                修复了用户在中国境内用手机访问澳洲IPC设备，回放界面无法选择当前日期的问题。
-                            </div>
-                            <div class="sub-feature-item">
-                                修复了带输入框弹窗无法输入单引号和双引号的问题。
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-bug"></i>
-                    </div>
-                    <div class="section-title">Bug修复及稳定性</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--branch-start-color);"></div>
+                    <span class="legend-text">分支开始</span>
                 </div>
-                <ul class="feature-list">
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-sync" style="color: var(--fix-color); margin-right: 8px;"></i>
-                            设备显示与同步问题
-                            <span class="feature-tag fixed-tag"><i class="fas fa-check"></i>修复</span>
-                        </div>
-                        <div class="feature-description">
-                            修复了不同手机终端进入相同房间时设备显示不一致的问题。解决了设备删除后在其他端未及时更新的问题。
-                        </div>
-                    </li>
-                    
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-home" style="color: var(--fix-color); margin-right: 8px;"></i>
-                            房间管理与修改问题
-                            <span class="feature-tag fixed-tag"><i class="fas fa-check"></i>修复</span>
-                        </div>
-                        <div class="feature-description">
-                            修复了修改房间名称或排序后多端同步的问题。
-                        </div>
-                    </li>
-                    
-                    <li class="feature-item">
-                        <div class="feature-title">
-                            <i class="fas fa-comments" style="color: var(--fix-color); margin-right: 8px;"></i>
-                            AI Chat功能问题
-                            <span class="feature-tag fixed-tag"><i class="fas fa-check"></i>修复</span>
-                        </div>
-                        <div class="feature-description">
-                            修复了以下AI Chat相关问题：
-                        </div>
-                        <div class="sub-feature-list">
-                            <div class="sub-feature-item">
-                                修复了在AI Chat中创建带定时器场景时出现的灰屏问题。
-                            </div>
-                            <div class="sub-feature-item">
-                                修复了设备卡片渲染失败时显示错误信息的问题。
-                            </div>
-                            <div class="sub-feature-item">
-                                移除了长按添加emoji和右滑回复功能。
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--branch-merge-color);"></div>
+                    <span class="legend-text">分支合并</span>
+                </div>
             </div>
-
-            <div class="testing-period" id="feedback">
-                <h3 style="margin-bottom: 15px; color: var(--text-color);">您的反馈对我们非常重要</h3>
-                <p style="margin-bottom: 20px;">在使用App过程中遇到的问题，请通过以下按钮提交反馈到GoogleSheet</p>
-                <a href="https://docs.google.com/spreadsheets/d/1YQXJ65JOPARyuR4Z2SJ_EJeWc6L-NNU_4FCTejrbmgQ/edit?gid=1838084313#gid=1838084313" class="feedback-button" target="_blank">
-                    <i class="fas fa-paper-plane"></i> 提交反馈
-                </a>
-            </div>
-        </div>
-        
-        <div class="footnote">
-            © 2025 Konec Australia . All rights reserved
         </div>
     </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        // 版本数据
+        const releasesData = {
+  "releases": [
+    {
+      "version": "1.0.14.156",
+      "environment": "PROD",
+      "date": "2025-05-01",
+      "type": "main",
+      "note": "主版本"
+    },
+    {
+      "version": "1.0.14.157",
+      "environment": "PROD",
+      "date": "2025-05-15",
+      "type": "branch-start",
+      "note": "分支版本开始"
+    },
+    {
+      "version": "1.0.14.158",
+      "environment": "PROD",
+      "date": "2025-05-16",
+      "type": "main",
+      "note": "主版本"
+    },
+    {
+      "version": "1.0.14.159",
+      "environment": "PROD",
+      "date": "2025-05-19",
+      "type": "branch",
+      "note": "分支版本"
+    },
+    {
+      "version": "1.0.14.160",
+      "environment": "PROD",
+      "date": "2025-05-21",
+      "type": "branch",
+      "note": "分支版本"
+    },
+    {
+      "version": "1.0.14.161",
+      "environment": "PROD",
+      "date": "2025-05-22",
+      "type": "branch",
+      "note": "分支版本"
+    },
+    {
+      "version": "1.0.14.162",
+      "environment": "PROD",
+      "date": "2025-05-23",
+      "type": "branch",
+      "note": "分支版本"
+    },
+    {
+      "version": "1.0.14.163",
+      "environment": "PROD",
+      "date": "2025-05-26",
+      "type": "branch",
+      "note": "分支版本"
+    },
+    {
+      "version": "1.0.14.164",
+      "environment": "PROD",
+      "date": "2025-05-27",
+      "type": "branch-merge",
+      "note": "分支版本核入为主版本"
+    },
+    {
+      "version": "1.0.14.165",
+      "environment": "PROD",
+      "date": "2025-05-28",
+      "type": "main",
+      "note": "主版本"
+    },
+    {
+      "version": "1.0.14.166",
+      "environment": "PROD",
+      "date": "2025-05-29",
+      "type": "main",
+      "note": "主版本"
+    },
+    {
+      "version": "1.0.14.167",
+      "environment": "PROD",
+      "date": "2025-05-30",
+      "type": "main",
+      "note": "主版本"
+    },
+    {
+      "version": "1.0.14.169",
+      "environment": "PROD",
+      "date": "2025-06-01",
+      "type": "main",
+      "note": "主版本"
+    },
+    {
+      "version": "1.0.14.170",
+      "environment": "PROD",
+      "date": "2025-06-03",
+      "type": "branch-start",
+      "note": "分支版本开始"
+    }
+  ]
+};
+        
+        function drawDiagram(releases) {
+            const svg = document.getElementById('release-diagram');
+            svg.innerHTML = '';
+            
+            const margin = { top: 80, right: 80, bottom: 80, left: 50 };
+            const width = Math.max(1200, releases.length * 100 + 100);
+            const height = 600;
+            
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            
+            // 计算日期范围
+            const dates = releases.map(r => new Date(r.date));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+            const dateRange = maxDate - minDate;
+            
+            // 创建 x 轴比例尺 - 留出额外空间给箭头
+            const xScale = (date) => {
+                const d = new Date(date);
+                return margin.left + ((d - minDate) / dateRange) * (width - margin.left - margin.right - 50);
+            };
+            
+            const mainY = height / 2;
+            const branchY = height / 2 + 150;
+            
+            // 分离主版本和分支版本
+            const mainReleases = [];
+            const branchReleases = [];
+            let inBranch = false;
+            let branchStartIndex = -1;
+            
+            releases.forEach((release, index) => {
+                if (release.type === 'branch-start') {
+                    inBranch = true;
+                    branchStartIndex = index;
+                    mainReleases.push(release);
+                    branchReleases.push(release);
+                } else if (release.type === 'branch-merge') {
+                    inBranch = false;
+                    branchReleases.push(release);
+                    mainReleases.push(release);
+                } else if (inBranch && release.type === 'branch') {
+                    branchReleases.push(release);
+                } else {
+                    mainReleases.push(release);
+                }
+            });
+            
+            // 创建渐变定义
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            
+            // 主线渐变
+            const mainGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            mainGradient.setAttribute('id', 'mainGradient');
+            mainGradient.setAttribute('x1', '0%');
+            mainGradient.setAttribute('x2', '100%');
+            
+            const mainStop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            mainStop1.setAttribute('offset', '0%');
+            mainStop1.setAttribute('stop-color', 'var(--main-color)');
+            mainStop1.setAttribute('stop-opacity', '0.8');
+            
+            const mainStop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            mainStop2.setAttribute('offset', '100%');
+            mainStop2.setAttribute('stop-color', 'var(--main-color)');
+            mainStop2.setAttribute('stop-opacity', '0.6');
+            
+            mainGradient.appendChild(mainStop1);
+            mainGradient.appendChild(mainStop2);
+            defs.appendChild(mainGradient);
+            
+            // 箭头标记
+            const arrowMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            arrowMarker.setAttribute('id', 'arrowhead');
+            arrowMarker.setAttribute('markerWidth', '10');
+            arrowMarker.setAttribute('markerHeight', '7');
+            arrowMarker.setAttribute('refX', '9');
+            arrowMarker.setAttribute('refY', '3.5');
+            arrowMarker.setAttribute('orient', 'auto');
+            
+            const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            arrow.setAttribute('points', '0 0, 10 3.5, 0 7');
+            arrow.setAttribute('fill', 'var(--main-color)');
+            arrow.setAttribute('opacity', '0.8');
+            
+            arrowMarker.appendChild(arrow);
+            defs.appendChild(arrowMarker);
+            svg.appendChild(defs);
+            
+            // 绘制主线（带箭头）
+            if (mainReleases.length > 1) {
+                const lastX = xScale(mainReleases[mainReleases.length - 1].date);
+                const extendedX = width - margin.right + 20;
+                
+                let pathData = `M ${xScale(mainReleases[0].date)} ${mainY}`;
+                for (let i = 1; i < mainReleases.length; i++) {
+                    pathData += ` L ${xScale(mainReleases[i].date)} ${mainY}`;
+                }
+                // 延伸到箭头
+                pathData += ` L ${extendedX} ${mainY}`;
+                
+                const mainLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                mainLine.setAttribute('d', pathData);
+                mainLine.setAttribute('class', 'main-line');
+                mainLine.setAttribute('stroke', 'url(#mainGradient)');
+                mainLine.setAttribute('marker-end', 'url(#arrowhead)');
+                svg.appendChild(mainLine);
+            }
+            
+            // 绘制分支线（使用折线和圆角）
+            let currentBranchStart = null;
+            releases.forEach((release, index) => {
+                if (release.type === 'branch-start') {
+                    currentBranchStart = release;
+                } else if (release.type === 'branch-merge' && currentBranchStart) {
+                    // 绘制分支折线
+                    const startX = xScale(currentBranchStart.date);
+                    const endX = xScale(release.date);
+                    
+                    // 收集这个分支的所有节点
+                    const branchNodes = releases.filter((r, i) => {
+                        const rDate = new Date(r.date);
+                        const startDate = new Date(currentBranchStart.date);
+                        const endDate = new Date(release.date);
+                        return rDate >= startDate && rDate <= endDate && 
+                               (r.type === 'branch' || r.type === 'branch-start' || r.type === 'branch-merge');
+                    });
+                    
+                    if (branchNodes.length > 0) {
+                        const cornerRadius = 20;
+                        let pathData = `M ${startX} ${mainY}`;
+                        
+                        // 下降段 - 直接到转角起点
+                        pathData += ` L ${startX} ${branchY - cornerRadius}`;
+                        // 圆角转折
+                        pathData += ` Q ${startX} ${branchY}, ${startX + cornerRadius} ${branchY}`;
+                        
+                        // 如果有多个分支节点，连接它们
+                        if (branchNodes.length > 1) {
+                            for (let i = 1; i < branchNodes.length - 1; i++) {
+                                pathData += ` L ${xScale(branchNodes[i].date)} ${branchY}`;
+                            }
+                        }
+                        
+                        // 连接到最后一个节点前的转角点
+                        pathData += ` L ${endX - cornerRadius} ${branchY}`;
+                        // 圆角转折
+                        pathData += ` Q ${endX} ${branchY}, ${endX} ${branchY - cornerRadius}`;
+                        // 上升到主线
+                        pathData += ` L ${endX} ${mainY}`;
+                        
+                        const branchLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        branchLine.setAttribute('d', pathData);
+                        branchLine.setAttribute('class', 'branch-line');
+                        svg.appendChild(branchLine);
+                    }
+                    
+                    currentBranchStart = null;
+                }
+            });
+            
+            // 绘制节点
+            releases.forEach((release) => {
+                const x = xScale(release.date);
+                let y = mainY;
+                
+                // 确定节点的 y 坐标
+                if (release.type === 'branch') {
+                    y = branchY;
+                }
+                
+                // 创建节点组
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                g.setAttribute('class', 'node');
+                
+                // 创建圆形节点
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', 10);
+                
+                // 设置节点颜色
+                let nodeClass = 'main-node';
+                if (release.type === 'branch') {
+                    nodeClass = 'branch-node';
+                } else if (release.type === 'branch-start') {
+                    nodeClass = 'branch-start-node';
+                } else if (release.type === 'branch-merge') {
+                    nodeClass = 'branch-merge-node';
+                }
+                circle.setAttribute('class', nodeClass);
+                
+                // 添加版本号标签
+                const versionLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                versionLabel.setAttribute('x', x);
+                versionLabel.setAttribute('y', y - 20);
+                versionLabel.setAttribute('class', 'node-label');
+                versionLabel.textContent = release.version.split('.').slice(-1)[0]; // 只显示最后一部分
+                
+                // 添加日期标签
+                const dateLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                dateLabel.setAttribute('x', x);
+                dateLabel.setAttribute('y', y + 30);
+                dateLabel.setAttribute('class', 'date-label');
+                dateLabel.textContent = formatDate(release.date);
+                
+                g.appendChild(circle);
+                g.appendChild(versionLabel);
+                g.appendChild(dateLabel);
+                
+                // 添加交互事件
+                g.addEventListener('mouseenter', (e) => showTooltip(e, release));
+                g.addEventListener('mouseleave', hideTooltip);
+                
+                svg.appendChild(g);
+            });
+        }
+        
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            return `${month}.${day}`;
+        }
+        
+        function showTooltip(event, release) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = `
+                <div><strong>版本号：</strong>${release.version}</div>
+                <div><strong>发布日期：</strong>${release.date}</div>
+                <div><strong>部署环境：</strong>${release.environment}</div>
+                <div><strong>版本类型：</strong>${release.note}</div>
+            `;
+            
+            // 获取鼠标位置
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            
+            // 设置 tooltip 位置
+            tooltip.style.left = (mouseX + 15) + 'px';
+            tooltip.style.top = (mouseY - 60) + 'px';
+            
+            // 显示 tooltip
+            tooltip.classList.add('visible');
+        }
+        
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.classList.remove('visible');
+        }
+        
+        // 页面加载时绘制图表
+        window.addEventListener('load', () => {
+            drawDiagram(releasesData.releases);
+        });
+    </script>
 </body>
 </html>
