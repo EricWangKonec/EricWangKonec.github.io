@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>测试工作报告 - 2025年07月</title>
+    <title>测试工作月报</title>
     <style>
         :root {
             --primary-color: #FFD700;
@@ -125,12 +125,8 @@
             stroke: var(--branch-color);
             stroke-width: 2.5;
             fill: none;
+            stroke-dasharray: 0;
             opacity: 0.8;
-        }
-        
-        .branch-line[stroke-dasharray="5,5"] {
-            stroke: var(--branch-color);
-            opacity: 0.6;
         }
         
         .node {
@@ -600,7 +596,7 @@
         <div class="header-bg">
             <div class="header-content">
                 <div class="release-title">
-                    <h1>测试工作报告 - 2025年07月</h1>
+                    <h1>5月-6月测试工作月报</h1>
                 </div>
             </div>
         </div>
@@ -639,55 +635,45 @@
                 
                 <!-- Bug统计卡片 -->
                 <div class="bug-stats">
-                    
-    <div class="stat-card">
-        <div class="stat-label">本月新报</div>
-        <div class="stat-value">49</div>
-        <div class="stat-description">新发现的Bug</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">本月关闭</div>
-        <div class="stat-value">62</div>
-        <div class="stat-description">已解决的Bug</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">有效Bug总量</div>
-        <div class="stat-value">19<span class="plus">+</span><span class="small">11</span></div>
-        <div class="stat-description">待解决 + In Review</div>
-    </div>
-    
+                    <div class="stat-card">
+                        <div class="stat-label">本月新报</div>
+                        <div class="stat-value">68</div>
+                        <div class="stat-description">新发现的Bug</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">本月关闭</div>
+                        <div class="stat-value">58</div>
+                        <div class="stat-description">已解决的Bug</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">有效Bug总量</div>
+                        <div class="stat-value">38<span class="plus">+</span><span class="small">8</span></div>
+                        <div class="stat-description">待解决 + In Review</div>
+                    </div>
                 </div>
 
                 <!-- 图表部分 -->
                 <div class="chart-container">
                     <h3 class="chart-title">按照优先级进行区分</h3>
-                    <img class="bug-image" src="data/2025/07/07/images/priority_chart.png" alt="优先级饼图">
+                    <img class="bug-image" src="https://disk.testingnas.com/d/Local/Material/%E8%87%AA%E7%A0%94%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E6%9C%88%E6%8A%A5/2025/2025_06_10/priority_pie_chart.png?sign=QzPsKnbAXVDNX8NpfDJHugbbX_k5ekKzW93KU6x6OOo=:0" alt="优先级饼图">
                 </div>
 
                 <div class="chart-container">
                     <h3 class="chart-title">每日变化量</h3>
-                    <img class="bug-image" src="data/2025/07/07/images/variation_chart.png" alt="每日变化量">
+                    <img class="bug-image" src="https://disk.testingnas.com/d/Local/Material/%E8%87%AA%E7%A0%94%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E6%9C%88%E6%8A%A5/2025/2025_06_10/bug_variation_line_chart.png?sign=9PhcGnx72jiNSD78p_5e7rgOCkdRo2michh3ma5SQNI=:0" alt="每日变化量">
                 </div>
 
                 <!-- 重点关注Bug -->
                 <h3 class="chart-title">重点关注Bug</h3>
                 <div class="bug-cards">
-                    
-        <a href="https://www.notion.so/konec/SDK-2-6-4-11-iOS-App-M29-Accept-4-5-1619d34074b181329905d6eb6bd6205c?source=copy_link" class="bug-card" target="_blank">
-            <p class="bug-card-title">（SDK解决）中控屏固件版本2.6.4-11, iOS端App收到M29呼叫页面, 点击Accept, 4-5秒后才显示视频画面和声音</p>
-            <span class="bug-card-icon">→</span>
-        </a>
-        
-        <a href="https://www.notion.so/konec/Android-2259d34074b1807aba15ce80d4dc85bc?source=copy_link" class="bug-card" target="_blank">
-            <p class="bug-card-title">Android端低概率复现, 进行部分操作后, 导致账号被登出的情况</p>
-            <span class="bug-card-icon">→</span>
-        </a>
-        
-        <a href="https://www.notion.so/konec/Outdoor-Siren-Alarm-Time-Alarm-1-2249d34074b1803fa4a3e0f52d790b8c?source=copy_link" class="bug-card" target="_blank">
-            <p class="bug-card-title">Outdoor Siren设置页面, 修改Alarm Time后报警时长后, 实际未生效, Alarm时长仍为默认的1分钟</p>
-            <span class="bug-card-icon">→</span>
-        </a>
-        
+                    <a href="https://www.notion.so/iOS-1f49d34074b1808192c2fde789f98884?pvs=21" class="bug-card" target="_blank">
+                        <p class="bug-card-title">添加卷帘电机, iOS端, 绑定行程时让电机运转后, 低概率复现点击暂停无任何反应的问题</p>
+                        <span class="bug-card-icon">→</span>
+                    </a>
+                    <a href="https://www.notion.so/SDK-2-6-4-11-iOS-App-M29-Accept-4-5-1619d34074b181329905d6eb6bd6205c?pvs=21" class="bug-card" target="_blank">
+                        <p class="bug-card-title">（SDK解决）中控屏固件版本2.6.4-11, iOS端App收到M29呼叫页面, 点击Accept, 4-5秒后才显示视频画面和声音</p>
+                        <span class="bug-card-icon">→</span>
+                    </a>
                 </div>
             </div>
 
@@ -697,124 +683,67 @@
                 
                 <!-- 自动化项目卡片 -->
                 <div class="automation-cards">
+                    <div class="automation-card">
+                        <div class="automation-card-header">
+                            <h3 class="automation-card-title">Appium自动化框架</h3>
+                            <div class="automation-status-badge status-in-progress">进行中</div>
+                        </div>
+                        <p class="automation-card-content">iOS端一级页面重构,Android基础框架搭建完毕</p>
+                        <div class="automation-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                            <span class="progress-text">75%</span>
+                        </div>
+                    </div>
                     
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">Appium自动化框架</h3>
-                <div class="automation-status-badge status-in-progress">进行中</div>
-            </div>
-            <p class="automation-card-content">iOS端一级页面重构后用例重写完成, Android自动化用例正在编写</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 80%;"></div>
-                </div>
-                <span class="progress-text">80%</span>
-            </div>
-        </div>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">AI自动化框架</h3>
-                <div class="automation-status-badge status-in-progress">进行中</div>
-            </div>
-            <p class="automation-card-content">能够执行纯App端操作测试需求, 正在提高稳定性, 并通过开发配套MCP拓展AI能力边界</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 75%;"></div>
-                </div>
-                <span class="progress-text">75%</span>
-            </div>
-        </div>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">看门狗监控服务</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">通用后端服务稳定性监控, 功能基本完成正在测试中</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 95%;"></div>
-                </div>
-                <span class="progress-text">95%</span>
-            </div>
-        </div>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">部署备用OCR服务</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">部署备用的文字识别服务, 提高自动化和AI框架运行的稳定性</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-                <span class="progress-text">100%</span>
-            </div>
-        </div>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">测试工具箱 知识库</h3>
-                <div class="automation-status-badge status-planning">规划中</div>
-            </div>
-            <p class="automation-card-content">计划搭建用于辅助AI测试 以及 日常测试信息获取的KonecTest私有知识库 选型中</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 5%;"></div>
-                </div>
-                <span class="progress-text">5%</span>
-            </div>
-        </div>
-        
-                </div>
-            </div>
-
-            <!-- 其他工作部分 -->
-            <div class="info-section">
-                <h2>其他工作</h2>
-                
-                <!-- 其他工作卡片 -->
-                <div class="automation-cards">
+                    <div class="automation-card">
+                        <div class="automation-card-header">
+                            <h3 class="automation-card-title">AI融合框架</h3>
+                            <div class="automation-status-badge status-in-progress">进行中</div>
+                        </div>
+                        <p class="automation-card-content">基于文字识别和简单UI识别的框架初步搭建完毕</p>
+                        <div class="automation-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%;"></div>
+                            </div>
+                            <span class="progress-text">45%</span>
+                        </div>
+                    </div>
                     
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">覆盖测试用例</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">编写了总计687条用于全面覆盖测试KonecHome App的用例</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-                <span class="progress-text">100%</span>
-            </div>
-        </div>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">资料整理</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">中控屏和M29问题汇总, VRV空调网关问题汇总</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-                <span class="progress-text">100%</span>
-            </div>
-        </div>
-        
+                    <div class="automation-card">
+                        <div class="automation-card-header">
+                            <h3 class="automation-card-title">工具类: 通用UI识别工具 + Konec定制知识库</h3>
+                            <div class="automation-status-badge status-planning">进行中</div>
+                        </div>
+                        <p class="automation-card-content">搭建中</p>
+                        <div class="automation-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%;"></div>
+                            </div>
+                            <span class="progress-text">50%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="automation-card">
+                        <div class="automation-card-header">
+                            <h3 class="automation-card-title">AI攻击测试</h3>
+                            <div class="automation-status-badge status-completed">已完成</div>
+                        </div>
+                        <p class="automation-card-content">新增更多UI Bug捕捉 & 能源相关测试提示词</p>
+                        <div class="automation-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                            <span class="progress-text">100%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <!-- 页脚 -->
-            <div class="generated-time">
-                报告生成时间: 2025-07-07 13:20:50
-            </div>
             <div class="powered-by">
-                Powered by 测试工具箱 v2.0
+                Powered by 测试工具箱
             </div>
         </div>
     </div>
@@ -826,137 +755,130 @@
         const releasesData = {
   "releases": [
     {
-      "version": "1.0.16(188)",
-      "date": "2025-06-29",
-      "type": "branch-merge",
-      "environment": "生产环境",
-      "note": "分支核入主线"
-    },
-    {
-      "version": "1.0.15(187)",
-      "date": "2025-06-25",
+      "version": "1.0.14.156",
+      "environment": "PROD",
+      "date": "2025-05-01",
       "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本(内测发布)"
+      "note": "内部测试后Debug"
     },
     {
-      "version": "1.0.15(186)",
-      "date": "2025-06-25",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(185)",
-      "date": "2025-06-25",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(184)",
-      "date": "2025-06-24",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(183)",
-      "date": "2025-06-24",
+      "version": "1.0.14.157",
+      "environment": "PROD",
+      "date": "2025-05-15",
       "type": "branch-start",
-      "environment": "生产环境",
-      "note": "分支版本开始"
+      "note": "防抖优化分支第一版"
     },
     {
-      "version": "1.0.15(182)",
-      "date": "2025-06-23",
+      "version": "1.0.14.158",
+      "environment": "PROD",
+      "date": "2025-05-16",
       "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
+      "note": "主线分支Debug"
     },
     {
-      "version": "1.0.15(181)",
-      "date": "2025-06-23",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(180)",
-      "date": "2025-06-19",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(179)",
-      "date": "2025-06-17",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(178)",
-      "date": "2025-06-13",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(177)",
-      "date": "2025-06-12",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本(内测发布)"
-    },
-    {
-      "version": "1.0.14(176)",
-      "date": "2025-06-11",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(174)",
-      "date": "2025-06-10",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(173)",
-      "date": "2025-06-06",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(172)",
-      "date": "2025-06-06",
-      "type": "branch-merge",
-      "environment": "生产环境",
-      "note": "分支核入主线"
-    },
-    {
-      "version": "1.0.14(171)",
-      "date": "2025-06-05",
+      "version": "1.0.14.159",
+      "environment": "PROD",
+      "date": "2025-05-19",
       "type": "branch",
-      "environment": "生产环境",
-      "note": "分支版本"
+      "note": "防抖优化分支第二版"
     },
     {
-      "version": "1.0.14(170)",
-      "date": "2025-06-03",
-      "type": "branch-start",
-      "environment": "生产环境",
-      "note": "分支版本开始"
+      "version": "1.0.14.160",
+      "environment": "PROD",
+      "date": "2025-05-21",
+      "type": "branch",
+      "note": "防抖优化分支第三版"
     },
     {
-      "version": "1.0.14(169)",
+      "version": "1.0.14.161",
+      "environment": "PROD",
+      "date": "2025-05-22",
+      "type": "branch",
+      "note": "防抖优化分支第四版"
+    },
+    {
+      "version": "1.0.14.162",
+      "environment": "PROD",
+      "date": "2025-05-23",
+      "type": "branch",
+      "note": "防抖优化分支第五版"
+    },
+    {
+      "version": "1.0.14.163",
+      "environment": "PROD",
+      "date": "2025-05-26",
+      "type": "branch",
+      "note": "防抖优化分支第六版"
+    },
+    {
+      "version": "1.0.14.164",
+      "environment": "PROD",
+      "date": "2025-05-27",
+      "type": "branch-merge",
+      "note": "防抖优化代码核入主线"
+    },
+    {
+      "version": "1.0.14.165",
+      "environment": "PROD",
+      "date": "2025-05-28",
+      "type": "main",
+      "note": "验收测试"
+    },
+    {
+      "version": "1.0.14.166",
+      "environment": "PROD",
+      "date": "2025-05-29",
+      "type": "main",
+      "note": "Debug"
+    },
+    {
+      "version": "1.0.14.167",
+      "environment": "PROD",
+      "date": "2025-05-30",
+      "type": "main",
+      "note": "Debug"
+    },
+    {
+      "version": "1.0.14.169",
+      "environment": "PROD",
       "date": "2025-06-01",
       "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
+      "note": "验收测试"
+    },
+    {
+      "version": "1.0.14.170",
+      "environment": "PROD",
+      "date": "2025-06-03",
+      "type": "branch-start",
+      "note": "UI调试"
+    },
+    {
+      "version": "1.0.14.171",
+      "environment": "PROD",
+      "date": "2025-06-05",
+      "type": "main",
+      "note": "主线分支Debug"
+    },
+    {
+      "version": "1.0.14.172",
+      "environment": "PROD",
+      "date": "2025-06-06",
+      "type": "main",
+      "note": "主线分支Debug"
+    },
+    {
+      "version": "1.0.14.173",
+      "environment": "PROD",
+      "date": "2025-06-06",
+      "type": "main",
+      "note": "主线分支Debug"
+    },
+    {
+      "version": "1.0.14.174",
+      "environment": "PROD",
+      "date": "2025-06-08",
+      "type": "main",
+      "note": "主线分支Debug"
     }
   ]
 };
@@ -977,118 +899,37 @@
             const maxDate = new Date(Math.max(...dates));
             const dateRange = maxDate - minDate;
             
-            // 按日期分组版本，处理同一天多个版本的情况
-            const dateGroups = {};
-            releases.forEach(release => {
-                const dateKey = release.date; // 使用日期字符串作为key
-                if (!dateGroups[dateKey]) {
-                    dateGroups[dateKey] = [];
-                }
-                dateGroups[dateKey].push(release);
-            });
-            
-            // 为每个版本分配精确的x坐标，同一天的版本水平排开
-            const releasePositions = new Map();
-            Object.keys(dateGroups).forEach(dateKey => {
-                const versionsOnDate = dateGroups[dateKey];
-                const baseDate = new Date(dateKey);
-                const baseX = margin.left + ((baseDate - minDate) / dateRange) * (width - margin.left - margin.right - 50);
-                
-                if (versionsOnDate.length === 1) {
-                    // 单个版本，使用基础位置
-                    releasePositions.set(versionsOnDate[0].version, baseX);
-                } else {
-                    // 多个版本，水平排开，使用和相邻天数一样的间距
-                    const totalTimeSpan = width - margin.left - margin.right - 50;
-                    const daySpacing = dateRange > 0 ? totalTimeSpan / (dateRange / (24 * 60 * 60 * 1000)) : 100;
-                    const spacing = Math.min(daySpacing, 100); // 使用天间距，但不超过100px
-                    const totalWidth = (versionsOnDate.length - 1) * spacing;
-                    const startX = baseX - totalWidth / 2;
-                    
-                    // 按版本号排序，确保一致性
-                    versionsOnDate.sort((a, b) => a.version.localeCompare(b.version));
-                    
-                    versionsOnDate.forEach((release, index) => {
-                        const x = startX + index * spacing;
-                        releasePositions.set(release.version, x);
-                    });
-                }
-            });
-            
-            // 防重叠处理：确保所有节点之间有最小距离
-            const minDistance = 40;
-            const sortedVersions = [...releases].sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            for (let i = 1; i < sortedVersions.length; i++) {
-                const current = sortedVersions[i];
-                const prev = sortedVersions[i - 1];
-                const currentX = releasePositions.get(current.version);
-                const prevX = releasePositions.get(prev.version);
-                
-                if (currentX - prevX < minDistance) {
-                    releasePositions.set(current.version, prevX + minDistance);
-                }
-            }
-            
-            // 创建 x 轴比例尺函数，使用预计算的位置
-            const xScale = (release) => {
-                if (typeof release === 'string') {
-                    // 如果传入的是日期字符串，使用原有逻辑
-                    const d = new Date(release);
-                    return margin.left + ((d - minDate) / dateRange) * (width - margin.left - margin.right - 50);
-                } else {
-                    // 如果传入的是release对象，使用预计算的位置
-                    return releasePositions.get(release.version) || margin.left;
-                }
+            // 创建 x 轴比例尺 - 留出额外空间给箭头
+            const xScale = (date) => {
+                const d = new Date(date);
+                return margin.left + ((d - minDate) / dateRange) * (width - margin.left - margin.right - 50);
             };
             
             const mainY = height / 2;
             const branchY = height / 2 + 120;
             
-            // 分析分支结构 - 按时间顺序找到所有的分支组
-            const branches = [];
+            // 分离主版本和分支版本
             const mainReleases = [];
-            let currentBranch = null;
+            const branchReleases = [];
+            let inBranch = false;
+            let branchStartIndex = -1;
             
-            // 按时间顺序排序释放数据（确保正确的时间顺序）
-            const sortedReleases = [...releases].sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            sortedReleases.forEach((release, index) => {
+            releases.forEach((release, index) => {
                 if (release.type === 'branch-start') {
-                    // 开始新分支
-                    currentBranch = {
-                        start: release,
-                        releases: [release],
-                        end: null,
-                        merged: false
-                    };
-                    mainReleases.push(release); // 分支起点也在主线上
+                    inBranch = true;
+                    branchStartIndex = index;
+                    mainReleases.push(release);
+                    branchReleases.push(release);
                 } else if (release.type === 'branch-merge') {
-                    // 分支合并回主线
-                    if (currentBranch) {
-                        currentBranch.end = release;
-                        currentBranch.releases.push(release);
-                        currentBranch.merged = true;
-                        branches.push(currentBranch);
-                        currentBranch = null;
-                    }
-                    mainReleases.push(release); // 合并点也在主线上
-                } else if (release.type === 'branch') {
-                    // 分支中的版本
-                    if (currentBranch) {
-                        currentBranch.releases.push(release);
-                    }
+                    inBranch = false;
+                    branchReleases.push(release);
+                    mainReleases.push(release);
+                } else if (inBranch && release.type === 'branch') {
+                    branchReleases.push(release);
                 } else {
-                    // 主线版本
                     mainReleases.push(release);
                 }
             });
-            
-            // 如果有未合并的分支，也添加到branches中
-            if (currentBranch) {
-                branches.push(currentBranch);
-            }
-            
             
             // 创建渐变定义
             const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
@@ -1133,12 +974,12 @@
             
             // 绘制主线（带箭头）
             if (mainReleases.length > 1) {
-                const lastX = xScale(mainReleases[mainReleases.length - 1]);
+                const lastX = xScale(mainReleases[mainReleases.length - 1].date);
                 const extendedX = width - margin.right + 20;
                 
-                let pathData = `M ${xScale(mainReleases[0])} ${mainY}`;
+                let pathData = `M ${xScale(mainReleases[0].date)} ${mainY}`;
                 for (let i = 1; i < mainReleases.length; i++) {
-                    pathData += ` L ${xScale(mainReleases[i])} ${mainY}`;
+                    pathData += ` L ${xScale(mainReleases[i].date)} ${mainY}`;
                 }
                 // 延伸到箭头
                 pathData += ` L ${extendedX} ${mainY}`;
@@ -1151,66 +992,66 @@
                 svg.appendChild(mainLine);
             }
             
-            // 绘制所有分支线
-            branches.forEach((branch, branchIndex) => {
-                if (branch.releases.length < 2) return; // 至少需要2个节点才能画线
-                
-                const startX = xScale(branch.start);
-                const cornerRadius = 20;
-                let pathData = `M ${startX} ${mainY}`;
-                
-                // 为每个分支分配不同的Y坐标，避免重叠
-                const currentBranchY = branchY + (branchIndex * 60);
-                
-                // 从主线下降到分支线
-                pathData += ` L ${startX} ${currentBranchY - cornerRadius}`;
-                pathData += ` Q ${startX} ${currentBranchY}, ${startX + cornerRadius} ${currentBranchY}`;
-                
-                // 连接分支中的所有节点（除了起点和终点）
-                for (let i = 1; i < branch.releases.length - 1; i++) {
-                    const nodeX = xScale(branch.releases[i]);
-                    pathData += ` L ${nodeX} ${currentBranchY}`;
+            // 绘制分支线（使用折线和圆角）
+            let currentBranchStart = null;
+            releases.forEach((release, index) => {
+                if (release.type === 'branch-start') {
+                    currentBranchStart = release;
+                } else if (release.type === 'branch-merge' && currentBranchStart) {
+                    // 绘制分支折线
+                    const startX = xScale(currentBranchStart.date);
+                    const endX = xScale(release.date);
+                    
+                    // 收集这个分支的所有节点
+                    const branchNodes = releases.filter((r, i) => {
+                        const rDate = new Date(r.date);
+                        const startDate = new Date(currentBranchStart.date);
+                        const endDate = new Date(release.date);
+                        return rDate >= startDate && rDate <= endDate && 
+                               (r.type === 'branch' || r.type === 'branch-start' || r.type === 'branch-merge');
+                    });
+                    
+                    if (branchNodes.length > 0) {
+                        const cornerRadius = 20;
+                        let pathData = `M ${startX} ${mainY}`;
+                        
+                        // 下降段 - 直接到转角起点
+                        pathData += ` L ${startX} ${branchY - cornerRadius}`;
+                        // 圆角转折
+                        pathData += ` Q ${startX} ${branchY}, ${startX + cornerRadius} ${branchY}`;
+                        
+                        // 如果有多个分支节点，连接它们
+                        if (branchNodes.length > 1) {
+                            for (let i = 1; i < branchNodes.length - 1; i++) {
+                                pathData += ` L ${xScale(branchNodes[i].date)} ${branchY}`;
+                            }
+                        }
+                        
+                        // 连接到最后一个节点前的转角点
+                        pathData += ` L ${endX - cornerRadius} ${branchY}`;
+                        // 圆角转折
+                        pathData += ` Q ${endX} ${branchY}, ${endX} ${branchY - cornerRadius}`;
+                        // 上升到主线
+                        pathData += ` L ${endX} ${mainY}`;
+                        
+                        const branchLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        branchLine.setAttribute('d', pathData);
+                        branchLine.setAttribute('class', 'branch-line');
+                        svg.appendChild(branchLine);
+                    }
+                    
+                    currentBranchStart = null;
                 }
-                
-                if (branch.merged && branch.end) {
-                    // 分支合并回主线
-                    const endX = xScale(branch.end);
-                    pathData += ` L ${endX - cornerRadius} ${currentBranchY}`;
-                    pathData += ` Q ${endX} ${currentBranchY}, ${endX} ${currentBranchY - cornerRadius}`;
-                    pathData += ` L ${endX} ${mainY}`;
-                } else {
-                    // 未合并的分支，延伸到最后一个节点
-                    const lastRelease = branch.releases[branch.releases.length - 1];
-                    const lastX = xScale(lastRelease);
-                    pathData += ` L ${lastX} ${currentBranchY}`;
-                }
-                
-                const branchLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                branchLine.setAttribute('d', pathData);
-                branchLine.setAttribute('class', 'branch-line');
-                branchLine.setAttribute('stroke-dasharray', branch.merged ? '0' : '5,5'); // 未合并的分支用虚线
-                svg.appendChild(branchLine);
             });
             
             // 绘制节点
-            releases.forEach((release, index) => {
-                const x = xScale(release);
+            releases.forEach((release) => {
+                const x = xScale(release.date);
                 let y = mainY;
                 
                 // 确定节点的 y 坐标
                 if (release.type === 'branch') {
-                    // 找到这个节点属于哪个分支
-                    const branchIndex = branches.findIndex(branch => 
-                        branch.releases.some(r => r.version === release.version)
-                    );
-                    if (branchIndex >= 0) {
-                        y = branchY + (branchIndex * 60);
-                    } else {
-                        y = branchY; // 默认分支位置
-                    }
-                } else if (release.type === 'branch-start' || release.type === 'branch-merge') {
-                    // 分支起点和合并点都在主线上
-                    y = mainY;
+                    y = branchY;
                 }
                 
                 // 创建节点组
@@ -1234,31 +1075,10 @@
                 }
                 circle.setAttribute('class', nodeClass);
                 
-                // 添加版本号标签，计算错开的Y坐标
+                // 添加版本号标签
                 const versionLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 versionLabel.setAttribute('x', x);
-                
-                // 版本号错开逻辑：检查相邻版本的距离，如果太近就错开
-                let labelY = y - 20;
-                const minLabelDistance = 50; // 版本号之间的最小距离
-                
-                // 检查前面的版本号是否会重叠
-                for (let i = 0; i < index; i++) {
-                    const prevRelease = releases[i];
-                    const prevX = xScale(prevRelease);
-                    
-                    if (Math.abs(x - prevX) < minLabelDistance) {
-                        // 距离太近，交替错开：奇数索引向上，偶数索引向下
-                        if (index % 2 === 0) {
-                            labelY = y - 35; // 向上错开更多
-                        } else {
-                            labelY = y - 5;  // 向下错开
-                        }
-                        break;
-                    }
-                }
-                
-                versionLabel.setAttribute('y', labelY);
+                versionLabel.setAttribute('y', y - 20);
                 versionLabel.setAttribute('class', 'node-label');
                 versionLabel.textContent = release.version.split('.').slice(-1)[0]; // 只显示最后一部分
                 
