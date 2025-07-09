@@ -371,3 +371,98 @@ def get_bug_stats_from_data(daily_dir):
         'total_valid': 0,
         'in_review': 0
     }
+
+def load_watch_dog_data():
+    """
+    加载所有watch dog监控数据
+    Returns:
+        dict: 所有监控对象的数据，key为objectId，value为监控历史
+    """
+    watch_dog_dir = "config/watch_dog_data"
+    watch_dog_data = {}
+    
+    if not os.path.exists(watch_dog_dir):
+        print(f"⚠️ 监控数据目录不存在: {watch_dog_dir}")
+        return watch_dog_data
+    
+    try:
+        # 遍历所有JSON文件
+        for filename in os.listdir(watch_dog_dir):
+            if filename.endswith('.json'):
+                file_path = os.path.join(watch_dog_dir, filename)
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    object_id = data.get('objectId')
+                    if object_id:
+                        watch_dog_data[object_id] = data
+                        object_name = data.get('objectName', object_id)
+                        print(f"✅ 加载监控数据: {object_name} ({len(data.get('history', []))} 条记录)")
+    except Exception as e:
+        print(f"❌ 加载监控数据失败: {e}")
+        import traceback
+        traceback.print_exc()
+    
+    return watch_dog_data
+
+def calculate_daily_stability(watch_dog_data, start_date, end_date):
+    """
+    计算每天的稳定性数据
+    Args:
+        watch_dog_data: 监控数据
+        start_date: 开始日期
+        end_date: 结束日期
+    Returns:
+        dict: 每天的稳定性数据
+    """
+    daily_stats = {}
+    current_date = start_date
+    
+    while current_date <= end_date:
+        date_str = current_date.strftime('%Y-%m-%d')
+        daily_stats[date_str] = {}
+        
+        # 遍历所有监控对象
+        for object_id, obj_data in watch_dog_data.items():
+            history = obj_data.get('history', [])
+            
+            # 统计当天的状态
+            total_checks = 0
+            online_checks = 0
+            has_data = False
+            
+            for record in history:
+                # 解析记录时间
+                try:
+                    record_time = datetime.fromisoformat(record['timestamp'].replace('Z', '+00:00'))
+                    record_date = record_time.date()
+                    
+                    # 如果是当天的记录
+                    if record_date == current_date.date():
+                        has_data = True
+                        total_checks += 1
+                        if record.get('status') == 'online':
+                            online_checks += 1
+                except Exception as e:
+                    print(f"⚠️ 解析时间戳失败: {record.get('timestamp')}")
+                    continue
+            
+            # 计算稳定性百分比
+            if has_data:
+                stability_percent = (online_checks / total_checks * 100) if total_checks > 0 else 0
+                daily_stats[date_str][object_id] = {
+                    'stability': stability_percent,
+                    'total_checks': total_checks,
+                    'online_checks': online_checks,
+                    'has_data': True
+                }
+            else:
+                daily_stats[date_str][object_id] = {
+                    'stability': None,
+                    'total_checks': 0,
+                    'online_checks': 0,
+                    'has_data': False
+                }
+        
+        current_date += timedelta(days=1)
+    
+    return daily_stats

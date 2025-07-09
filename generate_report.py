@@ -14,10 +14,12 @@ from utils import (
     save_daily_data,
     download_bug_resources,
     download_bug_data,
-    get_bug_stats_from_data
+    get_bug_stats_from_data,
+    load_watch_dog_data,
+    calculate_daily_stability
 )
 
-def generate_html_template(releases_data, bug_info, automation_info, other_info, image_paths, daily_dir):
+def generate_html_template(releases_data, bug_info, automation_info, other_info, image_paths, daily_dir, stability_data=None, watch_dog_data=None):
     """
     生成包含动态数据的HTML内容
     Args:
@@ -27,6 +29,8 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
         other_info: 其他工作信息
         image_paths: 图片路径映射
         daily_dir: 当日数据目录
+        stability_data: 运营稳定性数据
+        watch_dog_data: 监控原始数据
     Returns:
         str: HTML内容
     """
@@ -117,6 +121,89 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
         </div>
         '''
     
+    # 生成运营稳定性HTML
+    stability_html = ""
+    if stability_data:
+        # 生成稳定性日历视图
+        stability_calendar_html = '<div class="stability-calendar">'
+        
+        # 获取所有监控对象
+        all_objects = set()
+        for date_data in stability_data.values():
+            all_objects.update(date_data.keys())
+        all_objects = sorted(list(all_objects))
+        
+        # 生成表头
+        stability_calendar_html += '<div class="stability-header">'
+        stability_calendar_html += '<div class="stability-object-label">监控对象</div>'
+        
+        # 添加日期列（不显示日期文字，只显示空的列头）
+        dates = sorted(stability_data.keys())
+        for date in dates:
+            stability_calendar_html += '<div class="stability-date"></div>'
+        stability_calendar_html += '</div>'
+        
+        # 生成每个对象的行
+        for obj_id in all_objects:
+            stability_calendar_html += '<div class="stability-row">'
+            
+            # 使用objectName作为显示名称
+            object_name = watch_dog_data.get(obj_id, {}).get('objectName', obj_id)
+            stability_calendar_html += f'<div class="stability-object-name">{object_name}</div>'
+            
+            for date in dates:
+                obj_data = stability_data[date].get(obj_id, {})
+                if not obj_data.get('has_data'):
+                    # 没有数据，显示灰色
+                    stability_calendar_html += f'<div class="stability-cell no-data" data-object-id="{obj_id}" data-date="{date}"></div>'
+                else:
+                    stability = obj_data.get('stability', 0)
+                    # 根据稳定性设置颜色类
+                    if stability == 100:
+                        color_class = 'excellent'  # 100% 稳定
+                    elif stability == 99:
+                        color_class = 'good'       # 99% 一般
+                    elif stability >= 95:
+                        color_class = 'fair'       # 98-95% 轻微
+                    else:
+                        color_class = 'critical'   # 95%以下 严重
+                    
+                    online_checks = obj_data['online_checks']
+                    total_checks = obj_data['total_checks']
+                    stability_calendar_html += f'<div class="stability-cell {color_class}" data-object-id="{obj_id}" data-date="{date}" data-stability="{stability:.1f}" data-online="{online_checks}" data-total="{total_checks}"></div>'
+            
+            stability_calendar_html += '</div>'
+        
+        stability_calendar_html += '</div>'
+        
+        # 添加图例
+        stability_legend_html = '''
+        <div class="stability-legend">
+            <div class="legend-item">
+                <div class="stability-cell excellent"></div>
+                <span>稳定</span>
+            </div>
+            <div class="legend-item">
+                <div class="stability-cell good"></div>
+                <span>一般</span>
+            </div>
+            <div class="legend-item">
+                <div class="stability-cell fair"></div>
+                <span>轻微</span>
+            </div>
+            <div class="legend-item">
+                <div class="stability-cell critical"></div>
+                <span>严重</span>
+            </div>
+            <div class="legend-item">
+                <div class="stability-cell no-data"></div>
+                <span>无数据</span>
+            </div>
+        </div>
+        '''
+        
+        stability_html = stability_calendar_html + stability_legend_html
+
     # 生成其他工作卡片
     other_cards_html = ""
     for task in other_info.get('other_tasks', []):
@@ -770,6 +857,111 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
             text-align: right;
         }}
 
+        /* 运营稳定性样式 */
+        .stability-calendar {{
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }}
+        
+        .stability-header {{
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }}
+        
+        .stability-object-label {{
+            min-width: 150px;
+            padding-right: 20px;
+        }}
+        
+        .stability-date {{
+            width: 40px;
+            text-align: center;
+            font-size: 12px;
+        }}
+        
+        .stability-row {{
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }}
+        
+        .stability-object-name {{
+            min-width: 150px;
+            padding-right: 20px;
+            font-size: 14px;
+            color: var(--text-color);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }}
+        
+        .stability-cell {{
+            width: 40px;
+            height: 30px;
+            border-radius: 6px;
+            margin-right: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }}
+        
+        .stability-cell:hover {{
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }}
+        
+        .stability-cell.excellent {{
+            background-color: #4caf50;
+        }}
+        
+        .stability-cell.good {{
+            background-color: #ffeb3b;
+        }}
+        
+        .stability-cell.fair {{
+            background-color: #ff9800;
+        }}
+        
+        .stability-cell.critical {{
+            background-color: #f44336;
+        }}
+        
+        .stability-cell.no-data {{
+            background-color: #e0e0e0;
+        }}
+        
+        .stability-legend {{
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }}
+        
+        .stability-legend .legend-item {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }}
+        
+        .stability-legend .stability-cell {{
+            width: 20px;
+            height: 20px;
+            margin-right: 0;
+        }}
+
         /* 响应式设计 */
         @media (max-width: 768px) {{
             body {{
@@ -885,6 +1077,12 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
                 </div>
             </div>
 
+            <!-- 运营稳定性部分 -->
+            <div class="info-section">
+                <h2>运营稳定性</h2>
+                {stability_html}
+            </div>
+
             <!-- 自动化构建部分 -->
             <div class="info-section">
                 <h2>自动化构建</h2>
@@ -920,6 +1118,9 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
     <script>
         // 版本数据
         const releasesData = {releases_json};
+        
+        // 监控数据
+        const watchDogData = {json.dumps(watch_dog_data or {}, ensure_ascii=False, indent=2)};
         
         function drawDiagram(releases) {{
             const svg = document.getElementById('release-diagram');
@@ -1322,9 +1523,55 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
             tooltip.classList.remove('visible');
         }}
         
-        // 页面加载时绘制图表
+        // 稳定性详情展示
+        function showStabilityTooltip(event, cell) {{
+            const tooltip = document.getElementById('tooltip');
+            const objectId = cell.getAttribute('data-object-id');
+            const date = cell.getAttribute('data-date');
+            const stability = cell.getAttribute('data-stability');
+            const online = cell.getAttribute('data-online');
+            const total = cell.getAttribute('data-total');
+            
+            const objectData = watchDogData[objectId] || {{}};
+            const objectName = objectData.objectName || objectId;
+            
+            if (cell.classList.contains('no-data')) {{
+                tooltip.innerHTML = `
+                    <div><strong>监控对象：</strong>${{objectName}}</div>
+                    <div><strong>日期：</strong>${{date}}</div>
+                    <div><strong>状态：</strong>无数据</div>
+                `;
+            }} else {{
+                tooltip.innerHTML = `
+                    <div><strong>监控对象：</strong>${{objectName}}</div>
+                    <div><strong>日期：</strong>${{date}}</div>
+                    <div><strong>稳定性：</strong>${{stability}}%</div>
+                    <div><strong>在线次数：</strong>${{online}}/${{total}}</div>
+                `;
+            }}
+            
+            // 获取鼠标位置
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            
+            // 设置 tooltip 位置
+            tooltip.style.left = (mouseX + 15) + 'px';
+            tooltip.style.top = (mouseY - 60) + 'px';
+            
+            // 显示 tooltip
+            tooltip.classList.add('visible');
+        }}
+        
+        // 页面加载时绘制图表并绑定事件
         window.addEventListener('load', () => {{
             drawDiagram(releasesData.releases);
+            
+            // 绑定稳定性单元格hover事件
+            const stabilityCells = document.querySelectorAll('.stability-cell');
+            stabilityCells.forEach(cell => {{
+                cell.addEventListener('mouseenter', (e) => showStabilityTooltip(e, cell));
+                cell.addEventListener('mouseleave', hideTooltip);
+            }});
         }});
     </script>
 </body>
@@ -1409,13 +1656,27 @@ def main():
         else:
             print("⚠️ 使用静态Bug配置数据")
         
-        # 5. 生成HTML报告
+        # 5. 加载运营稳定性数据
+        print("\n📊 加载运营稳定性数据...")
+        watch_dog_data = load_watch_dog_data()
+        
+        # 计算从上个月1号到今天的稳定性
+        today = datetime.now()
+        if today.month == 1:
+            start_date = datetime(today.year - 1, 12, 1)
+        else:
+            start_date = datetime(today.year, today.month - 1, 1)
+        
+        stability_data = calculate_daily_stability(watch_dog_data, start_date, today)
+        print(f"✅ 计算了 {len(stability_data)} 天的稳定性数据")
+        
+        # 6. 生成HTML报告
         print("\n🎨 生成HTML报告...")
         html_content = generate_html_template(
-            releases_data, bug_info, automation_info, other_info, image_paths, daily_dir
+            releases_data, bug_info, automation_info, other_info, image_paths, daily_dir, stability_data, watch_dog_data
         )
         
-        # 6. 保存HTML文件
+        # 7. 保存HTML文件
         output_filename = 'index.html'
         with open(output_filename, 'w', encoding='utf-8') as f:
             f.write(html_content)
