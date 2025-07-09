@@ -1,11 +1,190 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""
+报告生成器
+"""
+
+import json
+import os
+from datetime import datetime
+from pathlib import Path
+from utils import (
+    create_daily_directory, 
+    fetch_notion_versions,
+    load_config_json,
+    save_daily_data,
+    download_bug_resources,
+    download_bug_data,
+    get_bug_stats_from_data
+)
+
+def generate_html_template(releases_data, bug_info, automation_info, other_info, image_paths, daily_dir):
+    """
+    生成包含动态数据的HTML内容
+    Args:
+        releases_data: 版本发布数据
+        bug_info: Bug信息
+        automation_info: 自动化信息
+        other_info: 其他工作信息
+        image_paths: 图片路径映射
+        daily_dir: 当日数据目录
+    Returns:
+        str: HTML内容
+    """
+    
+    # 将数据转换为JavaScript格式
+    releases_json = json.dumps(releases_data, ensure_ascii=False, indent=2)
+    
+    # 生成Bug统计卡片
+    bug_stats = bug_info.get('bug_stats', {})
+    bug_stats_html = f'''
+    <div class="stat-card">
+        <div class="stat-label">本月新报</div>
+        <div class="stat-value">{bug_stats.get('monthly_new', 0)}</div>
+        <div class="stat-description">新发现的Bug</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">本月关闭</div>
+        <div class="stat-value">{bug_stats.get('monthly_closed', 0)}</div>
+        <div class="stat-description">已解决的Bug</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">有效Bug总量</div>
+        <div class="stat-value">{bug_stats.get('total_valid', 0)}<span class="plus">+</span><span class="small">{bug_stats.get('in_review', 0)}</span></div>
+        <div class="stat-description">待解决 + In Review</div>
+    </div>
+    '''
+    
+    # 生成重点关注Bug
+    important_bugs_html = ""
+    for bug in bug_info.get('important_bugs', []):
+        important_bugs_html += f'''
+        <a href="{bug.get('url', '#')}" class="bug-card" target="_blank">
+            <p class="bug-card-title">{bug.get('title', '')}</p>
+            <span class="bug-card-icon">→</span>
+        </a>
+        '''
+    
+    # 生成自动化项目卡片
+    automation_cards_html = ""
+    for project in automation_info.get('automation_projects', []):
+        status_class = {
+            'completed': 'status-completed',
+            'in-progress': 'status-in-progress', 
+            'planning': 'status-planning'
+        }.get(project.get('status', 'planning'), 'status-planning')
+        
+        status_text = {
+            'completed': '已完成',
+            'in-progress': '进行中',
+            'planning': '规划中'
+        }.get(project.get('status', 'planning'), '规划中')
+        
+        # 检查是否有URL字段，决定是否添加链接
+        project_url = project.get('url', '')
+        if project_url:
+            # 有URL的项目，生成可点击的链接卡片
+            automation_cards_html += f'''
+        <a href="{project_url}" class="automation-card automation-card-link" target="_blank">
+            <div class="automation-card-header">
+                <h3 class="automation-card-title">{project.get('title', '')}</h3>
+                <div class="automation-status-badge {status_class}">{status_text}</div>
+            </div>
+            <p class="automation-card-content">{project.get('description', '')}</p>
+            <div class="automation-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {project.get('progress', 0)}%;"></div>
+                </div>
+                <span class="progress-text">{project.get('progress', 0)}%</span>
+            </div>
+            <div class="automation-card-link-icon">→</div>
+        </a>
+        '''
+        else:
+            # 无URL的项目，使用原来的div结构
+            automation_cards_html += f'''
+        <div class="automation-card">
+            <div class="automation-card-header">
+                <h3 class="automation-card-title">{project.get('title', '')}</h3>
+                <div class="automation-status-badge {status_class}">{status_text}</div>
+            </div>
+            <p class="automation-card-content">{project.get('description', '')}</p>
+            <div class="automation-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {project.get('progress', 0)}%;"></div>
+                </div>
+                <span class="progress-text">{project.get('progress', 0)}%</span>
+            </div>
+        </div>
+        '''
+    
+    # 生成其他工作卡片
+    other_cards_html = ""
+    for task in other_info.get('other_tasks', []):
+        status_class = {
+            'completed': 'status-completed',
+            'in-progress': 'status-in-progress', 
+            'planning': 'status-planning'
+        }.get(task.get('status', 'planning'), 'status-planning')
+        
+        status_text = {
+            'completed': '已完成',
+            'in-progress': '进行中',
+            'planning': '规划中'
+        }.get(task.get('status', 'planning'), '规划中')
+        
+        # 检查是否有URL字段，决定是否添加链接
+        task_url = task.get('url', '')
+        if task_url:
+            # 有URL的任务，生成可点击的链接卡片
+            other_cards_html += f'''
+        <a href="{task_url}" class="automation-card automation-card-link" target="_blank">
+            <div class="automation-card-header">
+                <h3 class="automation-card-title">{task.get('title', '')}</h3>
+                <div class="automation-status-badge {status_class}">{status_text}</div>
+            </div>
+            <p class="automation-card-content">{task.get('description', '')}</p>
+            <div class="automation-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {task.get('progress', 0)}%;"></div>
+                </div>
+                <span class="progress-text">{task.get('progress', 0)}%</span>
+            </div>
+            <div class="automation-card-link-icon">→</div>
+        </a>
+        '''
+        else:
+            # 无URL的任务，使用原来的div结构
+            other_cards_html += f'''
+        <div class="automation-card">
+            <div class="automation-card-header">
+                <h3 class="automation-card-title">{task.get('title', '')}</h3>
+                <div class="automation-status-badge {status_class}">{status_text}</div>
+            </div>
+            <p class="automation-card-content">{task.get('description', '')}</p>
+            <div class="automation-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {task.get('progress', 0)}%;"></div>
+                </div>
+                <span class="progress-text">{task.get('progress', 0)}%</span>
+            </div>
+        </div>
+        '''
+    
+    # 获取图片路径（相对于HTML文件）
+    priority_chart_src = get_relative_path(image_paths.get('priority_chart', ''), daily_dir)
+    variation_chart_src = get_relative_path(image_paths.get('variation_chart', ''), daily_dir)
+    
+    print(f"🖼️ 优先级图片路径: {priority_chart_src}")
+    print(f"🖼️ 变化量图片路径: {variation_chart_src}")
+    
+    html_content = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>测试工作报告 - 2025年07月</title>
+    <title>测试工作报告 - {datetime.now().strftime('%Y年%m月')}</title>
     <style>
-        :root {
+        :root {{
             --primary-color: #FFD700;
             --secondary-color: #FFDF4F;
             --accent-color: #ff6b6b;
@@ -26,15 +205,15 @@
             --branch-color: #E09B47;
             --branch-start-color: #6BBE59;
             --branch-merge-color: #E06B6B;
-        }
+        }}
 
-        * {
+        * {{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
+        }}
 
-        body {
+        body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             color: var(--text-color);
@@ -43,9 +222,9 @@
             padding: 20px 0;
             margin: 0;
             min-height: 100vh;
-        }
+        }}
         
-        .container {
+        .container {{
             max-width: 1400px;
             margin: 0 auto;
             padding: 0;
@@ -53,46 +232,46 @@
             border-radius: 16px;
             box-shadow: var(--shadow);
             overflow: hidden;
-        }
+        }}
 
-        .header-bg {
+        .header-bg {{
             background: linear-gradient(135deg, #FFD700 0%, #FFDF4F 100%);
             height: auto;
             position: relative;
-        }
+        }}
 
-        .header-content {
+        .header-content {{
             position: relative;
             padding: 20px 30px 15px;
-        }
+        }}
 
-        .release-title {
+        .release-title {{
             text-align: center;
             margin-bottom: 0;
-        }
+        }}
 
-        h1 {
+        h1 {{
             font-size: 28px;
             font-weight: 700;
             color: white;
             margin: 5px 0;
             text-align: center;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+        }}
 
-        .release-subtitle {
+        .release-subtitle {{
             font-size: 16px;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
             margin-bottom: 30px;
             font-weight: 500;
-        }
+        }}
 
-        .main-content {
+        .main-content {{
             padding: 20px 30px 40px;
-        }
+        }}
         
-        #diagram-container {
+        #diagram-container {{
             width: 100%;
             overflow-x: auto;
             background-color: var(--light-gray);
@@ -101,105 +280,105 @@
             margin-top: 0;
             box-shadow: none;
             transition: transform 0.2s, box-shadow 0.2s;
-        }
+        }}
 
-        #diagram-container:hover {
+        #diagram-container:hover {{
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
+        }}
         
-        svg {
+        svg {{
             width: 100%;
             min-width: 1200px;
             height: 400px;
-        }
+        }}
         
-        .main-line {
+        .main-line {{
             stroke: var(--main-color);
             stroke-width: 3;
             fill: none;
             opacity: 0.8;
-        }
+        }}
         
-        .branch-line {
+        .branch-line {{
             stroke: var(--branch-color);
             stroke-width: 2.5;
             fill: none;
             opacity: 0.8;
-        }
+        }}
         
-        .branch-line[stroke-dasharray="5,5"] {
+        .branch-line[stroke-dasharray="5,5"] {{
             stroke: var(--branch-color);
             opacity: 0.6;
-        }
+        }}
         
-        .node {
+        .node {{
             cursor: pointer;
             transition: all 0.3s ease;
-        }
+        }}
         
-        .node:hover circle {
+        .node:hover circle {{
             transform: translateY(-3px);
             filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-        }
+        }}
         
-        .main-node {
+        .main-node {{
             fill: var(--main-color);
             stroke: white;
             stroke-width: 3;
-        }
+        }}
         
-        .branch-node {
+        .branch-node {{
             fill: var(--branch-color);
             stroke: white;
             stroke-width: 3;
-        }
+        }}
         
-        .branch-start-node {
+        .branch-start-node {{
             fill: var(--branch-start-color);
             stroke: white;
             stroke-width: 3;
-        }
+        }}
         
-        .branch-merge-node {
+        .branch-merge-node {{
             fill: var(--branch-merge-color);
             stroke: white;
             stroke-width: 3;
-        }
+        }}
         
         /* 商店发布版本的特殊样式 */
-        .store-release-node {
+        .store-release-node {{
             fill: var(--primary-color);
             stroke: var(--secondary-color);
             stroke-width: 4;
             filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
-        }
+        }}
         
-        .node-label {
+        .node-label {{
             font-size: 13px;
             font-weight: 600;
             fill: var(--text-color);
             text-anchor: middle;
             pointer-events: none;
-        }
+        }}
         
         /* 商店发布版本的标签样式 */
-        .store-release-label {
+        .store-release-label {{
             font-size: 14px;
             font-weight: 700;
             fill: var(--primary-color);
             text-anchor: middle;
             pointer-events: none;
-        }
+        }}
         
-        .date-label {
+        .date-label {{
             font-size: 12px;
             fill: var(--text-secondary);
             text-anchor: middle;
             pointer-events: none;
-        }
+        }}
         
-        .tooltip {
+        .tooltip {{
             position: fixed;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
             color: white;
@@ -212,27 +391,27 @@
             z-index: 1000;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        }}
         
-        .tooltip.visible {
+        .tooltip.visible {{
             opacity: 1;
-        }
+        }}
 
-        .tooltip div {
+        .tooltip div {{
             margin-bottom: 8px;
             line-height: 1.4;
-        }
+        }}
 
-        .tooltip div:last-child {
+        .tooltip div:last-child {{
             margin-bottom: 0;
-        }
+        }}
 
-        .tooltip strong {
+        .tooltip strong {{
             color: var(--primary-color);
             font-weight: 600;
-        }
+        }}
         
-        .legend {
+        .legend {{
             display: flex;
             gap: 30px;
             margin-top: 20px;
@@ -242,9 +421,9 @@
             font-size: 14px;
             justify-content: center;
             box-shadow: none;
-        }
+        }}
         
-        .legend-item {
+        .legend-item {{
             display: flex;
             align-items: center;
             gap: 10px;
@@ -252,27 +431,27 @@
             background: white;
             border-radius: 8px;
             transition: transform 0.2s, box-shadow 0.2s;
-        }
+        }}
 
-        .legend-item:hover {
+        .legend-item:hover {{
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
+        }}
         
-        .legend-color {
+        .legend-color {{
             width: 20px;
             height: 20px;
             border-radius: 50%;
             border: 3px solid white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+        }}
 
-        .legend-text {
+        .legend-text {{
             font-weight: 500;
             color: var(--text-color);
-        }
+        }}
 
-        .generated-time {
+        .generated-time {{
             text-align: center;
             font-size: 12px;
             color: var(--text-secondary);
@@ -280,98 +459,98 @@
             padding: 15px;
             background-color: var(--light-gray);
             border-radius: 8px;
-        }
+        }}
 
-        .powered-by {
+        .powered-by {{
             text-align: center;
             font-size: 14px;
             color: #999;
             padding: 20px 0;
             margin-top: 40px;
-        }
+        }}
 
         /* 测试版本信息和Bug信息部分样式 */
-        .info-section {
+        .info-section {{
             margin-top: 30px;
             padding: 30px;
             background-color: white;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
-        }
+        }}
         
-        .info-section:first-child {
+        .info-section:first-child {{
             margin-top: 0;
-        }
+        }}
 
-        .info-section h2 {
+        .info-section h2 {{
             font-size: 24px;
             font-weight: 700;
             color: var(--text-color);
             margin-bottom: 25px;
-        }
+        }}
 
         /* Bug统计卡片 */
-        .bug-stats {
+        .bug-stats {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
-        }
+        }}
 
-        .stat-card {
+        .stat-card {{
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             text-align: center;
             transition: transform 0.2s, box-shadow 0.2s;
-        }
+        }}
 
-        .stat-card:hover {
+        .stat-card:hover {{
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-        }
+        }}
 
-        .stat-label {
+        .stat-label {{
             font-size: 14px;
             color: var(--text-secondary);
             margin-bottom: 8px;
             font-weight: 500;
-        }
+        }}
 
-        .stat-value {
+        .stat-value {{
             font-size: 32px;
             font-weight: 700;
             color: var(--accent-color);
             line-height: 1;
-        }
+        }}
 
-        .stat-value .plus {
+        .stat-value .plus {{
             font-size: 24px;
             color: var(--text-secondary);
             margin: 0 5px;
-        }
+        }}
 
-        .stat-value .small {
+        .stat-value .small {{
             font-size: 18px;
             color: var(--warning-color);
-        }
+        }}
 
-        .stat-description {
+        .stat-description {{
             font-size: 12px;
             color: var(--text-secondary);
             margin-top: 5px;
-        }
+        }}
 
         /* 重点关注Bug卡片 */
-        .bug-cards {
+        .bug-cards {{
             display: flex;
             flex-direction: column;
             gap: 15px;
             margin-top: 20px;
-        }
+        }}
 
-        .bug-card {
+        .bug-card {{
             background: #f8f9fa;
             border: 1px solid var(--border-color);
             border-radius: 10px;
@@ -382,9 +561,9 @@
             display: block;
             position: relative;
             overflow: hidden;
-        }
+        }}
 
-        .bug-card::before {
+        .bug-card::before {{
             content: '';
             position: absolute;
             left: 0;
@@ -393,26 +572,26 @@
             width: 4px;
             background: var(--primary-color);
             transition: width 0.3s ease;
-        }
+        }}
 
-        .bug-card:hover {
+        .bug-card:hover {{
             background: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             transform: translateX(5px);
-        }
+        }}
 
-        .bug-card:hover::before {
+        .bug-card:hover::before {{
             width: 6px;
-        }
+        }}
 
-        .bug-card-title {
+        .bug-card-title {{
             font-size: 15px;
             line-height: 1.6;
             color: var(--text-color);
             margin: 0;
-        }
+        }}
 
-        .bug-card-icon {
+        .bug-card-icon {{
             position: absolute;
             right: 20px;
             top: 50%;
@@ -420,40 +599,40 @@
             color: var(--main-color);
             opacity: 0.3;
             transition: opacity 0.3s ease;
-        }
+        }}
 
-        .bug-card:hover .bug-card-icon {
+        .bug-card:hover .bug-card-icon {{
             opacity: 0.6;
-        }
+        }}
 
-        .bug-image {
+        .bug-image {{
             display: block;
             max-width: 100%;
             height: auto;
             margin: 20px auto;
             border-radius: 8px;
-        }
+        }}
 
-        .chart-container {
+        .chart-container {{
             margin: 20px 0;
-        }
+        }}
 
-        .chart-title {
+        .chart-title {{
             font-size: 16px;
             color: var(--text-color);
             margin-bottom: 15px;
             font-weight: 600;
-        }
+        }}
 
         /* 自动化构建卡片样式 */
-        .automation-cards {
+        .automation-cards {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 20px;
             margin-top: 20px;
-        }
+        }}
 
-        .automation-card {
+        .automation-card {{
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -461,9 +640,9 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-        }
+        }}
 
-        .automation-card::before {
+        .automation-card::before {{
             content: '';
             position: absolute;
             left: 0;
@@ -472,32 +651,32 @@
             width: 4px;
             background: var(--primary-color);
             transition: width 0.3s ease;
-        }
+        }}
 
-        .automation-card:hover {
+        .automation-card:hover {{
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             background: white;
-        }
+        }}
 
-        .automation-card:hover::before {
+        .automation-card:hover::before {{
             width: 6px;
-        }
+        }}
 
         /* 可点击的自动化卡片样式 */
-        .automation-card-link {
+        .automation-card-link {{
             text-decoration: none;
             color: inherit;
             display: block;
             cursor: pointer;
-        }
+        }}
 
-        .automation-card-link:hover {
+        .automation-card-link:hover {{
             text-decoration: none;
             color: inherit;
-        }
+        }}
 
-        .automation-card-link-icon {
+        .automation-card-link-icon {{
             position: absolute;
             right: 20px;
             top: 50%;
@@ -507,138 +686,138 @@
             transition: opacity 0.3s ease;
             font-size: 18px;
             font-weight: bold;
-        }
+        }}
 
-        .automation-card-link:hover .automation-card-link-icon {
+        .automation-card-link:hover .automation-card-link-icon {{
             opacity: 0.6;
-        }
+        }}
 
-        .automation-card-header {
+        .automation-card-header {{
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 12px;
-        }
+        }}
 
-        .automation-card-title {
+        .automation-card-title {{
             font-size: 18px;
             font-weight: 600;
             color: var(--text-color);
             margin: 0;
             line-height: 1.3;
-        }
+        }}
 
-        .automation-status-badge {
+        .automation-status-badge {{
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
             text-align: center;
             min-width: 60px;
-        }
+        }}
 
-        .status-completed {
+        .status-completed {{
             background-color: #e8f5e8;
             color: var(--success-color);
             border: 1px solid #c8e6c8;
-        }
+        }}
 
-        .status-in-progress {
+        .status-in-progress {{
             background-color: #fff3e0;
             color: var(--warning-color);
             border: 1px solid #ffcc80;
-        }
+        }}
 
-        .status-planning {
+        .status-planning {{
             background-color: #e3f2fd;
             color: #1976d2;
             border: 1px solid #90caf9;
-        }
+        }}
 
-        .automation-card-content {
+        .automation-card-content {{
             font-size: 14px;
             color: var(--text-secondary);
             line-height: 1.5;
             margin: 0 0 16px 0;
-        }
+        }}
 
-        .automation-progress {
+        .automation-progress {{
             display: flex;
             align-items: center;
             gap: 12px;
-        }
+        }}
 
-        .progress-bar {
+        .progress-bar {{
             flex: 1;
             height: 8px;
             background-color: #e0e0e0;
             border-radius: 4px;
             overflow: hidden;
-        }
+        }}
 
-        .progress-fill {
+        .progress-fill {{
             height: 100%;
             background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             border-radius: 4px;
             transition: width 0.3s ease;
-        }
+        }}
 
-        .progress-text {
+        .progress-text {{
             font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
             min-width: 35px;
             text-align: right;
-        }
+        }}
 
         /* 响应式设计 */
-        @media (max-width: 768px) {
-            body {
+        @media (max-width: 768px) {{
+            body {{
                 padding: 0;
-            }
+            }}
             
-            .container {
+            .container {{
                 border-radius: 0;
                 box-shadow: none;
-            }
+            }}
             
-            .header-content {
+            .header-content {{
                 padding: 15px 20px;
-            }
+            }}
             
-            .main-content {
+            .main-content {{
                 padding: 10px 10px;
-            }
+            }}
             
-            h1 {
+            h1 {{
                 font-size: 22px;
-            }
+            }}
 
-            .legend {
+            .legend {{
                 flex-wrap: wrap;
                 gap: 15px;
-            }
+            }}
 
-            .legend-item {
+            .legend-item {{
                 flex: 1 1 150px;
-            }
+            }}
 
-            .info-section {
+            .info-section {{
                 padding: 20px;
-            }
+            }}
 
-            .info-section h2 {
+            .info-section h2 {{
                 font-size: 20px;
-            }
+            }}
 
-            .bug-stats {
+            .bug-stats {{
                 grid-template-columns: 1fr;
-            }
+            }}
 
-            .automation-cards {
+            .automation-cards {{
                 grid-template-columns: 1fr;
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 <body>
@@ -646,7 +825,7 @@
         <div class="header-bg">
             <div class="header-content">
                 <div class="release-title">
-                    <h1>测试工作报告 - 2025年07月</h1>
+                    <h1>测试工作报告 - {datetime.now().strftime('%Y年%m月')}</h1>
                 </div>
             </div>
         </div>
@@ -685,55 +864,24 @@
                 
                 <!-- Bug统计卡片 -->
                 <div class="bug-stats">
-                    
-    <div class="stat-card">
-        <div class="stat-label">本月新报</div>
-        <div class="stat-value">50</div>
-        <div class="stat-description">新发现的Bug</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">本月关闭</div>
-        <div class="stat-value">64</div>
-        <div class="stat-description">已解决的Bug</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">有效Bug总量</div>
-        <div class="stat-value">23<span class="plus">+</span><span class="small">7</span></div>
-        <div class="stat-description">待解决 + In Review</div>
-    </div>
-    
+                    {bug_stats_html}
                 </div>
 
                 <!-- 图表部分 -->
                 <div class="chart-container">
                     <h3 class="chart-title">按照优先级进行区分</h3>
-                    <img class="bug-image" src="data/2025/07/09/images/priority_chart.png" alt="优先级饼图">
+                    <img class="bug-image" src="{priority_chart_src}" alt="优先级饼图">
                 </div>
 
                 <div class="chart-container">
                     <h3 class="chart-title">每日变化量</h3>
-                    <img class="bug-image" src="data/2025/07/09/images/variation_chart.png" alt="每日变化量">
+                    <img class="bug-image" src="{variation_chart_src}" alt="每日变化量">
                 </div>
 
                 <!-- 重点关注Bug -->
                 <h3 class="chart-title">重点关注Bug</h3>
                 <div class="bug-cards">
-                    
-        <a href="https://www.notion.so/konec/SDK-2-6-4-11-iOS-App-M29-Accept-4-5-1619d34074b181329905d6eb6bd6205c?source=copy_link" class="bug-card" target="_blank">
-            <p class="bug-card-title">（SDK解决）中控屏固件版本2.6.4-11, iOS端App收到M29呼叫页面, 点击Accept, 4-5秒后才显示视频画面和声音</p>
-            <span class="bug-card-icon">→</span>
-        </a>
-        
-        <a href="https://www.notion.so/konec/Android-2259d34074b1807aba15ce80d4dc85bc?source=copy_link" class="bug-card" target="_blank">
-            <p class="bug-card-title">Android端低概率复现, 进行部分操作后, 导致账号被登出的情况</p>
-            <span class="bug-card-icon">→</span>
-        </a>
-        
-        <a href="https://www.notion.so/konec/Outdoor-Siren-Alarm-Time-Alarm-1-2249d34074b1803fa4a3e0f52d790b8c?source=copy_link" class="bug-card" target="_blank">
-            <p class="bug-card-title">Outdoor Siren设置页面, 修改Alarm Time后报警时长后, 实际未生效, Alarm时长仍为默认的1分钟</p>
-            <span class="bug-card-icon">→</span>
-        </a>
-        
+                    {important_bugs_html}
                 </div>
             </div>
 
@@ -743,78 +891,7 @@
                 
                 <!-- 自动化项目卡片 -->
                 <div class="automation-cards">
-                    
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">Appium自动化框架</h3>
-                <div class="automation-status-badge status-in-progress">进行中</div>
-            </div>
-            <p class="automation-card-content">iOS端一级页面重构后用例重写完成, Android自动化用例正在编写</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 80%;"></div>
-                </div>
-                <span class="progress-text">80%</span>
-            </div>
-        </div>
-        
-        <a href="https://disk.testingnas.com/AI仿生自动化" class="automation-card automation-card-link" target="_blank">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">AI自动化框架</h3>
-                <div class="automation-status-badge status-in-progress">进行中</div>
-            </div>
-            <p class="automation-card-content">能够执行纯App端操作测试需求, 正在提高稳定性, 并通过开发配套MCP拓展AI能力边界</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 75%;"></div>
-                </div>
-                <span class="progress-text">75%</span>
-            </div>
-            <div class="automation-card-link-icon">→</div>
-        </a>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">看门狗监控服务</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">通用后端服务稳定性监控, 功能基本完成正在测试中</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 95%;"></div>
-                </div>
-                <span class="progress-text">95%</span>
-            </div>
-        </div>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">部署备用OCR服务</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">部署备用的文字识别服务, 提高自动化和AI框架运行的稳定性</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-                <span class="progress-text">100%</span>
-            </div>
-        </div>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">测试工具箱 知识库</h3>
-                <div class="automation-status-badge status-planning">规划中</div>
-            </div>
-            <p class="automation-card-content">计划搭建用于辅助AI测试 以及 日常测试信息获取的KonecTest私有知识库 选型中</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 5%;"></div>
-                </div>
-                <span class="progress-text">5%</span>
-            </div>
-        </div>
-        
+                    {automation_cards_html}
                 </div>
             </div>
 
@@ -824,42 +901,13 @@
                 
                 <!-- 其他工作卡片 -->
                 <div class="automation-cards">
-                    
-        <a href="https://www.notion.so/konec/2259d34074b180409d1ede63c898941e?v=2259d34074b1812f84ad000c5f91b5c3&source=copy_link" class="automation-card automation-card-link" target="_blank">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">覆盖测试用例</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">编写了总计687条用于全面覆盖测试KonecHome App的用例</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-                <span class="progress-text">100%</span>
-            </div>
-            <div class="automation-card-link-icon">→</div>
-        </a>
-        
-        <div class="automation-card">
-            <div class="automation-card-header">
-                <h3 class="automation-card-title">资料整理</h3>
-                <div class="automation-status-badge status-completed">已完成</div>
-            </div>
-            <p class="automation-card-content">中控屏和M29问题汇总, VRV空调网关问题汇总</p>
-            <div class="automation-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-                <span class="progress-text">100%</span>
-            </div>
-        </div>
-        
+                    {other_cards_html}
                 </div>
             </div>
             
             <!-- 页脚 -->
             <div class="generated-time">
-                报告生成时间: 2025-07-09 12:09:22
+                报告生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
             </div>
             <div class="powered-by">
                 Powered by 测试工具箱
@@ -871,160 +919,17 @@
     
     <script>
         // 版本数据
-        const releasesData = {
-  "releases": [
-    {
-      "version": "1.0.16(189)",
-      "date": "2025-07-08",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.16(188)",
-      "date": "2025-06-29",
-      "type": "branch-merge",
-      "environment": "生产环境",
-      "note": "分支核入主线"
-    },
-    {
-      "version": "1.0.15(187)",
-      "date": "2025-06-25",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本(商店发布)"
-    },
-    {
-      "version": "1.0.15(186)",
-      "date": "2025-06-25",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(185)",
-      "date": "2025-06-25",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(184)",
-      "date": "2025-06-24",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(183)",
-      "date": "2025-06-24",
-      "type": "branch-start",
-      "environment": "生产环境",
-      "note": "分支版本开始"
-    },
-    {
-      "version": "1.0.15(182)",
-      "date": "2025-06-23",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(181)",
-      "date": "2025-06-23",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(180)",
-      "date": "2025-06-19",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(179)",
-      "date": "2025-06-17",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.15(178)",
-      "date": "2025-06-13",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(177)",
-      "date": "2025-06-12",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本(商店发布)"
-    },
-    {
-      "version": "1.0.14(176)",
-      "date": "2025-06-11",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(174)",
-      "date": "2025-06-10",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(173)",
-      "date": "2025-06-06",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
-      "version": "1.0.14(172)",
-      "date": "2025-06-06",
-      "type": "branch-merge",
-      "environment": "生产环境",
-      "note": "分支核入主线"
-    },
-    {
-      "version": "1.0.14(171)",
-      "date": "2025-06-05",
-      "type": "branch",
-      "environment": "生产环境",
-      "note": "分支版本"
-    },
-    {
-      "version": "1.0.14(170)",
-      "date": "2025-06-03",
-      "type": "branch-start",
-      "environment": "生产环境",
-      "note": "分支版本开始"
-    },
-    {
-      "version": "1.0.14(169)",
-      "date": "2025-06-01",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    }
-  ]
-};
+        const releasesData = {releases_json};
         
-        function drawDiagram(releases) {
+        function drawDiagram(releases) {{
             const svg = document.getElementById('release-diagram');
             svg.innerHTML = '';
             
-            const margin = { top: 60, right: 80, bottom: 60, left: 50 };
+            const margin = {{ top: 60, right: 80, bottom: 60, left: 50 }};
             const width = Math.max(1200, releases.length * 100 + 100);
             const height = 400;
             
-            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.setAttribute('viewBox', `0 0 ${{width}} ${{height}}`);
             
             // 计算日期范围
             const dates = releases.map(r => new Date(r.date));
@@ -1033,26 +938,26 @@
             const dateRange = maxDate - minDate;
             
             // 按日期分组版本，处理同一天多个版本的情况
-            const dateGroups = {};
-            releases.forEach(release => {
+            const dateGroups = {{}};
+            releases.forEach(release => {{
                 const dateKey = release.date; // 使用日期字符串作为key
-                if (!dateGroups[dateKey]) {
+                if (!dateGroups[dateKey]) {{
                     dateGroups[dateKey] = [];
-                }
+                }}
                 dateGroups[dateKey].push(release);
-            });
+            }});
             
             // 为每个版本分配精确的x坐标，同一天的版本水平排开
             const releasePositions = new Map();
-            Object.keys(dateGroups).forEach(dateKey => {
+            Object.keys(dateGroups).forEach(dateKey => {{
                 const versionsOnDate = dateGroups[dateKey];
                 const baseDate = new Date(dateKey);
                 const baseX = margin.left + ((baseDate - minDate) / dateRange) * (width - margin.left - margin.right - 50);
                 
-                if (versionsOnDate.length === 1) {
+                if (versionsOnDate.length === 1) {{
                     // 单个版本，使用基础位置
                     releasePositions.set(versionsOnDate[0].version, baseX);
-                } else {
+                }} else {{
                     // 多个版本，水平排开，使用和相邻天数一样的间距
                     const totalTimeSpan = width - margin.left - margin.right - 50;
                     const daySpacing = dateRange > 0 ? totalTimeSpan / (dateRange / (24 * 60 * 60 * 1000)) : 100;
@@ -1061,81 +966,81 @@
                     const startX = baseX - totalWidth / 2;
                     
                     // 按版本号排序，提取括号中的数字进行比较
-                    versionsOnDate.sort((a, b) => {
+                    versionsOnDate.sort((a, b) => {{
                         // 提取版本号中括号内的数字，例如 "1.0.15(181)" -> 181
-                        const getVersionNumber = (version) => {
-                            const match = version.match(/\((\d+)\)/);
+                        const getVersionNumber = (version) => {{
+                            const match = version.match(/\\((\\d+)\\)/);
                             return match ? parseInt(match[1]) : 0;
-                        };
+                        }};
                         
                         const aNum = getVersionNumber(a.version);
                         const bNum = getVersionNumber(b.version);
                         
                         // 添加调试信息
-                        console.log(`排序 ${dateKey}: ${a.version}(${aNum}) vs ${b.version}(${bNum}) = ${aNum - bNum}`);
+                        console.log(`排序 ${{dateKey}}: ${{a.version}}(${{aNum}}) vs ${{b.version}}(${{bNum}}) = ${{aNum - bNum}}`);
                         
                         return aNum - bNum; // 升序排列
-                    });
+                    }});
                     
-                    console.log(`${dateKey} 排序后顺序:`, versionsOnDate.map(v => v.version));
+                    console.log(`${{dateKey}} 排序后顺序:`, versionsOnDate.map(v => v.version));
                     
-                    versionsOnDate.forEach((release, index) => {
+                    versionsOnDate.forEach((release, index) => {{
                         const x = startX + index * spacing;
                         releasePositions.set(release.version, x);
-                        console.log(`${release.version}: index=${index}, x=${x.toFixed(2)}`);
-                    });
-                }
-            });
+                        console.log(`${{release.version}}: index=${{index}}, x=${{x.toFixed(2)}}`);
+                    }});
+                }}
+            }});
             
             // 防重叠处理：确保所有节点之间有最小距离
             const minDistance = 40;
-            const sortedVersions = [...releases].sort((a, b) => {
+            const sortedVersions = [...releases].sort((a, b) => {{
                 // 先按日期排序
                 const dateCompare = new Date(a.date) - new Date(b.date);
                 if (dateCompare !== 0) return dateCompare;
                 
                 // 同一天的按版本号排序
-                const getVersionNumber = (version) => {
-                    const match = version.match(/\((\d+)\)/);
+                const getVersionNumber = (version) => {{
+                    const match = version.match(/\\((\\d+)\\)/);
                     return match ? parseInt(match[1]) : 0;
-                };
+                }};
                 
                 return getVersionNumber(a.version) - getVersionNumber(b.version);
-            });
+            }});
             
             console.log('防重叠处理前的位置:');
-            for (const [version, x] of releasePositions.entries()) {
-                console.log(`${version}: x=${x.toFixed(2)}`);
-            }
+            for (const [version, x] of releasePositions.entries()) {{
+                console.log(`${{version}}: x=${{x.toFixed(2)}}`);
+            }}
             
-            for (let i = 1; i < sortedVersions.length; i++) {
+            for (let i = 1; i < sortedVersions.length; i++) {{
                 const current = sortedVersions[i];
                 const prev = sortedVersions[i - 1];
                 const currentX = releasePositions.get(current.version);
                 const prevX = releasePositions.get(prev.version);
                 
-                if (currentX - prevX < minDistance) {
-                    console.log(`调整位置: ${current.version} 从 ${currentX.toFixed(2)} 移到 ${(prevX + minDistance).toFixed(2)}`);
+                if (currentX - prevX < minDistance) {{
+                    console.log(`调整位置: ${{current.version}} 从 ${{currentX.toFixed(2)}} 移到 ${{(prevX + minDistance).toFixed(2)}}`);
                     releasePositions.set(current.version, prevX + minDistance);
-                }
-            }
+                }}
+            }}
             
             console.log('防重叠处理后的位置:');
-            for (const [version, x] of releasePositions.entries()) {
-                console.log(`${version}: x=${x.toFixed(2)}`);
-            }
+            for (const [version, x] of releasePositions.entries()) {{
+                console.log(`${{version}}: x=${{x.toFixed(2)}}`);
+            }}
             
             // 创建 x 轴比例尺函数，使用预计算的位置
-            const xScale = (release) => {
-                if (typeof release === 'string') {
+            const xScale = (release) => {{
+                if (typeof release === 'string') {{
                     // 如果传入的是日期字符串，使用原有逻辑
                     const d = new Date(release);
                     return margin.left + ((d - minDate) / dateRange) * (width - margin.left - margin.right - 50);
-                } else {
+                }} else {{
                     // 如果传入的是release对象，使用预计算的位置
                     return releasePositions.get(release.version) || margin.left;
-                }
-            };
+                }}
+            }};
             
             const mainY = height / 2;
             const branchY = height / 2 + 120;
@@ -1148,41 +1053,41 @@
             // 按时间顺序排序释放数据（确保正确的时间顺序）
             const sortedReleases = [...releases].sort((a, b) => new Date(a.date) - new Date(b.date));
             
-            sortedReleases.forEach((release, index) => {
-                if (release.type === 'branch-start') {
+            sortedReleases.forEach((release, index) => {{
+                if (release.type === 'branch-start') {{
                     // 开始新分支
-                    currentBranch = {
+                    currentBranch = {{
                         start: release,
                         releases: [release],
                         end: null,
                         merged: false
-                    };
+                    }};
                     mainReleases.push(release); // 分支起点也在主线上
-                } else if (release.type === 'branch-merge') {
+                }} else if (release.type === 'branch-merge') {{
                     // 分支合并回主线
-                    if (currentBranch) {
+                    if (currentBranch) {{
                         currentBranch.end = release;
                         currentBranch.releases.push(release);
                         currentBranch.merged = true;
                         branches.push(currentBranch);
                         currentBranch = null;
-                    }
+                    }}
                     mainReleases.push(release); // 合并点也在主线上
-                } else if (release.type === 'branch') {
+                }} else if (release.type === 'branch') {{
                     // 分支中的版本
-                    if (currentBranch) {
+                    if (currentBranch) {{
                         currentBranch.releases.push(release);
-                    }
-                } else {
+                    }}
+                }} else {{
                     // 主线版本
                     mainReleases.push(release);
-                }
-            });
+                }}
+            }});
             
             // 如果有未合并的分支，也添加到branches中
-            if (currentBranch) {
+            if (currentBranch) {{
                 branches.push(currentBranch);
-            }
+            }}
             
             
             // 创建渐变定义
@@ -1227,16 +1132,16 @@
             svg.appendChild(defs);
             
             // 绘制主线（带箭头）
-            if (mainReleases.length > 1) {
+            if (mainReleases.length > 1) {{
                 const lastX = xScale(mainReleases[mainReleases.length - 1]);
                 const extendedX = width - margin.right + 20;
                 
-                let pathData = `M ${xScale(mainReleases[0])} ${mainY}`;
-                for (let i = 1; i < mainReleases.length; i++) {
-                    pathData += ` L ${xScale(mainReleases[i])} ${mainY}`;
-                }
+                let pathData = `M ${{xScale(mainReleases[0])}} ${{mainY}}`;
+                for (let i = 1; i < mainReleases.length; i++) {{
+                    pathData += ` L ${{xScale(mainReleases[i])}} ${{mainY}}`;
+                }}
                 // 延伸到箭头
-                pathData += ` L ${extendedX} ${mainY}`;
+                pathData += ` L ${{extendedX}} ${{mainY}}`;
                 
                 const mainLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 mainLine.setAttribute('d', pathData);
@@ -1244,69 +1149,69 @@
                 mainLine.setAttribute('stroke', 'url(#mainGradient)');
                 mainLine.setAttribute('marker-end', 'url(#arrowhead)');
                 svg.appendChild(mainLine);
-            }
+            }}
             
             // 绘制所有分支线
-            branches.forEach((branch, branchIndex) => {
+            branches.forEach((branch, branchIndex) => {{
                 if (branch.releases.length < 2) return; // 至少需要2个节点才能画线
                 
                 const startX = xScale(branch.start);
                 const cornerRadius = 20;
-                let pathData = `M ${startX} ${mainY}`;
+                let pathData = `M ${{startX}} ${{mainY}}`;
                 
                 // 为每个分支分配不同的Y坐标，避免重叠
                 const currentBranchY = branchY + (branchIndex * 60);
                 
                 // 从主线下降到分支线
-                pathData += ` L ${startX} ${currentBranchY - cornerRadius}`;
-                pathData += ` Q ${startX} ${currentBranchY}, ${startX + cornerRadius} ${currentBranchY}`;
+                pathData += ` L ${{startX}} ${{currentBranchY - cornerRadius}}`;
+                pathData += ` Q ${{startX}} ${{currentBranchY}}, ${{startX + cornerRadius}} ${{currentBranchY}}`;
                 
                 // 连接分支中的所有节点（除了起点和终点）
-                for (let i = 1; i < branch.releases.length - 1; i++) {
+                for (let i = 1; i < branch.releases.length - 1; i++) {{
                     const nodeX = xScale(branch.releases[i]);
-                    pathData += ` L ${nodeX} ${currentBranchY}`;
-                }
+                    pathData += ` L ${{nodeX}} ${{currentBranchY}}`;
+                }}
                 
-                if (branch.merged && branch.end) {
+                if (branch.merged && branch.end) {{
                     // 分支合并回主线
                     const endX = xScale(branch.end);
-                    pathData += ` L ${endX - cornerRadius} ${currentBranchY}`;
-                    pathData += ` Q ${endX} ${currentBranchY}, ${endX} ${currentBranchY - cornerRadius}`;
-                    pathData += ` L ${endX} ${mainY}`;
-                } else {
+                    pathData += ` L ${{endX - cornerRadius}} ${{currentBranchY}}`;
+                    pathData += ` Q ${{endX}} ${{currentBranchY}}, ${{endX}} ${{currentBranchY - cornerRadius}}`;
+                    pathData += ` L ${{endX}} ${{mainY}}`;
+                }} else {{
                     // 未合并的分支，延伸到最后一个节点
                     const lastRelease = branch.releases[branch.releases.length - 1];
                     const lastX = xScale(lastRelease);
-                    pathData += ` L ${lastX} ${currentBranchY}`;
-                }
+                    pathData += ` L ${{lastX}} ${{currentBranchY}}`;
+                }}
                 
                 const branchLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 branchLine.setAttribute('d', pathData);
                 branchLine.setAttribute('class', 'branch-line');
                 branchLine.setAttribute('stroke-dasharray', branch.merged ? '0' : '5,5'); // 未合并的分支用虚线
                 svg.appendChild(branchLine);
-            });
+            }});
             
             // 绘制节点
-            releases.forEach((release, index) => {
+            releases.forEach((release, index) => {{
                 const x = xScale(release);
                 let y = mainY;
                 
                 // 确定节点的 y 坐标
-                if (release.type === 'branch') {
+                if (release.type === 'branch') {{
                     // 找到这个节点属于哪个分支
                     const branchIndex = branches.findIndex(branch => 
                         branch.releases.some(r => r.version === release.version)
                     );
-                    if (branchIndex >= 0) {
+                    if (branchIndex >= 0) {{
                         y = branchY + (branchIndex * 60);
-                    } else {
+                    }} else {{
                         y = branchY; // 默认分支位置
-                    }
-                } else if (release.type === 'branch-start' || release.type === 'branch-merge') {
+                    }}
+                }} else if (release.type === 'branch-start' || release.type === 'branch-merge') {{
                     // 分支起点和合并点都在主线上
                     y = mainY;
-                }
+                }}
                 
                 // 创建节点组
                 const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -1325,16 +1230,16 @@
                 // 检查是否是商店发布版本
                 const isStoreRelease = release.note && release.note.includes('主线版本(商店发布)');
                 
-                if (isStoreRelease) {
+                if (isStoreRelease) {{
                     nodeClass = 'store-release-node';
                     labelClass = 'store-release-label';
-                } else if (release.type === 'branch') {
+                }} else if (release.type === 'branch') {{
                     nodeClass = 'branch-node';
-                } else if (release.type === 'branch-start') {
+                }} else if (release.type === 'branch-start') {{
                     nodeClass = 'branch-start-node';
-                } else if (release.type === 'branch-merge') {
+                }} else if (release.type === 'branch-merge') {{
                     nodeClass = 'branch-merge-node';
-                }
+                }}
                 circle.setAttribute('class', nodeClass);
                 
                 // 添加版本号标签，计算错开的Y坐标
@@ -1346,20 +1251,20 @@
                 const minLabelDistance = 50; // 版本号之间的最小距离
                 
                 // 检查前面的版本号是否会重叠
-                for (let i = 0; i < index; i++) {
+                for (let i = 0; i < index; i++) {{
                     const prevRelease = releases[i];
                     const prevX = xScale(prevRelease);
                     
-                    if (Math.abs(x - prevX) < minLabelDistance) {
+                    if (Math.abs(x - prevX) < minLabelDistance) {{
                         // 距离太近，交替错开：奇数索引向上，偶数索引向下
-                        if (index % 2 === 0) {
+                        if (index % 2 === 0) {{
                             labelY = y - 35; // 向上错开更多
-                        } else {
+                        }} else {{
                             labelY = y - 5;  // 向下错开
-                        }
+                        }}
                         break;
-                    }
-                }
+                    }}
+                }}
                 
                 versionLabel.setAttribute('y', labelY);
                 versionLabel.setAttribute('class', labelClass);
@@ -1381,23 +1286,23 @@
                 g.addEventListener('mouseleave', hideTooltip);
                 
                 svg.appendChild(g);
-            });
-        }
+            }});
+        }}
         
-        function formatDate(dateStr) {
+        function formatDate(dateStr) {{
             const date = new Date(dateStr);
             const month = date.getMonth() + 1;
             const day = date.getDate();
-            return `${month}.${day}`;
-        }
+            return `${{month}}.${{day}}`;
+        }}
         
-        function showTooltip(event, release) {
+        function showTooltip(event, release) {{
             const tooltip = document.getElementById('tooltip');
             tooltip.innerHTML = `
-                <div><strong>版本号：</strong>${release.version}</div>
-                <div><strong>发布日期：</strong>${release.date}</div>
-                <div><strong>部署环境：</strong>${release.environment}</div>
-                <div><strong>版本类型：</strong>${release.note}</div>
+                <div><strong>版本号：</strong>${{release.version}}</div>
+                <div><strong>发布日期：</strong>${{release.date}}</div>
+                <div><strong>部署环境：</strong>${{release.environment}}</div>
+                <div><strong>版本类型：</strong>${{release.note}}</div>
             `;
             
             // 获取鼠标位置
@@ -1410,17 +1315,120 @@
             
             // 显示 tooltip
             tooltip.classList.add('visible');
-        }
+        }}
         
-        function hideTooltip() {
+        function hideTooltip() {{
             const tooltip = document.getElementById('tooltip');
             tooltip.classList.remove('visible');
-        }
+        }}
         
         // 页面加载时绘制图表
-        window.addEventListener('load', () => {
+        window.addEventListener('load', () => {{
             drawDiagram(releasesData.releases);
-        });
+        }});
     </script>
 </body>
-</html>
+</html>'''
+    
+    return html_content
+
+def get_relative_path(file_path, base_dir):
+    """
+    获取相对于当前工作目录的路径（HTML文件位置）
+    Args:
+        file_path: 文件绝对路径
+        base_dir: 基础目录
+    Returns:
+        str: 相对路径或原始URL
+    """
+    if not file_path or file_path.startswith('http'):
+        return file_path
+    
+    try:
+        # HTML文件在根目录，所以相对路径就是去掉根目录前缀
+        if os.path.isabs(file_path):
+            # 获取相对于当前工作目录的路径
+            current_dir = os.getcwd()
+            relative_path = os.path.relpath(file_path, current_dir)
+            return relative_path
+        else:
+            return file_path
+    except (ValueError, OSError):
+        return file_path
+
+def main():
+    """主函数"""
+    try:
+        print("🚀 开始生成月度报告...")
+        
+        # 创建当日目录
+        daily_dir = create_daily_directory()
+        print(f"📁 当日数据目录: {daily_dir}")
+        
+        # 1. 获取版本信息
+        print("\n📊 获取版本信息...")
+        releases_data = fetch_notion_versions()
+        
+        # 如果API获取失败，使用备用数据
+        if not releases_data:
+            print("⚠️ 使用备用版本数据")
+            if os.path.exists('releases.json'):
+                with open('releases.json', 'r', encoding='utf-8') as f:
+                    releases_data = json.load(f)
+            else:
+                releases_data = {"releases": []}
+        
+        # 保存版本数据到当日目录
+        save_daily_data(releases_data, "releases.json")
+        
+        # 2. 下载外部资源
+        print("\n🔄 下载外部资源...")
+        image_paths = download_bug_resources(daily_dir)
+        download_bug_data(daily_dir)
+        
+        # 3. 获取动态Bug统计数据
+        print("\n📊 解析Bug统计数据...")
+        dynamic_bug_stats = get_bug_stats_from_data(daily_dir)
+        
+        # 4. 加载配置文件并合并动态数据
+        print("\n📋 加载配置信息...")
+        bug_info = load_config_json('config/bug_info.json')
+        automation_info = load_config_json('config/automation_info.json')
+        other_info = load_config_json('config/other_info.json')
+        
+        # 用动态数据覆盖静态配置
+        if dynamic_bug_stats:
+            bug_info['bug_stats'] = dynamic_bug_stats
+            print(f"✅ 使用动态Bug数据: 新报{dynamic_bug_stats['monthly_new']}, 关闭{dynamic_bug_stats['monthly_closed']}, 有效{dynamic_bug_stats['total_valid']}, 审核中{dynamic_bug_stats['in_review']}")
+        else:
+            print("⚠️ 使用静态Bug配置数据")
+        
+        # 5. 生成HTML报告
+        print("\n🎨 生成HTML报告...")
+        html_content = generate_html_template(
+            releases_data, bug_info, automation_info, other_info, image_paths, daily_dir
+        )
+        
+        # 6. 保存HTML文件
+        output_filename = 'index.html'
+        with open(output_filename, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        # 同时保存到当日目录
+        daily_html_path = os.path.join(daily_dir, output_filename)
+        with open(daily_html_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        print(f"\n✅ 报告生成完成!")
+        print(f"📄 主报告文件: {output_filename}")
+        print(f"📄 当日备份: {daily_html_path}")
+        print(f"📊 版本记录数: {len(releases_data.get('releases', []))}")
+        print(f"🕐 生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        
+    except Exception as e:
+        print(f"❌ 生成报告时发生错误: {e}")
+        import traceback
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    main()

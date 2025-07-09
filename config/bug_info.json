@@ -1,0 +1,16 @@
+{
+  "important_bugs": [
+    {
+      "title": "（SDK解决）中控屏固件版本2.6.4-11, iOS端App收到M29呼叫页面, 点击Accept, 4-5秒后才显示视频画面和声音",
+      "url": "https://www.notion.so/konec/SDK-2-6-4-11-iOS-App-M29-Accept-4-5-1619d34074b181329905d6eb6bd6205c?source=copy_link"
+    },
+    {
+      "title": "Android端低概率复现, 进行部分操作后, 导致账号被登出的情况",
+      "url": "https://www.notion.so/konec/Android-2259d34074b1807aba15ce80d4dc85bc?source=copy_link"
+    },
+    {
+      "title": "Outdoor Siren设置页面, 修改Alarm Time后报警时长后, 实际未生效, Alarm时长仍为默认的1分钟",
+      "url": "https://www.notion.so/konec/Outdoor-Siren-Alarm-Time-Alarm-1-2249d34074b1803fa4a3e0f52d790b8c?source=copy_link"
+    }
+  ]
+}

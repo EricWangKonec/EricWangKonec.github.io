@@ -167,27 +167,10 @@
             stroke-width: 3;
         }
         
-        /* 商店发布版本的特殊样式 */
-        .store-release-node {
-            fill: var(--primary-color);
-            stroke: var(--secondary-color);
-            stroke-width: 4;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
-        }
-        
         .node-label {
             font-size: 13px;
             font-weight: 600;
             fill: var(--text-color);
-            text-anchor: middle;
-            pointer-events: none;
-        }
-        
-        /* 商店发布版本的标签样式 */
-        .store-release-label {
-            font-size: 14px;
-            font-weight: 700;
-            fill: var(--primary-color);
             text-anchor: middle;
             pointer-events: none;
         }
@@ -484,35 +467,6 @@
             width: 6px;
         }
 
-        /* 可点击的自动化卡片样式 */
-        .automation-card-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            cursor: pointer;
-        }
-
-        .automation-card-link:hover {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .automation-card-link-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--main-color);
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .automation-card-link:hover .automation-card-link-icon {
-            opacity: 0.6;
-        }
-
         .automation-card-header {
             display: flex;
             justify-content: space-between;
@@ -688,17 +642,17 @@
                     
     <div class="stat-card">
         <div class="stat-label">本月新报</div>
-        <div class="stat-value">50</div>
+        <div class="stat-value">49</div>
         <div class="stat-description">新发现的Bug</div>
     </div>
     <div class="stat-card">
         <div class="stat-label">本月关闭</div>
-        <div class="stat-value">64</div>
+        <div class="stat-value">62</div>
         <div class="stat-description">已解决的Bug</div>
     </div>
     <div class="stat-card">
         <div class="stat-label">有效Bug总量</div>
-        <div class="stat-value">23<span class="plus">+</span><span class="small">7</span></div>
+        <div class="stat-value">19<span class="plus">+</span><span class="small">11</span></div>
         <div class="stat-description">待解决 + In Review</div>
     </div>
     
@@ -707,12 +661,12 @@
                 <!-- 图表部分 -->
                 <div class="chart-container">
                     <h3 class="chart-title">按照优先级进行区分</h3>
-                    <img class="bug-image" src="data/2025/07/09/images/priority_chart.png" alt="优先级饼图">
+                    <img class="bug-image" src="https://disk.testingnas.com/d/Local/Material/%E8%87%AA%E7%A0%94%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E6%9C%88%E6%8A%A5/2025/2025_07_08/priority_pie_chart.png?sign=yjEuoResHBe7A0bPBSa01rvdivJI-HlzTxEtMo1BiIE=:0" alt="优先级饼图">
                 </div>
 
                 <div class="chart-container">
                     <h3 class="chart-title">每日变化量</h3>
-                    <img class="bug-image" src="data/2025/07/09/images/variation_chart.png" alt="每日变化量">
+                    <img class="bug-image" src="https://disk.testingnas.com/d/Local/Material/%E8%87%AA%E7%A0%94%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E6%9C%88%E6%8A%A5/2025/2025_07_08/bug_variation_line_chart.png?sign=hljiwItZv4Sij4qO3f9-oeC6_4RT4-Hy-UuRGrMQojw=:0" alt="每日变化量">
                 </div>
 
                 <!-- 重点关注Bug -->
@@ -758,7 +712,7 @@
             </div>
         </div>
         
-        <a href="https://disk.testingnas.com/AI仿生自动化" class="automation-card automation-card-link" target="_blank">
+        <a href="https://disk.testingnas.com/Public/Guest/AI仿生自动化" class="automation-card" target="_blank" style="text-decoration: none; color: inherit; display: block;">
             <div class="automation-card-header">
                 <h3 class="automation-card-title">AI自动化框架</h3>
                 <div class="automation-status-badge status-in-progress">进行中</div>
@@ -770,7 +724,6 @@
                 </div>
                 <span class="progress-text">75%</span>
             </div>
-            <div class="automation-card-link-icon">→</div>
         </a>
         
         <div class="automation-card">
@@ -792,7 +745,7 @@
                 <h3 class="automation-card-title">部署备用OCR服务</h3>
                 <div class="automation-status-badge status-completed">已完成</div>
             </div>
-            <p class="automation-card-content">部署备用的文字识别服务, 提高自动化和AI框架运行的稳定性</p>
+            <p class="automation-card-content">部署备用文字识别服务, 提高Cube升级期间循环测试的稳定性</p>
             <div class="automation-progress">
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 100%;"></div>
@@ -825,7 +778,7 @@
                 <!-- 其他工作卡片 -->
                 <div class="automation-cards">
                     
-        <a href="https://www.notion.so/konec/2259d34074b180409d1ede63c898941e?v=2259d34074b1812f84ad000c5f91b5c3&source=copy_link" class="automation-card automation-card-link" target="_blank">
+        <a href="https://www.notion.so/konec/2259d34074b180409d1ede63c898941e?v=2259d34074b1812f84ad000c5f91b5c3&source=copy_link" class="automation-card" target="_blank" style="text-decoration: none; color: inherit; display: block;">
             <div class="automation-card-header">
                 <h3 class="automation-card-title">覆盖测试用例</h3>
                 <div class="automation-status-badge status-completed">已完成</div>
@@ -837,10 +790,9 @@
                 </div>
                 <span class="progress-text">100%</span>
             </div>
-            <div class="automation-card-link-icon">→</div>
         </a>
         
-        <div class="automation-card">
+        <a href="https://www.notion.so/konec/VRV-2269d34074b1804abe49cb36909a9cb7?source=copy_link" class="automation-card" target="_blank" style="text-decoration: none; color: inherit; display: block;">
             <div class="automation-card-header">
                 <h3 class="automation-card-title">资料整理</h3>
                 <div class="automation-status-badge status-completed">已完成</div>
@@ -852,14 +804,15 @@
                 </div>
                 <span class="progress-text">100%</span>
             </div>
-        </div>
-        
+        </a>
+            </div>
+
                 </div>
             </div>
             
             <!-- 页脚 -->
             <div class="generated-time">
-                报告生成时间: 2025-07-09 12:09:22
+                报告生成时间: 2025-07-07 13:20:50
             </div>
             <div class="powered-by">
                 Powered by 测试工具箱
@@ -874,13 +827,6 @@
         const releasesData = {
   "releases": [
     {
-      "version": "1.0.16(189)",
-      "date": "2025-07-08",
-      "type": "main",
-      "environment": "生产环境",
-      "note": "主线版本"
-    },
-    {
       "version": "1.0.16(188)",
       "date": "2025-06-29",
       "type": "branch-merge",
@@ -888,11 +834,11 @@
       "note": "分支核入主线"
     },
     {
-      "version": "1.0.15(187)",
+      "version": "1.0.15(185)",
       "date": "2025-06-25",
       "type": "main",
       "environment": "生产环境",
-      "note": "主线版本(商店发布)"
+      "note": "主线版本(内测发布)"
     },
     {
       "version": "1.0.15(186)",
@@ -902,7 +848,7 @@
       "note": "主线版本"
     },
     {
-      "version": "1.0.15(185)",
+      "version": "1.0.15(187)",
       "date": "2025-06-25",
       "type": "main",
       "environment": "生产环境",
@@ -923,14 +869,14 @@
       "note": "分支版本开始"
     },
     {
-      "version": "1.0.15(182)",
+      "version": "1.0.15(181)",
       "date": "2025-06-23",
       "type": "main",
       "environment": "生产环境",
       "note": "主线版本"
     },
     {
-      "version": "1.0.15(181)",
+      "version": "1.0.15(182)",
       "date": "2025-06-23",
       "type": "main",
       "environment": "生产环境",
@@ -962,7 +908,7 @@
       "date": "2025-06-12",
       "type": "main",
       "environment": "生产环境",
-      "note": "主线版本(商店发布)"
+      "note": "主线版本(内测发布)"
     },
     {
       "version": "1.0.14(176)",
@@ -1060,53 +1006,19 @@
                     const totalWidth = (versionsOnDate.length - 1) * spacing;
                     const startX = baseX - totalWidth / 2;
                     
-                    // 按版本号排序，提取括号中的数字进行比较
-                    versionsOnDate.sort((a, b) => {
-                        // 提取版本号中括号内的数字，例如 "1.0.15(181)" -> 181
-                        const getVersionNumber = (version) => {
-                            const match = version.match(/\((\d+)\)/);
-                            return match ? parseInt(match[1]) : 0;
-                        };
-                        
-                        const aNum = getVersionNumber(a.version);
-                        const bNum = getVersionNumber(b.version);
-                        
-                        // 添加调试信息
-                        console.log(`排序 ${dateKey}: ${a.version}(${aNum}) vs ${b.version}(${bNum}) = ${aNum - bNum}`);
-                        
-                        return aNum - bNum; // 升序排列
-                    });
-                    
-                    console.log(`${dateKey} 排序后顺序:`, versionsOnDate.map(v => v.version));
+                    // 按版本号排序，确保一致性
+                    versionsOnDate.sort((a, b) => a.version.localeCompare(b.version));
                     
                     versionsOnDate.forEach((release, index) => {
                         const x = startX + index * spacing;
                         releasePositions.set(release.version, x);
-                        console.log(`${release.version}: index=${index}, x=${x.toFixed(2)}`);
                     });
                 }
             });
             
             // 防重叠处理：确保所有节点之间有最小距离
             const minDistance = 40;
-            const sortedVersions = [...releases].sort((a, b) => {
-                // 先按日期排序
-                const dateCompare = new Date(a.date) - new Date(b.date);
-                if (dateCompare !== 0) return dateCompare;
-                
-                // 同一天的按版本号排序
-                const getVersionNumber = (version) => {
-                    const match = version.match(/\((\d+)\)/);
-                    return match ? parseInt(match[1]) : 0;
-                };
-                
-                return getVersionNumber(a.version) - getVersionNumber(b.version);
-            });
-            
-            console.log('防重叠处理前的位置:');
-            for (const [version, x] of releasePositions.entries()) {
-                console.log(`${version}: x=${x.toFixed(2)}`);
-            }
+            const sortedVersions = [...releases].sort((a, b) => new Date(a.date) - new Date(b.date));
             
             for (let i = 1; i < sortedVersions.length; i++) {
                 const current = sortedVersions[i];
@@ -1115,14 +1027,8 @@
                 const prevX = releasePositions.get(prev.version);
                 
                 if (currentX - prevX < minDistance) {
-                    console.log(`调整位置: ${current.version} 从 ${currentX.toFixed(2)} 移到 ${(prevX + minDistance).toFixed(2)}`);
                     releasePositions.set(current.version, prevX + minDistance);
                 }
-            }
-            
-            console.log('防重叠处理后的位置:');
-            for (const [version, x] of releasePositions.entries()) {
-                console.log(`${version}: x=${x.toFixed(2)}`);
             }
             
             // 创建 x 轴比例尺函数，使用预计算的位置
@@ -1320,15 +1226,7 @@
                 
                 // 设置节点颜色
                 let nodeClass = 'main-node';
-                let labelClass = 'node-label';
-                
-                // 检查是否是商店发布版本
-                const isStoreRelease = release.note && release.note.includes('主线版本(商店发布)');
-                
-                if (isStoreRelease) {
-                    nodeClass = 'store-release-node';
-                    labelClass = 'store-release-label';
-                } else if (release.type === 'branch') {
+                if (release.type === 'branch') {
                     nodeClass = 'branch-node';
                 } else if (release.type === 'branch-start') {
                     nodeClass = 'branch-start-node';
@@ -1362,7 +1260,7 @@
                 }
                 
                 versionLabel.setAttribute('y', labelY);
-                versionLabel.setAttribute('class', labelClass);
+                versionLabel.setAttribute('class', 'node-label');
                 versionLabel.textContent = release.version.split('.').slice(-1)[0]; // 只显示最后一部分
                 
                 // 添加日期标签
