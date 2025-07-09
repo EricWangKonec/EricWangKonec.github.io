@@ -1350,8 +1350,14 @@ def get_relative_path(file_path, base_dir):
             # 获取相对于当前工作目录的路径
             current_dir = os.getcwd()
             relative_path = os.path.relpath(file_path, current_dir)
+            # 对于 GitHub Pages，确保路径以 / 开头
+            if not relative_path.startswith('/'):
+                relative_path = '/' + relative_path
             return relative_path
         else:
+            # 如果是相对路径且不以 / 开头，添加 /
+            if not file_path.startswith('/'):
+                return '/' + file_path
             return file_path
     except (ValueError, OSError):
         return file_path
