@@ -125,7 +125,7 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
     stability_html = ""
     if stability_data:
         # 生成稳定性日历视图
-        stability_calendar_html = '<div class="stability-calendar">'
+        stability_calendar_html = '<div class="stability-calendar-wrapper"><div class="stability-calendar">'
         
         # 获取所有监控对象
         all_objects = set()
@@ -133,15 +133,8 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
             all_objects.update(date_data.keys())
         all_objects = sorted(list(all_objects))
         
-        # 生成表头
-        stability_calendar_html += '<div class="stability-header">'
-        stability_calendar_html += '<div class="stability-object-label">监控对象</div>'
-        
-        # 添加日期列（不显示日期文字，只显示空的列头）
+        # 获取日期列表
         dates = sorted(stability_data.keys())
-        for date in dates:
-            stability_calendar_html += '<div class="stability-date"></div>'
-        stability_calendar_html += '</div>'
         
         # 生成每个对象的行
         for obj_id in all_objects:
@@ -161,10 +154,8 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
                     # 根据稳定性设置颜色类
                     if stability == 100:
                         color_class = 'excellent'  # 100% 稳定
-                    elif stability == 99:
-                        color_class = 'good'       # 99% 一般
                     elif stability >= 95:
-                        color_class = 'fair'       # 98-95% 轻微
+                        color_class = 'fair'       # 99-95% 轻微
                     else:
                         color_class = 'critical'   # 95%以下 严重
                     
@@ -174,7 +165,7 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
             
             stability_calendar_html += '</div>'
         
-        stability_calendar_html += '</div>'
+        stability_calendar_html += '</div></div>'
         
         # 添加图例
         stability_legend_html = '''
@@ -182,10 +173,6 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
             <div class="legend-item">
                 <div class="stability-cell excellent"></div>
                 <span>稳定</span>
-            </div>
-            <div class="legend-item">
-                <div class="stability-cell good"></div>
-                <span>一般</span>
             </div>
             <div class="legend-item">
                 <div class="stability-cell fair"></div>
@@ -858,33 +845,27 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
         }}
 
         /* 运营稳定性样式 */
-        .stability-calendar {{
+        .stability-calendar-wrapper {{
             background: #f8f9fa;
             border-radius: 12px;
             padding: 20px;
             overflow-x: auto;
             margin-top: 20px;
+            -webkit-overflow-scrolling: touch;
         }}
         
-        .stability-header {{
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-secondary);
+        .stability-calendar {{
+            display: inline-block;
+            min-width: max-content;
         }}
+        
         
         .stability-object-label {{
-            min-width: 150px;
+            width: 250px;
+            flex-shrink: 0;
             padding-right: 20px;
         }}
         
-        .stability-date {{
-            width: 40px;
-            text-align: center;
-            font-size: 12px;
-        }}
         
         .stability-row {{
             display: flex;
@@ -893,7 +874,8 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
         }}
         
         .stability-object-name {{
-            min-width: 150px;
+            width: 250px;
+            flex-shrink: 0;
             padding-right: 20px;
             font-size: 14px;
             color: var(--text-color);
@@ -904,10 +886,11 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
         }}
         
         .stability-cell {{
-            width: 40px;
-            height: 30px;
-            border-radius: 6px;
-            margin-right: 2px;
+            width: 12px;
+            height: 20px;
+            flex-shrink: 0;
+            border-radius: 3px;
+            margin-right: 1px;
             cursor: pointer;
             transition: all 0.2s ease;
         }}
@@ -919,10 +902,6 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
         
         .stability-cell.excellent {{
             background-color: #4caf50;
-        }}
-        
-        .stability-cell.good {{
-            background-color: #ffeb3b;
         }}
         
         .stability-cell.fair {{
@@ -1566,8 +1545,8 @@ def generate_html_template(releases_data, bug_info, automation_info, other_info,
         window.addEventListener('load', () => {{
             drawDiagram(releasesData.releases);
             
-            // 绑定稳定性单元格hover事件
-            const stabilityCells = document.querySelectorAll('.stability-cell');
+            // 绑定稳定性单元格hover事件（排除图例中的元素）
+            const stabilityCells = document.querySelectorAll('.stability-row .stability-cell');
             stabilityCells.forEach(cell => {{
                 cell.addEventListener('mouseenter', (e) => showStabilityTooltip(e, cell));
                 cell.addEventListener('mouseleave', hideTooltip);
