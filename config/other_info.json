@@ -1,16 +1,17 @@
 {
   "other_tasks": [
     {
-      "title": "覆盖测试用例",
+      "title": "中控屏局域网控制本地设备 专项测试",
       "status": "completed", 
-      "description": "编写了总计687条用于全面覆盖测试KonecHome App的用例",
-      "url":"https://www.notion.so/konec/2259d34074b180409d1ede63c898941e?v=2259d34074b1812f84ad000c5f91b5c3&source=copy_link",
-      "progress": 100
+      "description": "中控屏与网关处于同一局域网内, 模拟用户家庭内外网连接断开或信号较差时本地操作设备的能力",
+      "url":"https://www.notion.so/konec/2299d34074b18023b543f969385b974b?source=copy_link",
+      "progress": 90
     },
     {
-      "title": "资料整理",
-      "status": "completed", 
-      "description": "中控屏和M29问题汇总, VRV空调网关问题汇总",
+      "title": "二代人存专项测试",
+      "status": "completed",
+      "description": "基于KonecHome App提供的能力测试",
+      "url":"https://www.notion.so/konec/KonecHome-App-22c9d34074b180b9b174e6f3ff6d5915?source=copy_link",
       "progress": 100
     }
   ]

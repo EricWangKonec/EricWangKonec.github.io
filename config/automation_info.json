@@ -4,32 +4,22 @@
       "title": "Appium自动化框架",
       "status": "in-progress",
       "description": "iOS端一级页面重构后用例重写完成, Android自动化用例正在编写",
+      "url":"https://github.com/OMC-ELECTRONICS/SolutionAndroid",
       "progress": 80
     },
     {
       "title": "AI自动化框架",
       "status": "in-progress",
-      "description": "能够执行纯App端操作测试需求, 正在提高稳定性, 并通过开发配套MCP拓展AI能力边界",
-      "url":"https://disk.testingnas.com/AI仿生自动化",
-      "progress": 75
-    },
-    {
-      "title": "看门狗监控服务",
-      "status": "completed", 
-      "description": "通用后端服务稳定性监控, 功能基本完成正在测试中",
-      "progress": 95
-    },
-    {
-      "title": "部署备用OCR服务",
-      "status": "completed", 
-      "description": "部署备用的文字识别服务, 提高自动化和AI框架运行的稳定性",
-      "progress": 100
+      "description": "已接入Notion, 流程构建完成, 等待接入知识库优化AI表现",
+      "url":"https://www.notion.so/konec/Task-2259d34074b181b1af66c8d7e1947333?source=copy_link",
+      "progress": 80
     },
     {
       "title": "测试工具箱 知识库",
-      "status": "planning", 
-      "description": "计划搭建用于辅助AI测试 以及 日常测试信息获取的KonecTest私有知识库 选型中",
-      "progress": 5
+      "status": "in-progress", 
+      "description": "基于Panda Wiki完成基础功能搭建, 正在进行本地测试, 等待接入Notion Bot自动化更新数据库",
+      "url":"http://192.168.108.35/welcome",
+      "progress": 90
     }
   ]
 }
