@@ -15,10 +15,24 @@
       "progress": 80
     },
     {
-      "title": "测试工具箱 知识库",
+      "title": "Konec Home 知识库",
       "status": "in-progress", 
       "description": "基于Panda Wiki完成基础功能搭建, 正在进行本地测试, 等待接入Notion Bot自动化更新数据库",
-      "url":"http://192.168.108.35/welcome",
+      "url":"https://wiki.test-toolkit.app",
+      "progress": 70
+    },
+    {
+      "title": "测试工具箱AI",
+      "status": "in-progress", 
+      "description": "接入多种能力, 全面融入测试工作流程, 目前已接入图片识别, Wiki搜索和网络搜索能力, 下阶段将加入报Bug和设备入库能力",
+      "url":"https://ai.test-toolkit.app/demo",
+      "progress": 20
+    },
+    {
+      "title": "Release Note生成器",
+      "status": "in-progress", 
+      "description": "与KonecHome CI/CD结合, 自动化生成Release Note, 用于高效信息同步, 提高团队合作效率",
+      "url":"https://www.notion.so/konec/a376fdddb2f041288c6aa5f8abe64809?v=8131f038b50a43d48c5a93db1b82fac3&source=copy_link",
       "progress": 90
     }
   ]

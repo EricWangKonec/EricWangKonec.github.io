@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konec Smart Home App Release Note</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FFD700;
+            --secondary-color: #FFDF4F;
+            --accent-color: #ff6b6b;
+            --dark-gold: #D4AF37;
+            --light-gold: #FFF4C2;
+            --text-color: #333;
+            --text-secondary: #555;
+            --light-gray: #f8f8f8;
+            --border-color: #e0e0e0;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --fix-color: #5c6bc0;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #f7f9fc 100%);
+            padding: 20px 0;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .header-bg {
+            background: linear-gradient(135deg, #FFD700 0%, #FFDF4F 100%);
+            height: 120px;
+            position: relative;
+        }
+
+        .header-content {
+            position: relative;
+            padding: 20px 30px;
+            margin-top: -60px;
+        }
+
+        .app-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-gold) 100%);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
+            border: 4px solid white;
+        }
+
+        .release-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 10px 0 5px;
+            text-align: center;
+        }
+
+        .release-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .info-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            flex: 1 1 200px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--light-gray);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-gold);
+            border-radius: 10px;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .main-content {
+            padding: 20px 30px 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 5px 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 15px;
+        }
+
+        .section-icon {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-right: 15px;
+            width: 36px;
+            height: 36px;
+            background-color: var(--light-gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0 20px;
+        }
+
+        .feature-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .feedback-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color) 95%, var(--dark-gold) 100%);
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 20px 0;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .feedback-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+            background: linear-gradient(135deg, #FFE44D 0%, var(--primary-color) 100%);
+        }
+
+        .feedback-button i {
+            margin-right: 8px;
+        }
+
+        .testing-period {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 30px;
+            padding: 30px;
+            background-color: var(--light-gray);
+            border-radius: 12px;
+        }
+
+        .feature-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 11px;
+            color: white;
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        .feature-tag i {
+            margin-right: 4px;
+            font-size: 10px;
+        }
+
+        .new-tag {
+            background-color: var(--success-color);
+        }
+
+        .improved-tag {
+            background-color: var(--primary-color);
+            color: #333;
+        }
+
+        .fixed-tag {
+            background-color: var(--fix-color);
+        }
+
+        .verification-code {
+            background-color: var(--light-gold);
+            border: 1px dashed var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--text-color);
+        }
+
+        .sub-feature-list {
+            margin-top: 15px;
+            margin-left: 15px;
+            border-left: 2px solid var(--light-gold);
+            padding-left: 15px;
+        }
+
+        .sub-feature-item {
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .sub-feature-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        .footnote {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            
+            .container {
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            .header-content {
+                padding: 15px 20px;
+            }
+            
+            .main-content {
+                padding: 15px 20px 30px;
+            }
+            
+            .info-cards {
+                flex-direction: column;
+            }
+            
+            .info-card {
+                width: 100%;
+                flex: none;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .app-logo {
+                width: 70px;
+                height: 70px;
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <div class="app-logo" style="background: none; border: none; box-shadow: none; padding: 0;">
+                <img src="https://framerusercontent.com/images/NoNWiYznj8n7ClIm07V3D3oZ8.png" alt="App Logo" style="width: 80px; height: 80px; border-radius: 16px;">
+            </div>
+            <div class="release-title">
+                <h1>Konec Smart Home App</h1>
+                <div class="release-subtitle">Release Note | 2025年7月16日</div>
+            </div>
+            
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="info-label">版本号</span>
+                        <span class="info-value">v1.0.16.201</span>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="info-label">发布日期</span>
+                        <span class="info-value">2025年7月16日</span>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="info-label">支持平台</span>
+                        <span class="info-value">Android 5.0+ & iOS 13.0+</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="info-label">测试周期</span>
+                        <span class="info-value">2025年7月16日 - 2025年8月15日</span>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-hourglass-end"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="info-label">反馈截止日期</span>
+                        <span class="info-value">2025年8月15日</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 25px;">
+                <a href="https://docs.google.com/spreadsheets/d/1YQXJ65JOPARyuR4Z2SJ_EJeWc6L-NNU_4FCTejrbmgQ/edit" class="feedback-button" target="_blank">
+                    <i class="fas fa-comment-dots"></i> 点击此按钮反馈
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div class="section-title">新增功能</div>
+                </div>
+                <ul class="feature-list">
+                    
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-microchip" style="color: var(--success-color); margin-right: 8px;"></i>
+            完成地暖设备的周程序的显示、设置的开发
+            <span class="feature-tag new-tag"><i class="fas fa-star"></i>新增</span>
+          </div>
+          
+        </li>
+      
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-plus-circle" style="color: var(--success-color); margin-right: 8px;"></i>
+            调整一些次级页面的 UI
+            <span class="feature-tag new-tag"><i class="fas fa-star"></i>新增</span>
+          </div>
+          
+        </li>
+      
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="section-title">已改进功能</div>
+                </div>
+                <ul class="feature-list">
+                    
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-arrow-up" style="color: var(--primary-color); margin-right: 8px;"></i>
+            封装KcButton
+            <span class="feature-tag improved-tag"><i class="fas fa-arrow-up"></i>改进</span>
+          </div>
+          
+        </li>
+      
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-arrow-up" style="color: var(--primary-color); margin-right: 8px;"></i>
+            使用KcButton替换Add Device中的按钮
+            <span class="feature-tag improved-tag"><i class="fas fa-arrow-up"></i>改进</span>
+          </div>
+          
+        </li>
+      
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-arrow-up" style="color: var(--primary-color); margin-right: 8px;"></i>
+            修改Add Device UI2.0的问题
+            <span class="feature-tag improved-tag"><i class="fas fa-arrow-up"></i>改进</span>
+          </div>
+          
+        </li>
+      
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-microchip" style="color: var(--primary-color); margin-right: 8px;"></i>
+            调整设备配网中rename的组件
+            <span class="feature-tag improved-tag"><i class="fas fa-arrow-up"></i>改进</span>
+          </div>
+          <div class="feature-description">
+            支持模糊
+          </div>
+          
+        </li>
+      
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-microchip" style="color: var(--primary-color); margin-right: 8px;"></i>
+            使用KcShowActionSheet替换设备配网中选择room的组件
+            <span class="feature-tag improved-tag"><i class="fas fa-arrow-up"></i>改进</span>
+          </div>
+          
+        </li>
+      
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div class="section-title">Bug修复及稳定性</div>
+                </div>
+                <ul class="feature-list">
+                    
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-robot" style="color: var(--fix-color); margin-right: 8px;"></i>
+            修复了Bug-1224
+            <span class="feature-tag fixed-tag"><i class="fas fa-check"></i>修复</span>
+          </div>
+          <div class="feature-description">
+            退出最后一个家庭后，Home Detail入口处的Member|Room|Device数量仍为最后所在家庭的信息，下拉无法刷新需杀死App重进
+          </div>
+          
+        </li>
+      
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-wrench" style="color: var(--fix-color); margin-right: 8px;"></i>
+            修复了Bug-1223
+            <span class="feature-tag fixed-tag"><i class="fas fa-check"></i>修复</span>
+          </div>
+          <div class="feature-description">
+            Invite Member页面，快速点击Family Role导致多层权限选择菜单弹出
+          </div>
+          
+        </li>
+      
+        <li class="feature-item">
+          <div class="feature-title">
+            <i class="fas fa-microchip" style="color: var(--fix-color); margin-right: 8px;"></i>
+            修复了Bug-1222
+            <span class="feature-tag fixed-tag"><i class="fas fa-check"></i>修复</span>
+          </div>
+          <div class="feature-description">
+            新建场景时，选择同一设备多个DP作为Task，保存后重进后，发现同一设备除第一个DP点外的其他DP点均显示为NA
+          </div>
+          
+        </li>
+      
+                </ul>
+            </div>
+
+            <div class="testing-period" id="feedback">
+                <h3 style="margin-bottom: 15px; color: var(--text-color);">您的反馈对我们非常重要</h3>
+                <p style="margin-bottom: 20px;">在使用App过程中遇到的问题，请通过以下按钮提交反馈</p>
+                <a href="https://docs.google.com/spreadsheets/d/1YQXJ65JOPARyuR4Z2SJ_EJeWc6L-NNU_4FCTejrbmgQ/edit" class="feedback-button" target="_blank">
+                    <i class="fas fa-paper-plane"></i> 提交反馈
+                </a>
+            </div>
+        </div>
+        
+        <div class="footnote">
+            © 2025 Konec Australia . All rights reserved
+        </div>
+    </div>
+</body>
+</html>
