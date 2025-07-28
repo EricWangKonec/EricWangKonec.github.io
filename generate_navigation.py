@@ -55,10 +55,25 @@ def scan_reports():
         parts = file_path.split('/')
         if len(parts) >= 3:
             version = parts[1]
+            
+            # 尝试从HTML文件中提取发布日期
+            release_date = None
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    # 查找发布日期模式
+                    import re
+                    date_match = re.search(r'<span class="info-label">发布日期</span>\s*<span class="info-value">(\d{4}年\d{1,2}月\d{1,2}日)</span>', content)
+                    if date_match:
+                        release_date = date_match.group(1)
+            except:
+                pass
+            
             reports['releases'].append({
                 'path': file_path,
                 'version': version,
-                'title': f"Release {version} 测试报告"
+                'title': f"Release {version}",
+                'release_date': release_date
             })
     
     # 扫描专项测试报告 (focus/*/index.html)
@@ -461,8 +476,11 @@ def generate_report_cards(reports):
             except:
                 meta_info = f"发布于 {report['date']}"
         elif 'version' in report:
-            # 对于发布版本，显示版本号和简要说明
-            meta_info = f"Version {report['version']} - 包含测试报告和发布说明"
+            # 对于发布版本，显示发布日期或版本说明
+            if report.get('release_date'):
+                meta_info = f"发布于 {report['release_date']}"
+            else:
+                meta_info = f"Version {report['version']} - 功能更新与修复说明"
         elif 'project' in report:
             # 对于专项测试，显示项目描述
             project_desc = {
