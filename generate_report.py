@@ -1655,19 +1655,14 @@ def main():
             releases_data, bug_info, automation_info, other_info, image_paths, daily_dir, stability_data, watch_dog_data
         )
         
-        # 7. 保存HTML文件
+        # 7. 只保存到当日目录，不再保存到根目录
         output_filename = 'index.html'
-        with open(output_filename, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        
-        # 同时保存到当日目录
         daily_html_path = os.path.join(daily_dir, output_filename)
         with open(daily_html_path, 'w', encoding='utf-8') as f:
             f.write(html_content)
         
         print(f"\n✅ 报告生成完成!")
-        print(f"📄 主报告文件: {output_filename}")
-        print(f"📄 当日备份: {daily_html_path}")
+        print(f"📄 报告文件: {daily_html_path}")
         print(f"📊 版本记录数: {len(releases_data.get('releases', []))}")
         print(f"🕐 生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         
