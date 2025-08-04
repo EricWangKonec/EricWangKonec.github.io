@@ -1,0 +1,81 @@
+{
+  "releases": [
+    {
+      "version": "1.0.16(209)",
+      "date": "2025-08-01",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(205)",
+      "date": "2025-07-30",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(204)",
+      "date": "2025-07-25",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(203)",
+      "date": "2025-07-23",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(202)",
+      "date": "2025-07-22",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(201)",
+      "date": "2025-07-17",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(200)",
+      "date": "2025-07-16",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(192)",
+      "date": "2025-07-14",
+      "type": "branch-merge",
+      "environment": "生产环境",
+      "note": "分支核入主线"
+    },
+    {
+      "version": "1.0.16(191)",
+      "date": "2025-07-11",
+      "type": "branch",
+      "environment": "生产环境",
+      "note": "分支版本"
+    },
+    {
+      "version": "1.0.16(190)",
+      "date": "2025-07-10",
+      "type": "branch-start",
+      "environment": "生产环境",
+      "note": "分支版本开始"
+    },
+    {
+      "version": "1.0.16(189)",
+      "date": "2025-07-08",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    }
+  ]
+}
