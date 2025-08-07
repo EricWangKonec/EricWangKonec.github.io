@@ -3,14 +3,14 @@
     {
       "title": "Appium自动化框架",
       "status": "in-progress",
-      "description": "iOS端一级页面重构后用例重写完成, Android自动化用例正在编写",
+      "description": "iOS端自动化用例编写完毕, Android自动化用例正在编写",
       "url":"https://github.com/OMC-ELECTRONICS/SolutionAndroid",
       "progress": 80
     },
     {
       "title": "AI自动化框架",
       "status": "in-progress",
-      "description": "已接入Notion, 流程构建完成, 等待接入知识库优化AI表现",
+      "description": "已接入Notion, 流程构建完成; 未来将融入Toolkit Studio IDE用于人机协同构建稳定通用自动化测试方案",
       "url":"https://www.notion.so/konec/Task-2259d34074b181",
       "progress": 80
     },
