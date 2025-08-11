@@ -4,14 +4,14 @@
       "title": "Appium自动化框架",
       "status": "in-progress",
       "description": "iOS端自动化用例编写完毕, Android自动化用例正在编写",
-      "url":"https://github.com/OMC-ELECTRONICS/SolutionAndroid",
+      "url":"https://disk.testingnas.com/自动化测试报告/Solution-testreport-211.html",
       "progress": 80
     },
     {
-      "title": "AI自动化框架",
+      "title": "Toolkit Studio + AI自动化",
       "status": "in-progress",
-      "description": "已接入Notion, 流程构建完成; 未来将融入Toolkit Studio IDE用于人机协同构建稳定通用自动化测试方案",
-      "url":"https://www.notion.so/konec/Task-2259d34074b181",
+      "description": "AI自动化已接入Notion, 流程构建完成; 未来将融入Toolkit Studio IDE用于人机协同构建稳定通用自动化测试方案",
+      "url":"https://www.notion.so/konec/2259d34074b180409d1ede63c898941e?v=23e9d34074b18030ab2d000cdc1ba095&source=copy_link",
       "progress": 80
     },
     {
