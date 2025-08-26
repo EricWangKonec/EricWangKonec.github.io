@@ -14,13 +14,8 @@ from pathlib import Path
 from urllib.parse import quote
 from dotenv import load_dotenv
 
-# 加载环境变量（从release-note-generator目录）
-env_path = os.path.join(os.path.dirname(__file__), '../release-note-generator/.env')
-if os.path.exists(env_path):
-    load_dotenv(env_path)
-else:
-    # 尝试从当前目录加载
-    load_dotenv()
+# 加载环境变量（从当前目录）
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -32,15 +27,16 @@ class NASReleaseSync:
     def __init__(self):
         self.nas_token = os.getenv('NAS_TOKEN')
         self.nas_base_url = os.getenv('NAS_BASE_URL')
+        self.nas_release_path = os.getenv('NAS_RELEASE_PATH', '/Local/Material/Release Notes')
+        self.local_release_dir = os.getenv('LOCAL_RELEASE_DIR', 'releases')
         
         if not self.nas_token or not self.nas_base_url:
             logger.warning("缺少NAS配置，跳过NAS同步功能")
             self.enabled = False
         else:
             self.nas_base_url = self.nas_base_url.rstrip('/')
-            self.nas_release_path = '/Local/Material/Release Notes'
-            self.local_release_dir = 'releases'
             self.enabled = True
+            logger.info(f"NAS同步已启用 - 路径: {self.nas_release_path}, 本地目录: {self.local_release_dir}")
     
     def list_nas_files(self):
         """获取NAS上的Release Notes文件列表"""
