@@ -5,8 +5,222 @@
 
 import os
 import glob
+import json
+import time
+import logging
+import requests
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote
+from dotenv import load_dotenv
+
+# 加载环境变量（从release-note-generator目录）
+env_path = os.path.join(os.path.dirname(__file__), '../release-note-generator/.env')
+if os.path.exists(env_path):
+    load_dotenv(env_path)
+else:
+    # 尝试从当前目录加载
+    load_dotenv()
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+class NASReleaseSync:
+    """
+    从NAS同步Release Notes到本地
+    """
+    def __init__(self):
+        self.nas_token = os.getenv('NAS_TOKEN')
+        self.nas_base_url = os.getenv('NAS_BASE_URL')
+        
+        if not self.nas_token or not self.nas_base_url:
+            logger.warning("缺少NAS配置，跳过NAS同步功能")
+            self.enabled = False
+        else:
+            self.nas_base_url = self.nas_base_url.rstrip('/')
+            self.nas_release_path = '/Local/Material/Release Notes'
+            self.local_release_dir = 'releases'
+            self.enabled = True
+    
+    def list_nas_files(self):
+        """获取NAS上的Release Notes文件列表"""
+        if not self.enabled:
+            return []
+        
+        try:
+            headers = {
+                'Authorization': self.nas_token,
+                'Content-Type': 'application/json'
+            }
+            
+            data = {
+                'path': self.nas_release_path,
+                'password': '',
+                'page': 1,
+                'per_page': 1000,
+                'refresh': False
+            }
+            
+            list_url = f"{self.nas_base_url}/api/fs/list"
+            response = requests.post(list_url, headers=headers, json=data)
+            
+            if response.status_code != 200:
+                logger.error(f"获取NAS文件列表失败: {response.status_code}")
+                return []
+            
+            result = response.json()
+            if result.get('code') != 200:
+                logger.error(f"获取NAS文件列表失败: {result.get('message', '未知错误')}")
+                return []
+            
+            files = result.get('data', {}).get('content', [])
+            # 只获取HTML文件
+            html_files = [f for f in files if f.get('name', '').endswith('.html')]
+            logger.info(f"NAS上找到 {len(html_files)} 个Release HTML文件")
+            return html_files
+            
+        except Exception as e:
+            logger.error(f"获取NAS文件列表失败: {str(e)}")
+            return []
+    
+    def get_local_versions(self):
+        """获取本地已有的版本号"""
+        if not os.path.exists(self.local_release_dir):
+            os.makedirs(self.local_release_dir)
+            return set()
+        
+        local_versions = set()
+        for file_path in glob.glob(f"{self.local_release_dir}/*/index.html"):
+            parts = file_path.split('/')
+            if len(parts) >= 3:
+                version = parts[-2]  # 获取版本号目录名
+                local_versions.add(version)
+        
+        logger.info(f"本地已有 {len(local_versions)} 个版本")
+        return local_versions
+    
+    def extract_version_from_filename(self, filename):
+        """从文件名提取版本号"""
+        # 假设文件名格式为 v1.0.16.214_release_report.html
+        if filename.startswith('v') and '_release_report.html' in filename:
+            version = filename.replace('_release_report.html', '')[1:]  # 去掉v前缀
+            return version
+        return None
+    
+    def download_file(self, file_info):
+        """从NAS下载文件"""
+        try:
+            filename = file_info.get('name')
+            file_path = f"{self.nas_release_path}/{filename}"
+            
+            headers = {
+                'Authorization': self.nas_token
+            }
+            
+            # 获取文件下载链接
+            get_data = {
+                'path': file_path
+            }
+            
+            get_url = f"{self.nas_base_url}/api/fs/get"
+            response = requests.post(get_url, headers={'Authorization': self.nas_token, 'Content-Type': 'application/json'}, json=get_data)
+            
+            if response.status_code != 200:
+                logger.error(f"获取文件信息失败: {filename}")
+                return None
+            
+            result = response.json()
+            if result.get('code') != 200:
+                logger.error(f"获取文件信息失败: {result.get('message')}")
+                return None
+            
+            raw_url = result.get('data', {}).get('raw_url')
+            if not raw_url:
+                logger.error(f"无法获取文件下载链接: {filename}")
+                return None
+            
+            # 下载文件
+            download_response = requests.get(raw_url, headers=headers)
+            if download_response.status_code != 200:
+                logger.error(f"下载文件失败: {filename}")
+                return None
+            
+            return download_response.content
+            
+        except Exception as e:
+            logger.error(f"下载文件失败 {file_info.get('name')}: {str(e)}")
+            return None
+    
+    def save_release_html(self, version, content):
+        """保存Release HTML到本地目录"""
+        try:
+            # 创建版本目录
+            version_dir = os.path.join(self.local_release_dir, version)
+            if not os.path.exists(version_dir):
+                os.makedirs(version_dir)
+            
+            # 保存为index.html
+            file_path = os.path.join(version_dir, 'index.html')
+            with open(file_path, 'wb') as f:
+                f.write(content)
+            
+            logger.info(f"已保存版本 {version} 到 {file_path}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"保存文件失败 {version}: {str(e)}")
+            return False
+    
+    def sync_releases(self):
+        """同步NAS上的Release Notes到本地"""
+        if not self.enabled:
+            logger.info("NAS同步未启用")
+            return 0
+        
+        logger.info("开始同步NAS上的Release Notes...")
+        
+        # 获取NAS文件列表
+        nas_files = self.list_nas_files()
+        if not nas_files:
+            logger.info("NAS上没有找到Release文件")
+            return 0
+        
+        # 获取本地已有版本
+        local_versions = self.get_local_versions()
+        
+        # 找出需要下载的新版本
+        new_versions = []
+        for file_info in nas_files:
+            filename = file_info.get('name')
+            version = self.extract_version_from_filename(filename)
+            
+            if version and version not in local_versions:
+                new_versions.append((version, file_info))
+        
+        if not new_versions:
+            logger.info("没有新版本需要同步")
+            return 0
+        
+        logger.info(f"发现 {len(new_versions)} 个新版本需要下载")
+        
+        # 下载新版本
+        downloaded_count = 0
+        for version, file_info in new_versions:
+            logger.info(f"正在下载版本 {version}...")
+            content = self.download_file(file_info)
+            
+            if content:
+                if self.save_release_html(version, content):
+                    downloaded_count += 1
+                    logger.info(f"成功下载版本 {version}")
+                else:
+                    logger.error(f"保存版本 {version} 失败")
+            else:
+                logger.error(f"下载版本 {version} 失败")
+        
+        logger.info(f"同步完成，成功下载 {downloaded_count} 个新版本")
+        return downloaded_count
+
 
 def scan_reports():
     """
@@ -93,7 +307,21 @@ def scan_reports():
     # 按日期/版本排序
     reports['daily'].sort(key=lambda x: x['date'], reverse=True)
     reports['monthly'].sort(key=lambda x: x['date'], reverse=True)
-    reports['releases'].sort(key=lambda x: int(x['version']) if x['version'].isdigit() else 0, reverse=True)
+    
+    # 版本排序函数：解析版本号并返回可比较的元组
+    def parse_version(version_str):
+        """解析版本号，支持 1.0.16.220 格式"""
+        try:
+            # 分割版本号
+            parts = version_str.split('.')
+            # 转换为整数元组，方便比较
+            return tuple(int(part) for part in parts)
+        except (ValueError, AttributeError):
+            # 如果解析失败，返回一个默认值
+            return (0, 0, 0, 0)
+    
+    # 按版本号排序（从新到旧）
+    reports['releases'].sort(key=lambda x: parse_version(x['version']), reverse=True)
     reports['focus'].sort(key=lambda x: x['project'])
     
     return reports
@@ -505,6 +733,15 @@ def main():
     """主函数"""
     try:
         print("🚀 开始生成导航页面...")
+        
+        # 首先尝试从NAS同步新的Release Notes
+        try:
+            nas_sync = NASReleaseSync()
+            new_releases = nas_sync.sync_releases()
+            if new_releases > 0:
+                print(f"✅ 从NAS同步了 {new_releases} 个新版本的Release Notes")
+        except Exception as e:
+            print(f"⚠️ NAS同步失败（继续生成导航页面）: {e}")
         
         # 扫描所有报告
         reports = scan_reports()
