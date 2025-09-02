@@ -1,12 +1,12 @@
 {
   "important_bugs": [
     {
-      "title": "低概率出现, 切换页面后账号会被直接退回到登录页, 但实际并未登出的问题; 正在尝试复现并与开发一起排查解决",
-      "url": "https://www.notion.so/konec/iOS-Android-Tap-to-Try-Again-2259d34074b1807aba15ce80d4dc85bc?source=copy_link"
+      "title": "iOS端添加NVR持续loading搜索不到, NVR 页面进入已添加状态界面(有Multi-View/Settings页面), 但IPC列表处显示“No devices available”",
+      "url": "https://www.notion.so/konec/iOS-NVR-loading-NVR-Multi-View-Settings-IPC-No-devices-available-25c9d34074b180cbb80bfa751c3ecdfb?source=copy_link"
     },
     {
-      "title": "由于在 App 底层新增了防抖与截流机制，原本某些功能一次触发可能产生多次数据请求的问题被暴露; 目前正在定位并解决此类问题",
-      "url": "https://www.notion.so/konec/1503-API-Retry-2489d34074b180c58a52d3ced323654d?source=copy_link"
+      "title": "App出现任意类型(Device, Home, System)通知时, iOS端App均无法收到横幅通知",
+      "url": "https://www.notion.so/konec/App-Device-Home-System-iOS-App-2619d34074b180088436fa6122fa8a8d?source=copy_link"
     }
   ]
 }

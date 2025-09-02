@@ -1,25 +1,25 @@
 {
   "other_tasks": [
     {
-      "title": "中控屏局域网控制本地设备 专项测试",
-      "status": "completed", 
-      "description": "中控屏与网关处于同一局域网内, 模拟用户家庭内外网连接断开或信号较差时本地操作设备的能力",
-      "url":"https://www.notion.so/konec/2299d34074b18023b543f969385b974b?source=copy_link",
-      "progress": 90
+      "title": "Cube 2.0 → 3.0 升级问题每日记录",
+      "status": "in-progress", 
+      "description": "随Cube升级进行每日更新" 
+      "url":"https://konec.notion.site/cube-3-0-update-daily-issues",
+      "progress": 60
     },
     {
-      "title": "二代人存专项测试",
+      "title": "工程网关无限模式入网专项测试",
+      "status": "in-progress",
+      "description": "基于KonecHome App提供的能力测试",
+      "url": "https://www.notion.so/konec/2619d34074b180488327e3567c32bb7f?source=copy_link",
+      "progress": 60
+    },
+    {
+      "title": "Motion Sensor专项测试",
       "status": "completed",
       "description": "基于KonecHome App提供的能力测试",
-      "url":"https://www.notion.so/konec/KonecHome-App-22c9d34074b180b9b174e6f3ff6d5915?source=copy_link",
+      "url": "https://www.notion.so/konec/Motion-Sensor-2619d34074b180a8afeadc89d1b95b6d?source=copy_link", 
       "progress": 100
-    },
-    {
-      "title": "地暖专项测试",
-      "status": "completed",
-      "description": "基于KonecHome App提供的能力测试",
-      "url":"https://www.notion.so/konec/2349d34074b1807b803bf157b5e265ea?source=copy_link",
-      "progress": 70
     }
   ]
 }
