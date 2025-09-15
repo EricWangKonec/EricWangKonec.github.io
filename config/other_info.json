@@ -8,11 +8,18 @@
       "progress": 60
     },
     {
-      "title": "工程网关无限模式入网专项测试",
+      "title": "工程网关无线模式入网专项测试",
       "status": "in-progress",
       "description": "基于KonecHome App提供的能力测试",
       "url": "https://www.notion.so/konec/2619d34074b180488327e3567c32bb7f?source=copy_link",
       "progress": 60
+    },
+    {
+      "title": "User Manual演示视频录制",
+      "status": "in-progress",
+      "description": "Cube回归测试中, 进行基础功能测试的同时, 录制了基础功能的使用演示视频",
+      "url": "https://disk.testingnas.com/Manual%E5%BD%95%E5%B1%8F",
+      "progress": 90
     },
     {
       "title": "Motion Sensor专项测试",

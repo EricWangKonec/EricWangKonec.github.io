@@ -3,7 +3,7 @@
     {
       "title": "Appium自动化框架",
       "status": "completed",
-      "description": "iOS端和Android端自动化用例初步编写完毕, 进度同步",
+      "description": "iOS端和Android端自动化用例初步编写完毕, 进度同步, 并且在Cube升级过程中进行每日充分测试",
       "url":"https://disk.testingnas.com/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/ios_testreport221.html",
       "progress": 100
     },
@@ -13,6 +13,13 @@
       "description": "接入Bug分析服务接口实时获取Bug分析数据, 增加无线测试, App安装 和 logcat功能 等测试辅助工具",
       "url":"http://ericwangkonec.github.io/ToolkitStudio/",
       "progress": 80
+    },
+    {
+      "title": "Toolkit Online",
+      "status": "in-progress",
+      "description": "轻量化工具用于辅助日常测试",
+      "url":"http://192.168.108.189:10000",
+      "progress": 10
     },
     {
       "title": "Bug Analyzer重构",
