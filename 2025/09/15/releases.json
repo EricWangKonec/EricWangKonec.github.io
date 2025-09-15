@@ -1,0 +1,116 @@
+{
+  "releases": [
+    {
+      "version": "1.0.16(225)",
+      "date": "2025-09-11",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(224)",
+      "date": "2025-09-05",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(223)",
+      "date": "2025-08-31",
+      "type": "branch-merge",
+      "environment": "生产环境",
+      "note": "分支核入主线"
+    },
+    {
+      "version": "1.0.16(222)",
+      "date": "2025-08-30",
+      "type": "branch-start",
+      "environment": "生产环境",
+      "note": "分支版本开始"
+    },
+    {
+      "version": "1.0.16(221)",
+      "date": "2025-08-28",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(220)",
+      "date": "2025-08-22",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(219)",
+      "date": "2025-08-21",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(218)",
+      "date": "2025-08-21",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(217)",
+      "date": "2025-08-19",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(216)",
+      "date": "2025-08-18",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(215)",
+      "date": "2025-08-14",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(214)",
+      "date": "2025-08-13",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(213)",
+      "date": "2025-08-08",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(212)",
+      "date": "2025-08-07",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(211)",
+      "date": "2025-08-05",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    },
+    {
+      "version": "1.0.16(209)",
+      "date": "2025-08-01",
+      "type": "main",
+      "environment": "生产环境",
+      "note": "主线版本"
+    }
+  ]
+}
