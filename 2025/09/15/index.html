@@ -453,6 +453,96 @@
             margin-top: 20px;
         }
 
+        /* Cube3.0升级模块样式 */
+        .upgrade-chart-container {
+            margin: 25px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .upgrade-chart {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .upgrade-timeline {
+            margin-top: 30px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 18px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background: #e0e0e0;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-date {
+            min-width: 120px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .timeline-bugs {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .bug-count-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
         .automation-card {
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             border: 1px solid var(--border-color);
@@ -772,6 +862,111 @@
                     <div class="legend-item">
                         <div class="legend-color" style="background-color: var(--branch-merge-color);"></div>
                         <span class="legend-text">分支合并</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cube3.0升级模块 -->
+            <div class="info-section">
+                <h2>Cube3.0升级进度</h2>
+
+                <!-- Bug数量统计图表 -->
+                <div class="upgrade-chart-container">
+                    <h3 class="chart-title">每日新增Bug数量统计</h3>
+                    <canvas id="upgradeChart" class="upgrade-chart"></canvas>
+                </div>
+
+                <!-- 升级任务时间线 -->
+                <div class="upgrade-timeline">
+                    <h3 class="chart-title">升级任务进度</h3>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.08.20</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">环境准备，基础数据导入 + 中间件升级<span class="bug-count-badge">5个Bug</span></div>
+                            <div class="timeline-bugs">中控屏被自动移除、首页Tap to Try Again、定时场景失效、设备面板数据缺失等</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.08.21</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">运维平台升级<span class="bug-count-badge">1个记录</span></div>
+                            <div class="timeline-bugs">App预览视频流拉流时间较长问题（上午时段）</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.08.22</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">运维平台 + 基础服务升级<span class="bug-count-badge">5个Bug</span></div>
+                            <div class="timeline-bugs">iOS端设备详情页Failed to load、场景Load Timeout、天气横幅不显示等</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.08.25-31</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">升级暂停期<span class="bug-count-badge">5个Bug</span></div>
+                            <div class="timeline-bugs">运营平台Server Error、头像上传失败、验证码下发慢、404页面等问题</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.09.02</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">基础服务回滚应用升级<span class="bug-count-badge">3个Bug</span></div>
+                            <div class="timeline-bugs">开关多控失效、旧自动化场景无法触发等</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.09.03</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">iot-core服务、mqtt、https网关升级<span class="bug-count-badge">4个Bug</span></div>
+                            <div class="timeline-bugs">App启动Crash、Network Connection Error、K9门锁无法远程解锁等</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.09.04</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Tuya回归测试<span class="bug-count-badge">3个Bug</span></div>
+                            <div class="timeline-bugs">车库门自动化无法触发、RGB灯带场景异常、TTR/Auto场景编辑问题</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.09.05</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">用户模块、基础服务、场景联动、ipc服务升级<span class="bug-count-badge">5个Bug</span></div>
+                            <div class="timeline-bugs">天气条件场景失效、Alexa/Google Assistant无法访问、NVR画面加载失败、M29呼叫异常等</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.09.08</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">开放平台、运营平台升级<span class="bug-count-badge">1个Bug</span></div>
+                            <div class="timeline-bugs">部分账号登录报错500</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.09.09</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">部分服务下线<span class="bug-count-badge">2个Bug</span></div>
+                            <div class="timeline-bugs">忘记密码功能异常、澳洲手机号绑定失败</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2025.09.10-16</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">自动化测试&人工跟测、Tuya回归测试<span class="bug-count-badge">4个新Bug + 11个回归Bug</span></div>
+                            <div class="timeline-bugs">新Bug: K9密码编辑模板错误、蓝牙门锁绑定问题、NVR存储设置无法打开、开关组控制失效<br>
+                            回归Bug: 包含手机号重复注册、UI卡顿、M29呼叫异常、设备告警弹窗、网关替换、本地日志获取、设备扫描超时、时区触发、密码同步等历史问题</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124057,16 +124252,276 @@
             tooltip.classList.add('visible');
         }
         
+        // 绘制Cube3.0升级Bug统计图表
+        function drawUpgradeChart() {
+            const canvas = document.getElementById('upgradeChart');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            // Bug数据 (包含回归测试发现的历史Bug)
+            const data = [
+                { date: '08.20', bugs: 5, label: '环境准备+中间件' },
+                { date: '08.21', bugs: 1, label: '运维平台' },
+                { date: '08.22', bugs: 5, label: '基础服务' },
+                { date: '08.25-31', bugs: 5, label: '升级暂停' },
+                { date: '09.02', bugs: 3, label: '基础服务回滚' },
+                { date: '09.03', bugs: 4, label: 'iot-core/网关' },
+                { date: '09.04', bugs: 3, label: '回归测试' },
+                { date: '09.05', bugs: 5, label: '多服务升级' },
+                { date: '09.08', bugs: 1, label: '开放/运营平台' },
+                { date: '09.09', bugs: 2, label: '服务下线' },
+                { date: '09.10-16', bugs: 4, label: '自动化测试', regressionBugs: 11 } // 包含11个回归Bug
+            ];
+
+            // 计算累计Bug总量
+            let cumulative = 0;
+            const cumulativeData = data.map(item => {
+                cumulative += item.bugs;
+                if (item.regressionBugs) {
+                    cumulative += item.regressionBugs;
+                }
+                return { ...item, cumulative };
+            });
+
+            const padding = { top: 70, right: 80, bottom: 80, left: 60 };
+            const chartWidth = canvas.width - padding.left - padding.right;
+            const chartHeight = canvas.height - padding.top - padding.bottom;
+
+            // 找出最大值 (包括累计值)
+            const maxBugs = Math.max(...data.map(d => d.bugs));
+            const maxCumulative = Math.max(...cumulativeData.map(d => d.cumulative));
+            const yScale = chartHeight / (maxCumulative + 5);
+            const xScale = chartWidth / data.length;
+
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制网格线
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+
+            // 绘制水平网格线和左侧Y轴标签
+            for (let i = 0; i <= Math.ceil(maxCumulative / 5) * 5; i += 5) {
+                const y = padding.top + chartHeight - (i * yScale);
+                if (y >= padding.top) {
+                    ctx.beginPath();
+                    ctx.moveTo(padding.left, y);
+                    ctx.lineTo(canvas.width - padding.right, y);
+                    ctx.stroke();
+
+                    // 左侧Y轴标签 (新增Bug数)
+                    ctx.fillStyle = '#ff6b6b';
+                    ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                    ctx.textAlign = 'right';
+                    ctx.fillText(i.toString(), padding.left - 10, y + 4);
+                }
+            }
+
+            ctx.setLineDash([]);
+
+            // 绘制柱状图
+            cumulativeData.forEach((item, index) => {
+                const x = padding.left + index * xScale + xScale / 2;
+                const barWidth = xScale * 0.5;
+
+                // 绘制新增Bug柱子
+                const barHeight = item.bugs * yScale;
+                const y = padding.top + chartHeight - barHeight;
+
+                const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
+                gradient.addColorStop(0, '#ff6b6b');
+                gradient.addColorStop(1, '#ff5252');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x - barWidth / 2, y, barWidth, barHeight);
+
+                // 如果有回归Bug，堆叠显示
+                if (item.regressionBugs) {
+                    const regressionHeight = item.regressionBugs * yScale;
+                    const regressionY = y - regressionHeight;
+
+                    const regressionGradient = ctx.createLinearGradient(0, regressionY, 0, regressionY + regressionHeight);
+                    regressionGradient.addColorStop(0, '#ffa726');
+                    regressionGradient.addColorStop(1, '#ff9800');
+                    ctx.fillStyle = regressionGradient;
+                    ctx.fillRect(x - barWidth / 2, regressionY, barWidth, regressionHeight);
+
+                    // 显示回归Bug数量
+                    ctx.fillStyle = '#ff9800';
+                    ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`+${item.regressionBugs}`, x, regressionY - 5);
+                }
+
+                // 绘制数值
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                ctx.textAlign = 'center';
+                ctx.fillText(item.bugs.toString(), x, y - 5);
+
+                // 绘制日期
+                ctx.fillStyle = '#666';
+                ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                ctx.save();
+                ctx.translate(x, padding.top + chartHeight + 15);
+                ctx.rotate(-Math.PI / 6);
+                ctx.textAlign = 'right';
+                ctx.fillText(item.date, 0, 0);
+                ctx.restore();
+
+                // 绘制标签
+                ctx.fillStyle = '#999';
+                ctx.font = '10px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                ctx.save();
+                ctx.translate(x, padding.top + chartHeight + 45);
+                ctx.rotate(-Math.PI / 4);
+                ctx.textAlign = 'right';
+                ctx.fillText(item.label, 0, 0);
+                ctx.restore();
+            });
+
+            // 绘制累计总量折线
+            ctx.strokeStyle = '#4a90e2';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            cumulativeData.forEach((item, index) => {
+                const x = padding.left + index * xScale + xScale / 2;
+                const y = padding.top + chartHeight - (item.cumulative * yScale);
+
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+
+            // 绘制折线上的数据点和数值
+            cumulativeData.forEach((item, index) => {
+                const x = padding.left + index * xScale + xScale / 2;
+                const y = padding.top + chartHeight - (item.cumulative * yScale);
+
+                // 绘制数据点
+                ctx.fillStyle = '#4a90e2';
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 绘制白色内圆
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 绘制累计值
+                ctx.fillStyle = '#4a90e2';
+                ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                ctx.textAlign = 'center';
+                ctx.fillText(item.cumulative.toString(), x, y - 8);
+            });
+
+            // 绘制坐标轴
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, padding.top);
+            ctx.lineTo(padding.left, padding.top + chartHeight);
+            ctx.lineTo(canvas.width - padding.right, padding.top + chartHeight);
+            ctx.stroke();
+
+            // 右侧Y轴 (累计总量)
+            ctx.strokeStyle = '#4a90e2';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width - padding.right, padding.top);
+            ctx.lineTo(canvas.width - padding.right, padding.top + chartHeight);
+            ctx.stroke();
+
+            // 右侧Y轴标签
+            ctx.fillStyle = '#4a90e2';
+            ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+            ctx.textAlign = 'left';
+            for (let i = 0; i <= Math.ceil(maxCumulative / 10) * 10; i += 10) {
+                const y = padding.top + chartHeight - (i * yScale);
+                if (y >= padding.top) {
+                    ctx.fillText(i.toString(), canvas.width - padding.right + 10, y + 4);
+                }
+            }
+
+            // 绘制标题
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+            ctx.textAlign = 'center';
+            ctx.fillText('Cube 3.0升级期间Bug数量趋势', canvas.width / 2, 20);
+
+            // 左侧Y轴标题
+            ctx.save();
+            ctx.translate(20, canvas.height / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+            ctx.fillStyle = '#ff6b6b';
+            ctx.fillText('新增Bug数', 0, 0);
+            ctx.restore();
+
+            // 右侧Y轴标题
+            ctx.save();
+            ctx.translate(canvas.width - 15, canvas.height / 2);
+            ctx.rotate(Math.PI / 2);
+            ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+            ctx.fillStyle = '#4a90e2';
+            ctx.fillText('累计Bug总量', 0, 0);
+            ctx.restore();
+
+            // 绘制图例
+            const legendY = padding.top - 30;
+            const legendX = canvas.width / 2 - 150;
+
+            // 新增Bug图例
+            ctx.fillStyle = '#ff6b6b';
+            ctx.fillRect(legendX, legendY, 15, 10);
+            ctx.fillStyle = '#333';
+            ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+            ctx.textAlign = 'left';
+            ctx.fillText('新增Bug', legendX + 20, legendY + 9);
+
+            // 回归Bug图例
+            ctx.fillStyle = '#ffa726';
+            ctx.fillRect(legendX + 80, legendY, 15, 10);
+            ctx.fillStyle = '#333';
+            ctx.fillText('回归Bug', legendX + 100, legendY + 9);
+
+            // 累计总量图例
+            ctx.strokeStyle = '#4a90e2';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(legendX + 160, legendY + 5);
+            ctx.lineTo(legendX + 175, legendY + 5);
+            ctx.stroke();
+            ctx.fillStyle = '#333';
+            ctx.fillText('累计总量', legendX + 180, legendY + 9);
+        }
+
         // 页面加载时绘制图表并绑定事件
         window.addEventListener('load', () => {
             drawDiagram(releasesData.releases);
-            
+            drawUpgradeChart();
+
             // 绑定稳定性单元格hover事件（排除图例中的元素）
             const stabilityCells = document.querySelectorAll('.stability-row .stability-cell');
             stabilityCells.forEach(cell => {
                 cell.addEventListener('mouseenter', (e) => showStabilityTooltip(e, cell));
                 cell.addEventListener('mouseleave', hideTooltip);
             });
+        });
+
+        // 窗口大小改变时重绘图表
+        window.addEventListener('resize', () => {
+            drawUpgradeChart();
         });
     </script>
 </body>
