@@ -1639,12 +1639,17 @@ def main():
         print("\n📊 加载运营稳定性数据...")
         watch_dog_data = load_watch_dog_data()
         
-        # 计算从上个月1号到今天的稳定性
+        # 计算从两个月前1号到今天的稳定性
         today = datetime.now()
         if today.month == 1:
+            # 1月份，回到去年11月1号
+            start_date = datetime(today.year - 1, 11, 1)
+        elif today.month == 2:
+            # 2月份，回到去年12月1号
             start_date = datetime(today.year - 1, 12, 1)
         else:
-            start_date = datetime(today.year, today.month - 1, 1)
+            # 其他月份，回到两个月前的1号
+            start_date = datetime(today.year, today.month - 2, 1)
         
         stability_data = calculate_daily_stability(watch_dog_data, start_date, today)
         print(f"✅ 计算了 {len(stability_data)} 天的稳定性数据")
