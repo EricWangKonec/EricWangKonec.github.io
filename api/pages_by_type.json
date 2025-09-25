@@ -1,0 +1,942 @@
+{
+  "status": "success",
+  "data": {
+    "主页": [
+      {
+        "url": "index.html",
+        "file_path": "index.html",
+        "title": "测试报告中心",
+        "page_type": "主页",
+        "description": "测试报告中心主页",
+        "date_info": "",
+        "stats": {
+          "日报总数": "10",
+          "月报总数": "4",
+          "发布版本": "39",
+          "专项测试": "1"
+        },
+        "file_size": 21166,
+        "modified_time": "2025-09-25 18:25:25",
+        "modified_timestamp": 1758788725.138806
+      }
+    ],
+    "版本发布报告": [
+      {
+        "url": "releases/1.0.16.231/index.html",
+        "file_path": "releases/1.0.16.231/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.231",
+        "date_info": "2025年9月24日",
+        "stats": {
+          "版本号": "v1.0.16.231",
+          "发布日期": "2025年9月24日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月24日 - 2025年10月24日",
+          "反馈截止日期": "2025年10月24日"
+        },
+        "file_size": 21594,
+        "modified_time": "2025-09-25 18:25:25",
+        "modified_timestamp": 1758788725.115595
+      },
+      {
+        "url": "releases/1.0.16.230/index.html",
+        "file_path": "releases/1.0.16.230/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.230",
+        "date_info": "2025年9月24日",
+        "stats": {
+          "版本号": "v1.0.16.230",
+          "发布日期": "2025年9月24日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月24日 - 2025年10月24日",
+          "反馈截止日期": "2025年10月24日"
+        },
+        "file_size": 17820,
+        "modified_time": "2025-09-25 18:25:23",
+        "modified_timestamp": 1758788723.7768643
+      },
+      {
+        "url": "releases/1.0.16.229/index.html",
+        "file_path": "releases/1.0.16.229/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.229",
+        "date_info": "2025年9月23日",
+        "stats": {
+          "版本号": "v1.0.16.229",
+          "发布日期": "2025年9月23日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月23日 - 2025年10月23日",
+          "反馈截止日期": "2025年10月23日"
+        },
+        "file_size": 19415,
+        "modified_time": "2025-09-25 18:25:22",
+        "modified_timestamp": 1758788722.080859
+      },
+      {
+        "url": "releases/1.0.16.228/index.html",
+        "file_path": "releases/1.0.16.228/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.228",
+        "date_info": "2025年9月21日",
+        "stats": {
+          "版本号": "v1.0.16.228",
+          "发布日期": "2025年9月21日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月21日 - 2025年10月21日",
+          "反馈截止日期": "2025年10月21日"
+        },
+        "file_size": 20881,
+        "modified_time": "2025-09-25 18:25:20",
+        "modified_timestamp": 1758788720.1841326
+      },
+      {
+        "url": "releases/1.0.16.227/index.html",
+        "file_path": "releases/1.0.16.227/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.227",
+        "date_info": "2025年9月18日",
+        "stats": {
+          "版本号": "v1.0.16.227",
+          "发布日期": "2025年9月18日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月18日 - 2025年10月18日",
+          "反馈截止日期": "2025年10月18日"
+        },
+        "file_size": 20699,
+        "modified_time": "2025-09-25 18:25:18",
+        "modified_timestamp": 1758788718.702821
+      },
+      {
+        "url": "releases/1.0.16.226/index.html",
+        "file_path": "releases/1.0.16.226/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.226",
+        "date_info": "2025年9月15日",
+        "stats": {
+          "版本号": "v1.0.16.226",
+          "发布日期": "2025年9月15日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月15日 - 2025年10月15日",
+          "反馈截止日期": "2025年10月15日"
+        },
+        "file_size": 23775,
+        "modified_time": "2025-09-25 18:25:16",
+        "modified_timestamp": 1758788716.8949423
+      },
+      {
+        "url": "releases/1.0.16.225/index.html",
+        "file_path": "releases/1.0.16.225/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.225",
+        "date_info": "2025年9月11日",
+        "stats": {
+          "版本号": "v1.0.16.225",
+          "发布日期": "2025年9月11日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月11日 - 2025年10月11日",
+          "反馈截止日期": "2025年10月11日"
+        },
+        "file_size": 17907,
+        "modified_time": "2025-09-15 14:29:22",
+        "modified_timestamp": 1757910562.3542614
+      },
+      {
+        "url": "releases/1.0.16.224/index.html",
+        "file_path": "releases/1.0.16.224/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.224",
+        "date_info": "2025年9月5日",
+        "stats": {
+          "版本号": "v1.0.16.224",
+          "发布日期": "2025年9月5日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年9月5日 - 2025年10月5日",
+          "反馈截止日期": "2025年10月5日"
+        },
+        "file_size": 21792,
+        "modified_time": "2025-09-15 14:29:21",
+        "modified_timestamp": 1757910561.2005951
+      },
+      {
+        "url": "releases/1.0.16.223/index.html",
+        "file_path": "releases/1.0.16.223/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.223",
+        "date_info": "2025年8月31日",
+        "stats": {
+          "版本号": "v1.0.16.223",
+          "发布日期": "2025年8月31日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月31日 - 2025年9月30日",
+          "反馈截止日期": "2025年9月30日"
+        },
+        "file_size": 18794,
+        "modified_time": "2025-09-02 14:53:23",
+        "modified_timestamp": 1756788803.548656
+      },
+      {
+        "url": "releases/1.0.16.221/index.html",
+        "file_path": "releases/1.0.16.221/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.221",
+        "date_info": "2025年8月28日",
+        "stats": {
+          "版本号": "v1.0.16.221",
+          "发布日期": "2025年8月28日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月28日 - 2025年9月27日",
+          "反馈截止日期": "2025年9月27日"
+        },
+        "file_size": 17321,
+        "modified_time": "2025-09-02 14:53:22",
+        "modified_timestamp": 1756788802.186277
+      },
+      {
+        "url": "releases/1.0.16.220/index.html",
+        "file_path": "releases/1.0.16.220/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.220",
+        "date_info": "2025年8月22日",
+        "stats": {
+          "版本号": "v1.0.16.220",
+          "发布日期": "2025年8月22日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月22日 - 2025年9月21日",
+          "反馈截止日期": "2025年9月21日"
+        },
+        "file_size": 16826,
+        "modified_time": "2025-08-26 10:37:32",
+        "modified_timestamp": 1756168652.0415664
+      },
+      {
+        "url": "releases/1.0.16.219/index.html",
+        "file_path": "releases/1.0.16.219/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.219",
+        "date_info": "2025年8月21日",
+        "stats": {
+          "版本号": "v1.0.16.219",
+          "发布日期": "2025年8月21日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月21日 - 2025年9月20日",
+          "反馈截止日期": "2025年9月20日"
+        },
+        "file_size": 16855,
+        "modified_time": "2025-08-26 10:37:30",
+        "modified_timestamp": 1756168650.6301546
+      },
+      {
+        "url": "releases/1.0.16.218/index.html",
+        "file_path": "releases/1.0.16.218/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.218",
+        "date_info": "2025年8月21日",
+        "stats": {
+          "版本号": "v1.0.16.218",
+          "发布日期": "2025年8月21日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月21日 - 2025年9月20日",
+          "反馈截止日期": "2025年9月20日"
+        },
+        "file_size": 16568,
+        "modified_time": "2025-08-26 10:37:29",
+        "modified_timestamp": 1756168649.2081
+      },
+      {
+        "url": "releases/1.0.16.217/index.html",
+        "file_path": "releases/1.0.16.217/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.217",
+        "date_info": "2025年8月19日",
+        "stats": {
+          "版本号": "v1.0.16.217",
+          "发布日期": "2025年8月19日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月19日 - 2025年9月18日",
+          "反馈截止日期": "2025年9月18日"
+        },
+        "file_size": 16760,
+        "modified_time": "2025-08-26 10:37:28",
+        "modified_timestamp": 1756168648.2698748
+      },
+      {
+        "url": "releases/1.0.16.216/index.html",
+        "file_path": "releases/1.0.16.216/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.216",
+        "date_info": "2025年8月18日",
+        "stats": {
+          "版本号": "v1.0.16.216",
+          "发布日期": "2025年8月18日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月18日 - 2025年9月17日",
+          "反馈截止日期": "2025年9月17日"
+        },
+        "file_size": 17597,
+        "modified_time": "2025-08-26 10:37:26",
+        "modified_timestamp": 1756168646.8400757
+      },
+      {
+        "url": "releases/1.0.16.215/index.html",
+        "file_path": "releases/1.0.16.215/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.215",
+        "date_info": "2025年8月14日",
+        "stats": {
+          "版本号": "v1.0.16.215",
+          "发布日期": "2025年8月14日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月14日 - 2025年9月13日",
+          "反馈截止日期": "2025年9月13日"
+        },
+        "file_size": 22151,
+        "modified_time": "2025-08-26 10:37:25",
+        "modified_timestamp": 1756168645.4095173
+      },
+      {
+        "url": "releases/1.0.16.214/index.html",
+        "file_path": "releases/1.0.16.214/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.214",
+        "date_info": "2025年8月13日",
+        "stats": {
+          "版本号": "v1.0.16.214",
+          "发布日期": "2025年8月13日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月13日 - 2025年9月12日",
+          "反馈截止日期": "2025年9月12日"
+        },
+        "file_size": 19555,
+        "modified_time": "2025-08-26 10:37:23",
+        "modified_timestamp": 1756168643.9753375
+      },
+      {
+        "url": "releases/1.0.16.212/index.html",
+        "file_path": "releases/1.0.16.212/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.212",
+        "date_info": "2025年8月7日",
+        "stats": {
+          "版本号": "v1.0.16.212",
+          "发布日期": "2025年8月7日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月7日 - 2025年9月6日",
+          "反馈截止日期": "2025年9月6日"
+        },
+        "file_size": 18847,
+        "modified_time": "2025-08-26 10:37:22",
+        "modified_timestamp": 1756168642.4357305
+      },
+      {
+        "url": "releases/1.0.16.211/index.html",
+        "file_path": "releases/1.0.16.211/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.211",
+        "date_info": "2025年8月5日",
+        "stats": {
+          "版本号": "v1.0.16.211",
+          "发布日期": "2025年8月5日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月5日 - 2025年9月4日",
+          "反馈截止日期": "2025年9月4日"
+        },
+        "file_size": 21138,
+        "modified_time": "2025-08-26 10:37:21",
+        "modified_timestamp": 1756168641.004262
+      },
+      {
+        "url": "releases/1.0.16.209/index.html",
+        "file_path": "releases/1.0.16.209/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.209",
+        "date_info": "2025年8月1日",
+        "stats": {
+          "版本号": "v1.0.16.209",
+          "发布日期": "2025年8月1日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年8月1日 - 2025年8月31日",
+          "反馈截止日期": "2025年8月31日"
+        },
+        "file_size": 17661,
+        "modified_time": "2025-08-26 10:37:19",
+        "modified_timestamp": 1756168639.5696244
+      },
+      {
+        "url": "releases/1.0.16.205/index.html",
+        "file_path": "releases/1.0.16.205/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.205",
+        "date_info": "2025年7月30日",
+        "stats": {
+          "版本号": "v1.0.16.205",
+          "发布日期": "2025年7月30日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月30日 - 2025年8月29日",
+          "反馈截止日期": "2025年8月29日"
+        },
+        "file_size": 16587,
+        "modified_time": "2025-08-26 10:37:17",
+        "modified_timestamp": 1756168637.9542878
+      },
+      {
+        "url": "releases/1.0.16.204/index.html",
+        "file_path": "releases/1.0.16.204/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.204",
+        "date_info": "2025年7月25日",
+        "stats": {
+          "版本号": "v1.0.16.204",
+          "发布日期": "2025年7月25日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月25日 - 2025年8月24日",
+          "反馈截止日期": "2025年8月24日"
+        },
+        "file_size": 19466,
+        "modified_time": "2025-08-26 10:37:16",
+        "modified_timestamp": 1756168636.5980513
+      },
+      {
+        "url": "releases/1.0.16.203/index.html",
+        "file_path": "releases/1.0.16.203/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.203",
+        "date_info": "2025年7月23日",
+        "stats": {
+          "版本号": "v1.0.16.203",
+          "发布日期": "2025年7月23日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月23日 - 2025年8月22日",
+          "反馈截止日期": "2025年8月22日"
+        },
+        "file_size": 20167,
+        "modified_time": "2025-08-26 10:37:15",
+        "modified_timestamp": 1756168635.1095576
+      },
+      {
+        "url": "releases/1.0.16.202/index.html",
+        "file_path": "releases/1.0.16.202/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.202",
+        "date_info": "2025年7月22日",
+        "stats": {
+          "版本号": "v1.0.16.202",
+          "发布日期": "2025年7月22日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月22日 - 2025年8月21日",
+          "反馈截止日期": "2025年8月21日"
+        },
+        "file_size": 17364,
+        "modified_time": "2025-08-26 10:37:13",
+        "modified_timestamp": 1756168633.7335756
+      },
+      {
+        "url": "releases/1.0.16.201/index.html",
+        "file_path": "releases/1.0.16.201/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.201",
+        "date_info": "2025年7月16日",
+        "stats": {
+          "版本号": "v1.0.16.201",
+          "发布日期": "2025年7月16日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月16日 - 2025年8月15日",
+          "反馈截止日期": "2025年8月15日"
+        },
+        "file_size": 19671,
+        "modified_time": "2025-08-26 10:37:12",
+        "modified_timestamp": 1756168632.300173
+      },
+      {
+        "url": "releases/1.0.16.200/index.html",
+        "file_path": "releases/1.0.16.200/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.200",
+        "date_info": "2025年7月15日",
+        "stats": {
+          "版本号": "v1.0.16.200",
+          "发布日期": "2025年7月15日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月15日 - 2025年8月14日",
+          "反馈截止日期": "2025年8月14日"
+        },
+        "file_size": 18852,
+        "modified_time": "2025-08-26 10:37:10",
+        "modified_timestamp": 1756168630.8034668
+      },
+      {
+        "url": "releases/1.0.16.192/index.html",
+        "file_path": "releases/1.0.16.192/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.192",
+        "date_info": "2025年7月14日",
+        "stats": {
+          "版本号": "v1.0.16.192",
+          "发布日期": "2025年7月14日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月14日 - 2025年8月13日",
+          "反馈截止日期": "2025年8月13日"
+        },
+        "file_size": 19216,
+        "modified_time": "2025-08-26 10:37:09",
+        "modified_timestamp": 1756168629.4332588
+      },
+      {
+        "url": "releases/1.0.16.189/index.html",
+        "file_path": "releases/1.0.16.189/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.189",
+        "date_info": "2025年7月7日",
+        "stats": {
+          "版本号": "v1.0.16.189",
+          "发布日期": "2025年7月7日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年7月7日 - 2025年8月6日",
+          "反馈截止日期": "2025年8月6日"
+        },
+        "file_size": 18536,
+        "modified_time": "2025-08-26 10:37:07",
+        "modified_timestamp": 1756168627.9322066
+      },
+      {
+        "url": "releases/1.0.16.188/index.html",
+        "file_path": "releases/1.0.16.188/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.16.188",
+        "date_info": "2025年6月29日",
+        "stats": {
+          "版本号": "v1.0.16.188",
+          "发布日期": "2025年6月29日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月29日 - 2025年7月29日",
+          "反馈截止日期": "2025年7月29日"
+        },
+        "file_size": 19465,
+        "modified_time": "2025-08-26 10:37:06",
+        "modified_timestamp": 1756168626.5629494
+      },
+      {
+        "url": "releases/1.0.15.187/index.html",
+        "file_path": "releases/1.0.15.187/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.187",
+        "date_info": "2025年6月25日",
+        "stats": {
+          "版本号": "v1.0.15.187",
+          "发布日期": "2025年6月25日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月25日 - 2025年7月25日",
+          "反馈截止日期": "2025年7月25日"
+        },
+        "file_size": 16456,
+        "modified_time": "2025-08-26 10:37:05",
+        "modified_timestamp": 1756168625.127918
+      },
+      {
+        "url": "releases/1.0.15.186/index.html",
+        "file_path": "releases/1.0.15.186/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.186",
+        "date_info": "2025年6月25日",
+        "stats": {
+          "版本号": "v1.0.15.186",
+          "发布日期": "2025年6月25日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月25日 - 2025年7月25日",
+          "反馈截止日期": "2025年7月25日"
+        },
+        "file_size": 17878,
+        "modified_time": "2025-08-26 10:37:03",
+        "modified_timestamp": 1756168623.6970897
+      },
+      {
+        "url": "releases/1.0.15.185/index.html",
+        "file_path": "releases/1.0.15.185/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.185",
+        "date_info": "2025年6月24日",
+        "stats": {
+          "版本号": "v1.0.15.185",
+          "发布日期": "2025年6月24日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月24日 - 2025年7月24日",
+          "反馈截止日期": "2025年7月24日"
+        },
+        "file_size": 20554,
+        "modified_time": "2025-08-26 10:37:02",
+        "modified_timestamp": 1756168622.264513
+      },
+      {
+        "url": "releases/1.0.15.184/index.html",
+        "file_path": "releases/1.0.15.184/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.184",
+        "date_info": "2025年6月23日",
+        "stats": {
+          "版本号": "v1.0.15.184",
+          "发布日期": "2025年6月23日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月23日 - 2025年7月23日",
+          "反馈截止日期": "2025年7月23日"
+        },
+        "file_size": 19127,
+        "modified_time": "2025-08-26 10:37:00",
+        "modified_timestamp": 1756168620.7261944
+      },
+      {
+        "url": "releases/1.0.15.183/index.html",
+        "file_path": "releases/1.0.15.183/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.183",
+        "date_info": "2025年6月23日",
+        "stats": {
+          "版本号": "v1.0.15.183",
+          "发布日期": "2025年6月23日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月23日 - 2025年7月23日",
+          "反馈截止日期": "2025年7月23日"
+        },
+        "file_size": 18108,
+        "modified_time": "2025-08-26 10:36:59",
+        "modified_timestamp": 1756168619.271224
+      },
+      {
+        "url": "releases/1.0.15.182/index.html",
+        "file_path": "releases/1.0.15.182/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.182",
+        "date_info": "2025年6月23日",
+        "stats": {
+          "版本号": "v1.0.15.182",
+          "发布日期": "2025年6月23日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月23日 - 2025年7月23日",
+          "反馈截止日期": "2025年7月23日"
+        },
+        "file_size": 18101,
+        "modified_time": "2025-08-26 10:36:57",
+        "modified_timestamp": 1756168617.7568324
+      },
+      {
+        "url": "releases/1.0.15.181/index.html",
+        "file_path": "releases/1.0.15.181/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.181",
+        "date_info": "2025年6月22日",
+        "stats": {
+          "版本号": "v1.0.15.181",
+          "发布日期": "2025年6月22日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月22日 - 2025年7月22日",
+          "反馈截止日期": "2025年7月22日"
+        },
+        "file_size": 22736,
+        "modified_time": "2025-08-26 10:36:56",
+        "modified_timestamp": 1756168616.3226976
+      },
+      {
+        "url": "releases/1.0.15.180/index.html",
+        "file_path": "releases/1.0.15.180/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.180",
+        "date_info": "2025年6月19日",
+        "stats": {
+          "版本号": "v1.0.15.180",
+          "发布日期": "2025年6月19日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月19日 - 2025年7月19日",
+          "反馈截止日期": "2025年7月19日"
+        },
+        "file_size": 18769,
+        "modified_time": "2025-08-26 10:36:54",
+        "modified_timestamp": 1756168614.8891141
+      },
+      {
+        "url": "releases/1.0.15.179/index.html",
+        "file_path": "releases/1.0.15.179/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.179",
+        "date_info": "2025年6月17日",
+        "stats": {
+          "版本号": "v1.0.15.179",
+          "发布日期": "2025年6月17日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月17日 - 2025年7月17日",
+          "反馈截止日期": "2025年7月17日"
+        },
+        "file_size": 17997,
+        "modified_time": "2025-08-26 10:36:53",
+        "modified_timestamp": 1756168613.4594195
+      },
+      {
+        "url": "releases/1.0.15.159/index.html",
+        "file_path": "releases/1.0.15.159/index.html",
+        "title": "Konec Smart Home App Release Note",
+        "page_type": "版本发布报告",
+        "description": "Release 1.0.15.159",
+        "date_info": "2025年6月17日",
+        "stats": {
+          "版本号": "v1.0.15.159",
+          "发布日期": "2025年6月17日",
+          "支持平台": "Android 5.0+ & iOS 13.0+",
+          "测试周期": "2025年6月17日 - 2025年7月17日",
+          "反馈截止日期": "2025年7月17日"
+        },
+        "file_size": 18196,
+        "modified_time": "2025-08-26 10:36:52",
+        "modified_timestamp": 1756168612.026653
+      }
+    ],
+    "月度测试报告": [
+      {
+        "url": "2025/09/index.html",
+        "file_path": "2025/09/index.html",
+        "title": "测试工作报告 - 2025年09月",
+        "page_type": "月度测试报告",
+        "description": "2025年09月 测试月报",
+        "date_info": "2025年09月",
+        "stats": {},
+        "file_size": 4007029,
+        "modified_time": "2025-09-16 09:53:04",
+        "modified_timestamp": 1757980384.2071865
+      },
+      {
+        "url": "2025/08/index.html",
+        "file_path": "2025/08/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "月度测试报告",
+        "description": "2025年08月 测试月报",
+        "date_info": "2025年08月",
+        "stats": {},
+        "file_size": 2036673,
+        "modified_time": "2025-08-11 18:52:18",
+        "modified_timestamp": 1754902338.0386972
+      },
+      {
+        "url": "2025/07/index.html",
+        "file_path": "2025/07/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "月度测试报告",
+        "description": "2025年07月 测试月报",
+        "date_info": "2025年07月",
+        "stats": {},
+        "file_size": 46548,
+        "modified_time": "2025-07-09 15:01:24",
+        "modified_timestamp": 1752037284.4858246
+      },
+      {
+        "url": "2025/06/index.html",
+        "file_path": "2025/06/index.html",
+        "title": "测试工作月报",
+        "page_type": "月度测试报告",
+        "description": "2025年06月 测试月报",
+        "date_info": "2025年06月",
+        "stats": {},
+        "file_size": 38462,
+        "modified_time": "2025-07-01 15:27:16",
+        "modified_timestamp": 1751347636.7055736
+      }
+    ],
+    "每日测试报告": [
+      {
+        "url": "2025/09/15/index.html",
+        "file_path": "2025/09/15/index.html",
+        "title": "测试工作报告 - 2025年09月",
+        "page_type": "每日测试报告",
+        "description": "2025年09月15日 测试日报",
+        "date_info": "2025年09月15日",
+        "stats": {},
+        "file_size": 4007776,
+        "modified_time": "2025-09-15 18:37:27",
+        "modified_timestamp": 1757925447.764231
+      },
+      {
+        "url": "2025/09/02/index.html",
+        "file_path": "2025/09/02/index.html",
+        "title": "测试工作报告 - 2025年09月",
+        "page_type": "每日测试报告",
+        "description": "2025年09月02日 测试日报",
+        "date_info": "2025年09月02日",
+        "stats": {},
+        "file_size": 3247793,
+        "modified_time": "2025-09-02 14:57:52",
+        "modified_timestamp": 1756789072.9021568
+      },
+      {
+        "url": "2025/08/11/index.html",
+        "file_path": "2025/08/11/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "每日测试报告",
+        "description": "2025年08月11日 测试日报",
+        "date_info": "2025年08月11日",
+        "stats": {},
+        "file_size": 2036673,
+        "modified_time": "2025-08-11 14:27:25",
+        "modified_timestamp": 1754886445.3100033
+      },
+      {
+        "url": "2025/08/07/index.html",
+        "file_path": "2025/08/07/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "每日测试报告",
+        "description": "2025年08月07日 测试日报",
+        "date_info": "2025年08月07日",
+        "stats": {},
+        "file_size": 2515302,
+        "modified_time": "2025-08-07 15:33:29",
+        "modified_timestamp": 1754544809.7988687
+      },
+      {
+        "url": "2025/08/04/index.html",
+        "file_path": "2025/08/04/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "每日测试报告",
+        "description": "2025年08月04日 测试日报",
+        "date_info": "2025年08月04日",
+        "stats": {},
+        "file_size": 2514019,
+        "modified_time": "2025-08-04 16:02:40",
+        "modified_timestamp": 1754287360.8143158
+      },
+      {
+        "url": "2025/07/28/index.html",
+        "file_path": "2025/07/28/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月28日 测试日报",
+        "date_info": "2025年07月28日",
+        "stats": {},
+        "file_size": 1702982,
+        "modified_time": "2025-07-28 11:27:32",
+        "modified_timestamp": 1753666052.2238176
+      },
+      {
+        "url": "2025/07/25/index.html",
+        "file_path": "2025/07/25/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月25日 测试日报",
+        "date_info": "2025年07月25日",
+        "stats": {},
+        "file_size": 1702099,
+        "modified_time": "2025-07-25 16:51:34",
+        "modified_timestamp": 1753426294.9908695
+      },
+      {
+        "url": "2025/07/16/index.html",
+        "file_path": "2025/07/16/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月16日 测试日报",
+        "date_info": "2025年07月16日",
+        "stats": {},
+        "file_size": 1503069,
+        "modified_time": "2025-07-16 10:27:52",
+        "modified_timestamp": 1752625672.1451607
+      },
+      {
+        "url": "2025/07/10/index.html",
+        "file_path": "2025/07/10/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月10日 测试日报",
+        "date_info": "2025年07月10日",
+        "stats": {},
+        "file_size": 556079,
+        "modified_time": "2025-07-10 13:44:52",
+        "modified_timestamp": 1752119092.103291
+      },
+      {
+        "url": "2025/07/09/index.html",
+        "file_path": "2025/07/09/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月09日 测试日报",
+        "date_info": "2025年07月09日",
+        "stats": {},
+        "file_size": 557336,
+        "modified_time": "2025-07-09 18:57:39",
+        "modified_timestamp": 1752051459.6070278
+      }
+    ],
+    "产品介绍页面": [
+      {
+        "url": "ToolkitStudio/index.html",
+        "file_path": "ToolkitStudio/index.html",
+        "title": "Toolkit Studio - AI驱动的自动化测试IDE",
+        "page_type": "产品介绍页面",
+        "description": "Toolkit Studio - AI驱动的自动化测试IDE",
+        "date_info": "",
+        "stats": {},
+        "file_size": 13210,
+        "modified_time": "2025-08-11 18:41:00",
+        "modified_timestamp": 1754901660.5147011
+      }
+    ],
+    "未知类型": [
+      {
+        "url": "focus/humansensor2nd/index.html",
+        "file_path": "focus/humansensor2nd/index.html",
+        "title": "Human Sensor Detection",
+        "page_type": "未知类型",
+        "description": "",
+        "date_info": "",
+        "stats": {},
+        "file_size": 6679,
+        "modified_time": "2025-07-11 16:57:59",
+        "modified_timestamp": 1752217079.4072871
+      }
+    ]
+  },
+  "stats": {
+    "total_pages": 56,
+    "pages_by_type": {
+      "主页": 1,
+      "版本发布报告": 39,
+      "月度测试报告": 4,
+      "每日测试报告": 10,
+      "产品介绍页面": 1,
+      "未知类型": 1
+    },
+    "scan_time": "2025-09-25 18:25:25",
+    "last_updated": 1758788725.138806
+  },
+  "generated_at": "2025-09-25T18:25:25.371237"
+}

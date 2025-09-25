@@ -9,10 +9,12 @@ import json
 import time
 import logging
 import requests
+import re
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote
 from dotenv import load_dotenv
+from bs4 import BeautifulSoup
 
 # 加载环境变量（从当前目录）
 load_dotenv()
@@ -217,6 +219,200 @@ class NASReleaseSync:
         logger.info(f"同步完成，成功下载 {downloaded_count} 个新版本")
         return downloaded_count
 
+
+def extract_html_page_info(file_path):
+    """从HTML文件中提取页面信息"""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        soup = BeautifulSoup(content, 'html.parser')
+
+        # 获取页面标题
+        title = soup.find('title')
+        title_text = title.get_text().strip() if title else "未知标题"
+
+        # 获取文件路径信息
+        path_obj = Path(file_path)
+        relative_path = path_obj.relative_to(Path('.'))
+
+        # 分析路径来确定页面类型和描述
+        path_parts = relative_path.parts
+        page_type = "未知类型"
+        description = ""
+        date_info = ""
+
+        # 提取关键信息
+        if 'releases' in path_parts:
+            page_type = "版本发布报告"
+            version_match = re.search(r'(\d+\.\d+\.\d+\.\d+)', str(relative_path))
+            if version_match:
+                description = f"Release {version_match.group(1)}"
+                # 尝试从HTML中提取发布日期
+                date_pattern = r'(\d{4}年\d{1,2}月\d{1,2}日)'
+                date_match = re.search(date_pattern, content)
+                if date_match:
+                    date_info = date_match.group(1)
+
+        elif len(path_parts) >= 3:
+            # 检查是否是日期格式的路径 (2025/MM/DD 或 2025/MM)
+            try:
+                if path_parts[0].isdigit() and len(path_parts[0]) == 4:  # 年份
+                    year = path_parts[0]
+                    if len(path_parts) >= 2 and path_parts[1].isdigit():
+                        month = path_parts[1]
+                        if len(path_parts) >= 3 and path_parts[2].isdigit() and path_parts[2] != 'index.html':
+                            # 日报格式 2025/MM/DD
+                            day = path_parts[2]
+                            page_type = "每日测试报告"
+                            date_info = f"{year}年{month.zfill(2)}月{day.zfill(2)}日"
+                            description = f"{date_info} 测试日报"
+                        else:
+                            # 月报格式 2025/MM
+                            page_type = "月度测试报告"
+                            date_info = f"{year}年{month.zfill(2)}月"
+                            description = f"{date_info} 测试月报"
+            except:
+                pass
+
+        elif 'focus' in path_parts:
+            page_type = "专项测试报告"
+            if 'humansensor2nd' in path_parts:
+                description = "人体传感器第二代专项测试报告"
+
+        elif 'ToolkitStudio' in path_parts:
+            page_type = "产品介绍页面"
+            description = "Toolkit Studio - AI驱动的自动化测试IDE"
+
+        elif file_path == 'index.html':
+            page_type = "主页"
+            description = "测试报告中心主页"
+
+        # 如果没有描述信息，尝试从HTML内容中提取
+        if not description:
+            # 查找h1标签
+            h1_tag = soup.find('h1')
+            if h1_tag:
+                description = h1_tag.get_text().strip()
+
+            # 查找meta描述
+            meta_desc = soup.find('meta', attrs={'name': 'description'})
+            if meta_desc:
+                description = meta_desc.get('content', '').strip()
+
+        # 提取关键统计信息
+        stats = {}
+        stat_cards = soup.find_all(class_=re.compile(r'stat-card|info-card'))
+        for card in stat_cards:
+            label_elem = card.find(class_=re.compile(r'stat-label|info-label'))
+            value_elem = card.find(class_=re.compile(r'stat-number|info-value'))
+            if label_elem and value_elem:
+                label = label_elem.get_text().strip()
+                value = value_elem.get_text().strip()
+                stats[label] = value
+
+        # 获取文件信息
+        file_stat = path_obj.stat()
+
+        return {
+            'url': str(relative_path).replace('\\', '/'),
+            'file_path': str(relative_path),
+            'title': title_text,
+            'page_type': page_type,
+            'description': description,
+            'date_info': date_info,
+            'stats': stats,
+            'file_size': file_stat.st_size,
+            'modified_time': datetime.fromtimestamp(file_stat.st_mtime).strftime('%Y-%m-%d %H:%M:%S'),
+            'modified_timestamp': file_stat.st_mtime
+        }
+
+    except Exception as e:
+        logger.error(f"提取HTML页面信息失败 {file_path}: {e}")
+        return None
+
+def scan_all_html_pages():
+    """扫描所有HTML页面"""
+    pages_data = []
+
+    # 查找所有HTML文件
+    html_files = glob.glob('**/*.html', recursive=True)
+
+    logger.info(f"找到 {len(html_files)} 个HTML文件")
+
+    for html_file in html_files:
+        page_info = extract_html_page_info(html_file)
+        if page_info:
+            pages_data.append(page_info)
+
+    # 按修改时间排序（最新的在前）
+    pages_data.sort(key=lambda x: x['modified_timestamp'], reverse=True)
+
+    return pages_data
+
+def generate_api_data(pages_data):
+    """生成API数据"""
+    # 按类型分组
+    pages_by_type = {}
+    for page in pages_data:
+        page_type = page['page_type']
+        if page_type not in pages_by_type:
+            pages_by_type[page_type] = []
+        pages_by_type[page_type].append(page)
+
+    # 统计信息
+    stats = {
+        'total_pages': len(pages_data),
+        'pages_by_type': {page_type: len(pages) for page_type, pages in pages_by_type.items()},
+        'scan_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'last_updated': max(page['modified_timestamp'] for page in pages_data) if pages_data else 0
+    }
+
+    return {
+        'status': 'success',
+        'data': {
+            'pages': pages_data,
+            'pages_by_type': pages_by_type,
+            'stats': stats
+        },
+        'generated_at': datetime.now().isoformat()
+    }
+
+def save_api_data(api_data):
+    """保存API数据到JSON文件"""
+    try:
+        # 创建api目录（如果不存在）
+        api_dir = Path('api')
+        api_dir.mkdir(exist_ok=True)
+
+        # 保存完整数据
+        with open('api/pages.json', 'w', encoding='utf-8') as f:
+            json.dump(api_data, f, ensure_ascii=False, indent=2)
+
+        # 保存按类型分组的数据
+        with open('api/pages_by_type.json', 'w', encoding='utf-8') as f:
+            json.dump({
+                'status': 'success',
+                'data': api_data['data']['pages_by_type'],
+                'stats': api_data['data']['stats'],
+                'generated_at': api_data['generated_at']
+            }, f, ensure_ascii=False, indent=2)
+
+        # 保存统计数据
+        with open('api/stats.json', 'w', encoding='utf-8') as f:
+            json.dump({
+                'status': 'success',
+                'data': api_data['data']['stats'],
+                'generated_at': api_data['generated_at']
+            }, f, ensure_ascii=False, indent=2)
+
+        logger.info("API数据文件生成成功:")
+        logger.info("  - api/pages.json (所有页面信息)")
+        logger.info("  - api/pages_by_type.json (按类型分组)")
+        logger.info("  - api/stats.json (统计信息)")
+
+    except Exception as e:
+        logger.error(f"保存API数据失败: {e}")
 
 def scan_reports():
     """
@@ -728,8 +924,8 @@ def generate_report_cards(reports):
 def main():
     """主函数"""
     try:
-        print("🚀 开始生成导航页面...")
-        
+        print("🚀 开始生成导航页面和API数据...")
+
         # 首先尝试从NAS同步新的Release Notes
         try:
             nas_sync = NASReleaseSync()
@@ -738,29 +934,57 @@ def main():
                 print(f"✅ 从NAS同步了 {new_releases} 个新版本的Release Notes")
         except Exception as e:
             print(f"⚠️ NAS同步失败（继续生成导航页面）: {e}")
-        
-        # 扫描所有报告
+
+        # 扫描所有报告（用于导航页面生成）
         reports = scan_reports()
-        
-        print(f"📊 扫描结果:")
+
+        print(f"📊 报告扫描结果:")
         print(f"  - 日报: {len(reports['daily'])} 份")
         print(f"  - 月报: {len(reports['monthly'])} 份")
         print(f"  - 发布报告: {len(reports['releases'])} 份")
         print(f"  - 专项测试: {len(reports['focus'])} 份")
-        
+
         # 生成导航页面HTML
         html_content = generate_navigation_html(reports)
-        
+
         # 保存到index.html
         with open('index.html', 'w', encoding='utf-8') as f:
             f.write(html_content)
-        
+
         print(f"\n✅ 导航页面生成完成!")
         print(f"📄 文件路径: index.html")
+
+        # 扫描所有HTML页面（用于API数据生成）
+        print(f"\n🔍 开始扫描所有HTML页面...")
+        all_pages = scan_all_html_pages()
+
+        print(f"📊 HTML页面扫描结果:")
+        print(f"  - 总页面数: {len(all_pages)}")
+
+        # 按类型统计
+        type_counts = {}
+        for page in all_pages:
+            page_type = page['page_type']
+            type_counts[page_type] = type_counts.get(page_type, 0) + 1
+
+        for page_type, count in type_counts.items():
+            print(f"  - {page_type}: {count} 个")
+
+        # 生成API数据
+        print(f"\n📝 生成API数据文件...")
+        api_data = generate_api_data(all_pages)
+        save_api_data(api_data)
+
+        print(f"\n✅ 所有任务完成!")
         print(f"🕐 生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        
+        print(f"\n📋 生成的文件:")
+        print(f"  - index.html (主导航页面)")
+        print(f"  - api/pages.json (所有页面信息)")
+        print(f"  - api/pages_by_type.json (按类型分组)")
+        print(f"  - api/stats.json (统计信息)")
+
     except Exception as e:
-        print(f"❌ 生成导航页面时发生错误: {e}")
+        print(f"❌ 生成过程中发生错误: {e}")
         import traceback
         traceback.print_exc()
 
