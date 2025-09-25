@@ -406,10 +406,40 @@ def save_api_data(api_data):
                 'generated_at': api_data['generated_at']
             }, f, ensure_ascii=False, indent=2)
 
+        # 保存过滤掉release note的数据
+        filtered_pages = [page for page in api_data['data']['pages']
+                         if page['page_type'] != '版本发布报告']
+
+        filtered_pages_by_type = {k: v for k, v in api_data['data']['pages_by_type'].items()
+                                 if k != '版本发布报告'}
+
+        # 重新计算统计信息（不包括release notes）
+        filtered_stats = {
+            'total_pages': len(filtered_pages),
+            'pages_by_type': {page_type: len(pages) for page_type, pages in filtered_pages_by_type.items()},
+            'scan_time': api_data['data']['stats']['scan_time'],
+            'last_updated': max(page['modified_timestamp'] for page in filtered_pages) if filtered_pages else 0
+        }
+
+        filtered_api_data = {
+            'status': 'success',
+            'data': {
+                'pages': filtered_pages,
+                'pages_by_type': filtered_pages_by_type,
+                'stats': filtered_stats
+            },
+            'generated_at': api_data['generated_at']
+        }
+
+        # 保存过滤后的完整数据
+        with open('api/pages_no_releases.json', 'w', encoding='utf-8') as f:
+            json.dump(filtered_api_data, f, ensure_ascii=False, indent=2)
+
         logger.info("API数据文件生成成功:")
         logger.info("  - api/pages.json (所有页面信息)")
         logger.info("  - api/pages_by_type.json (按类型分组)")
         logger.info("  - api/stats.json (统计信息)")
+        logger.info("  - api/pages_no_releases.json (排除版本发布报告)")
 
     except Exception as e:
         logger.error(f"保存API数据失败: {e}")
@@ -982,6 +1012,7 @@ def main():
         print(f"  - api/pages.json (所有页面信息)")
         print(f"  - api/pages_by_type.json (按类型分组)")
         print(f"  - api/stats.json (统计信息)")
+        print(f"  - api/pages_no_releases.json (排除版本发布报告)")
 
     except Exception as e:
         print(f"❌ 生成过程中发生错误: {e}")

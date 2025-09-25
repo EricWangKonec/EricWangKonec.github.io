@@ -1,0 +1,450 @@
+{
+  "status": "success",
+  "data": {
+    "pages": [
+      {
+        "url": "index.html",
+        "file_path": "index.html",
+        "title": "测试报告中心",
+        "page_type": "主页",
+        "description": "测试报告中心主页",
+        "date_info": "",
+        "stats": {
+          "日报总数": "10",
+          "月报总数": "4",
+          "发布版本": "39",
+          "专项测试": "1"
+        },
+        "file_size": 21166,
+        "modified_time": "2025-09-25 18:30:26",
+        "modified_timestamp": 1758789026.837387
+      },
+      {
+        "url": "2025/09/index.html",
+        "file_path": "2025/09/index.html",
+        "title": "测试工作报告 - 2025年09月",
+        "page_type": "月度测试报告",
+        "description": "2025年09月 测试月报",
+        "date_info": "2025年09月",
+        "stats": {},
+        "file_size": 4007029,
+        "modified_time": "2025-09-16 09:53:04",
+        "modified_timestamp": 1757980384.2071865
+      },
+      {
+        "url": "2025/09/15/index.html",
+        "file_path": "2025/09/15/index.html",
+        "title": "测试工作报告 - 2025年09月",
+        "page_type": "每日测试报告",
+        "description": "2025年09月15日 测试日报",
+        "date_info": "2025年09月15日",
+        "stats": {},
+        "file_size": 4007776,
+        "modified_time": "2025-09-15 18:37:27",
+        "modified_timestamp": 1757925447.764231
+      },
+      {
+        "url": "2025/09/02/index.html",
+        "file_path": "2025/09/02/index.html",
+        "title": "测试工作报告 - 2025年09月",
+        "page_type": "每日测试报告",
+        "description": "2025年09月02日 测试日报",
+        "date_info": "2025年09月02日",
+        "stats": {},
+        "file_size": 3247793,
+        "modified_time": "2025-09-02 14:57:52",
+        "modified_timestamp": 1756789072.9021568
+      },
+      {
+        "url": "2025/08/index.html",
+        "file_path": "2025/08/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "月度测试报告",
+        "description": "2025年08月 测试月报",
+        "date_info": "2025年08月",
+        "stats": {},
+        "file_size": 2036673,
+        "modified_time": "2025-08-11 18:52:18",
+        "modified_timestamp": 1754902338.0386972
+      },
+      {
+        "url": "ToolkitStudio/index.html",
+        "file_path": "ToolkitStudio/index.html",
+        "title": "Toolkit Studio - AI驱动的自动化测试IDE",
+        "page_type": "产品介绍页面",
+        "description": "Toolkit Studio - AI驱动的自动化测试IDE",
+        "date_info": "",
+        "stats": {},
+        "file_size": 13210,
+        "modified_time": "2025-08-11 18:41:00",
+        "modified_timestamp": 1754901660.5147011
+      },
+      {
+        "url": "2025/08/11/index.html",
+        "file_path": "2025/08/11/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "每日测试报告",
+        "description": "2025年08月11日 测试日报",
+        "date_info": "2025年08月11日",
+        "stats": {},
+        "file_size": 2036673,
+        "modified_time": "2025-08-11 14:27:25",
+        "modified_timestamp": 1754886445.3100033
+      },
+      {
+        "url": "2025/08/07/index.html",
+        "file_path": "2025/08/07/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "每日测试报告",
+        "description": "2025年08月07日 测试日报",
+        "date_info": "2025年08月07日",
+        "stats": {},
+        "file_size": 2515302,
+        "modified_time": "2025-08-07 15:33:29",
+        "modified_timestamp": 1754544809.7988687
+      },
+      {
+        "url": "2025/08/04/index.html",
+        "file_path": "2025/08/04/index.html",
+        "title": "测试工作报告 - 2025年08月",
+        "page_type": "每日测试报告",
+        "description": "2025年08月04日 测试日报",
+        "date_info": "2025年08月04日",
+        "stats": {},
+        "file_size": 2514019,
+        "modified_time": "2025-08-04 16:02:40",
+        "modified_timestamp": 1754287360.8143158
+      },
+      {
+        "url": "2025/07/28/index.html",
+        "file_path": "2025/07/28/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月28日 测试日报",
+        "date_info": "2025年07月28日",
+        "stats": {},
+        "file_size": 1702982,
+        "modified_time": "2025-07-28 11:27:32",
+        "modified_timestamp": 1753666052.2238176
+      },
+      {
+        "url": "2025/07/25/index.html",
+        "file_path": "2025/07/25/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月25日 测试日报",
+        "date_info": "2025年07月25日",
+        "stats": {},
+        "file_size": 1702099,
+        "modified_time": "2025-07-25 16:51:34",
+        "modified_timestamp": 1753426294.9908695
+      },
+      {
+        "url": "2025/07/16/index.html",
+        "file_path": "2025/07/16/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月16日 测试日报",
+        "date_info": "2025年07月16日",
+        "stats": {},
+        "file_size": 1503069,
+        "modified_time": "2025-07-16 10:27:52",
+        "modified_timestamp": 1752625672.1451607
+      },
+      {
+        "url": "focus/humansensor2nd/index.html",
+        "file_path": "focus/humansensor2nd/index.html",
+        "title": "Human Sensor Detection",
+        "page_type": "未知类型",
+        "description": "",
+        "date_info": "",
+        "stats": {},
+        "file_size": 6679,
+        "modified_time": "2025-07-11 16:57:59",
+        "modified_timestamp": 1752217079.4072871
+      },
+      {
+        "url": "2025/07/10/index.html",
+        "file_path": "2025/07/10/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月10日 测试日报",
+        "date_info": "2025年07月10日",
+        "stats": {},
+        "file_size": 556079,
+        "modified_time": "2025-07-10 13:44:52",
+        "modified_timestamp": 1752119092.103291
+      },
+      {
+        "url": "2025/07/09/index.html",
+        "file_path": "2025/07/09/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "每日测试报告",
+        "description": "2025年07月09日 测试日报",
+        "date_info": "2025年07月09日",
+        "stats": {},
+        "file_size": 557336,
+        "modified_time": "2025-07-09 18:57:39",
+        "modified_timestamp": 1752051459.6070278
+      },
+      {
+        "url": "2025/07/index.html",
+        "file_path": "2025/07/index.html",
+        "title": "测试工作报告 - 2025年07月",
+        "page_type": "月度测试报告",
+        "description": "2025年07月 测试月报",
+        "date_info": "2025年07月",
+        "stats": {},
+        "file_size": 46548,
+        "modified_time": "2025-07-09 15:01:24",
+        "modified_timestamp": 1752037284.4858246
+      },
+      {
+        "url": "2025/06/index.html",
+        "file_path": "2025/06/index.html",
+        "title": "测试工作月报",
+        "page_type": "月度测试报告",
+        "description": "2025年06月 测试月报",
+        "date_info": "2025年06月",
+        "stats": {},
+        "file_size": 38462,
+        "modified_time": "2025-07-01 15:27:16",
+        "modified_timestamp": 1751347636.7055736
+      }
+    ],
+    "pages_by_type": {
+      "主页": [
+        {
+          "url": "index.html",
+          "file_path": "index.html",
+          "title": "测试报告中心",
+          "page_type": "主页",
+          "description": "测试报告中心主页",
+          "date_info": "",
+          "stats": {
+            "日报总数": "10",
+            "月报总数": "4",
+            "发布版本": "39",
+            "专项测试": "1"
+          },
+          "file_size": 21166,
+          "modified_time": "2025-09-25 18:30:26",
+          "modified_timestamp": 1758789026.837387
+        }
+      ],
+      "月度测试报告": [
+        {
+          "url": "2025/09/index.html",
+          "file_path": "2025/09/index.html",
+          "title": "测试工作报告 - 2025年09月",
+          "page_type": "月度测试报告",
+          "description": "2025年09月 测试月报",
+          "date_info": "2025年09月",
+          "stats": {},
+          "file_size": 4007029,
+          "modified_time": "2025-09-16 09:53:04",
+          "modified_timestamp": 1757980384.2071865
+        },
+        {
+          "url": "2025/08/index.html",
+          "file_path": "2025/08/index.html",
+          "title": "测试工作报告 - 2025年08月",
+          "page_type": "月度测试报告",
+          "description": "2025年08月 测试月报",
+          "date_info": "2025年08月",
+          "stats": {},
+          "file_size": 2036673,
+          "modified_time": "2025-08-11 18:52:18",
+          "modified_timestamp": 1754902338.0386972
+        },
+        {
+          "url": "2025/07/index.html",
+          "file_path": "2025/07/index.html",
+          "title": "测试工作报告 - 2025年07月",
+          "page_type": "月度测试报告",
+          "description": "2025年07月 测试月报",
+          "date_info": "2025年07月",
+          "stats": {},
+          "file_size": 46548,
+          "modified_time": "2025-07-09 15:01:24",
+          "modified_timestamp": 1752037284.4858246
+        },
+        {
+          "url": "2025/06/index.html",
+          "file_path": "2025/06/index.html",
+          "title": "测试工作月报",
+          "page_type": "月度测试报告",
+          "description": "2025年06月 测试月报",
+          "date_info": "2025年06月",
+          "stats": {},
+          "file_size": 38462,
+          "modified_time": "2025-07-01 15:27:16",
+          "modified_timestamp": 1751347636.7055736
+        }
+      ],
+      "每日测试报告": [
+        {
+          "url": "2025/09/15/index.html",
+          "file_path": "2025/09/15/index.html",
+          "title": "测试工作报告 - 2025年09月",
+          "page_type": "每日测试报告",
+          "description": "2025年09月15日 测试日报",
+          "date_info": "2025年09月15日",
+          "stats": {},
+          "file_size": 4007776,
+          "modified_time": "2025-09-15 18:37:27",
+          "modified_timestamp": 1757925447.764231
+        },
+        {
+          "url": "2025/09/02/index.html",
+          "file_path": "2025/09/02/index.html",
+          "title": "测试工作报告 - 2025年09月",
+          "page_type": "每日测试报告",
+          "description": "2025年09月02日 测试日报",
+          "date_info": "2025年09月02日",
+          "stats": {},
+          "file_size": 3247793,
+          "modified_time": "2025-09-02 14:57:52",
+          "modified_timestamp": 1756789072.9021568
+        },
+        {
+          "url": "2025/08/11/index.html",
+          "file_path": "2025/08/11/index.html",
+          "title": "测试工作报告 - 2025年08月",
+          "page_type": "每日测试报告",
+          "description": "2025年08月11日 测试日报",
+          "date_info": "2025年08月11日",
+          "stats": {},
+          "file_size": 2036673,
+          "modified_time": "2025-08-11 14:27:25",
+          "modified_timestamp": 1754886445.3100033
+        },
+        {
+          "url": "2025/08/07/index.html",
+          "file_path": "2025/08/07/index.html",
+          "title": "测试工作报告 - 2025年08月",
+          "page_type": "每日测试报告",
+          "description": "2025年08月07日 测试日报",
+          "date_info": "2025年08月07日",
+          "stats": {},
+          "file_size": 2515302,
+          "modified_time": "2025-08-07 15:33:29",
+          "modified_timestamp": 1754544809.7988687
+        },
+        {
+          "url": "2025/08/04/index.html",
+          "file_path": "2025/08/04/index.html",
+          "title": "测试工作报告 - 2025年08月",
+          "page_type": "每日测试报告",
+          "description": "2025年08月04日 测试日报",
+          "date_info": "2025年08月04日",
+          "stats": {},
+          "file_size": 2514019,
+          "modified_time": "2025-08-04 16:02:40",
+          "modified_timestamp": 1754287360.8143158
+        },
+        {
+          "url": "2025/07/28/index.html",
+          "file_path": "2025/07/28/index.html",
+          "title": "测试工作报告 - 2025年07月",
+          "page_type": "每日测试报告",
+          "description": "2025年07月28日 测试日报",
+          "date_info": "2025年07月28日",
+          "stats": {},
+          "file_size": 1702982,
+          "modified_time": "2025-07-28 11:27:32",
+          "modified_timestamp": 1753666052.2238176
+        },
+        {
+          "url": "2025/07/25/index.html",
+          "file_path": "2025/07/25/index.html",
+          "title": "测试工作报告 - 2025年07月",
+          "page_type": "每日测试报告",
+          "description": "2025年07月25日 测试日报",
+          "date_info": "2025年07月25日",
+          "stats": {},
+          "file_size": 1702099,
+          "modified_time": "2025-07-25 16:51:34",
+          "modified_timestamp": 1753426294.9908695
+        },
+        {
+          "url": "2025/07/16/index.html",
+          "file_path": "2025/07/16/index.html",
+          "title": "测试工作报告 - 2025年07月",
+          "page_type": "每日测试报告",
+          "description": "2025年07月16日 测试日报",
+          "date_info": "2025年07月16日",
+          "stats": {},
+          "file_size": 1503069,
+          "modified_time": "2025-07-16 10:27:52",
+          "modified_timestamp": 1752625672.1451607
+        },
+        {
+          "url": "2025/07/10/index.html",
+          "file_path": "2025/07/10/index.html",
+          "title": "测试工作报告 - 2025年07月",
+          "page_type": "每日测试报告",
+          "description": "2025年07月10日 测试日报",
+          "date_info": "2025年07月10日",
+          "stats": {},
+          "file_size": 556079,
+          "modified_time": "2025-07-10 13:44:52",
+          "modified_timestamp": 1752119092.103291
+        },
+        {
+          "url": "2025/07/09/index.html",
+          "file_path": "2025/07/09/index.html",
+          "title": "测试工作报告 - 2025年07月",
+          "page_type": "每日测试报告",
+          "description": "2025年07月09日 测试日报",
+          "date_info": "2025年07月09日",
+          "stats": {},
+          "file_size": 557336,
+          "modified_time": "2025-07-09 18:57:39",
+          "modified_timestamp": 1752051459.6070278
+        }
+      ],
+      "产品介绍页面": [
+        {
+          "url": "ToolkitStudio/index.html",
+          "file_path": "ToolkitStudio/index.html",
+          "title": "Toolkit Studio - AI驱动的自动化测试IDE",
+          "page_type": "产品介绍页面",
+          "description": "Toolkit Studio - AI驱动的自动化测试IDE",
+          "date_info": "",
+          "stats": {},
+          "file_size": 13210,
+          "modified_time": "2025-08-11 18:41:00",
+          "modified_timestamp": 1754901660.5147011
+        }
+      ],
+      "未知类型": [
+        {
+          "url": "focus/humansensor2nd/index.html",
+          "file_path": "focus/humansensor2nd/index.html",
+          "title": "Human Sensor Detection",
+          "page_type": "未知类型",
+          "description": "",
+          "date_info": "",
+          "stats": {},
+          "file_size": 6679,
+          "modified_time": "2025-07-11 16:57:59",
+          "modified_timestamp": 1752217079.4072871
+        }
+      ]
+    },
+    "stats": {
+      "total_pages": 17,
+      "pages_by_type": {
+        "主页": 1,
+        "月度测试报告": 4,
+        "每日测试报告": 10,
+        "产品介绍页面": 1,
+        "未知类型": 1
+      },
+      "scan_time": "2025-09-25 18:30:27",
+      "last_updated": 1758789026.837387
+    }
+  },
+  "generated_at": "2025-09-25T18:30:27.068442"
+}
