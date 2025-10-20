@@ -489,14 +489,18 @@
         // S3 配置
         const S3_BASE_URL = 'https://toolkit-studio-updates.s3.ap-southeast-2.amazonaws.com/app';
 
-        // 从 S3 获取 latest-mac.yml 解析版本和下载链接
+        // 使用 beta 频道（因为还没有正式版）
+        const CHANNEL = 'beta'; // 可以改为 'latest' 使用正式版
+
+        // 从 S3 获取 beta-mac.yml 或 latest-mac.yml 解析版本和下载链接
         async function fetchMacVersion() {
             try {
-                const response = await fetch(`${S3_BASE_URL}/latest-mac.yml`);
-                if (!response.ok) throw new Error('Failed to fetch latest-mac.yml');
+                const ymlFile = CHANNEL === 'beta' ? 'beta-mac.yml' : 'latest-mac.yml';
+                const response = await fetch(`${S3_BASE_URL}/${ymlFile}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${ymlFile}`);
 
                 const text = await response.text();
-                console.log('latest-mac.yml:', text);
+                console.log(`${ymlFile}:`, text);
 
                 // 解析 YAML 内容（简单解析）
                 const versionMatch = text.match(/version:\s*([^\s]+)/);
@@ -519,14 +523,15 @@
             }
         }
 
-        // 从 S3 获取 latest.yml 解析版本和下载链接
+        // 从 S3 获取 beta.yml 或 latest.yml 解析版本和下载链接
         async function fetchWinVersion() {
             try {
-                const response = await fetch(`${S3_BASE_URL}/latest.yml`);
-                if (!response.ok) throw new Error('Failed to fetch latest.yml');
+                const ymlFile = CHANNEL === 'beta' ? 'beta.yml' : 'latest.yml';
+                const response = await fetch(`${S3_BASE_URL}/${ymlFile}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${ymlFile}`);
 
                 const text = await response.text();
-                console.log('latest.yml:', text);
+                console.log(`${ymlFile}:`, text);
 
                 // 解析 YAML 内容（简单解析）
                 const versionMatch = text.match(/version:\s*([^\s]+)/);
