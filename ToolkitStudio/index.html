@@ -533,21 +533,31 @@
                 const text = await response.text();
                 console.log(`${ymlFile}:`, text);
 
-                // 解析 YAML 内容（简单解析）
+                // 解析版本号
                 const versionMatch = text.match(/version:\s*([^\s]+)/);
-                const pathMatch = text.match(/path:\s*(.+)/);
+                if (!versionMatch) throw new Error('Failed to parse version');
+                const version = versionMatch[1];
 
-                if (versionMatch && pathMatch) {
-                    const version = versionMatch[1];
-                    const filename = pathMatch[1];
+                // 优先查找 DMG 文件（arm64优先）
+                let filename = null;
+                const dmgArm64Match = text.match(/url:\s*([^\n]*\.dmg)/);
+                if (dmgArm64Match) {
+                    filename = dmgArm64Match[1].trim();
+                } else {
+                    // 如果没有DMG，退回到path字段
+                    const pathMatch = text.match(/path:\s*(.+)/);
+                    if (pathMatch) {
+                        filename = pathMatch[1].trim();
+                    }
+                }
 
-                    // 构建下载 URL
+                if (filename) {
                     const downloadUrl = `${S3_BASE_URL}/${filename}`;
-
+                    console.log('macOS 文件名:', filename);
                     return { version, downloadUrl };
                 }
 
-                throw new Error('Failed to parse version info');
+                throw new Error('Failed to parse download path');
             } catch (error) {
                 console.error('获取 macOS 版本失败:', error);
                 return null;
