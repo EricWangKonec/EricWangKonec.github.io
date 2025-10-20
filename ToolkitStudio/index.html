@@ -91,6 +91,80 @@
             line-height: 1.5;
         }
 
+        /* 下载按钮区域 */
+        .download-section {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 0 auto 80px;
+            max-width: 600px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .download-btn .version {
+            font-size: 12px;
+            color: #999;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .download-btn .platform-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .download-btn.loading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .download-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
         /* 功能展示区 */
         .feature-section {
             padding: 80px 40px;
@@ -226,17 +300,28 @@
             h1 {
                 font-size: 36px;
             }
-            
+
             .subtitle {
                 font-size: 20px;
             }
-            
+
             .feature-title {
                 font-size: 28px;
             }
-            
+
             .nav-links {
                 display: none;
+            }
+
+            .download-section {
+                flex-direction: column;
+                gap: 16px;
+                padding: 0 20px;
+            }
+
+            .download-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -258,6 +343,29 @@
         <p class="description">
             深度融合AI的UI自动化测试脚本编写集成开发环境与自动化测试执行环境
         </p>
+
+        <!-- 下载按钮 -->
+        <div class="download-section">
+            <a href="#" class="download-btn loading" id="macDownloadBtn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                <div class="platform-info">
+                    <span>macOS</span>
+                    <span class="version" id="macVersion">加载中...</span>
+                </div>
+            </a>
+
+            <a href="#" class="download-btn loading" id="winDownloadBtn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                </svg>
+                <div class="platform-info">
+                    <span>Windows</span>
+                    <span class="version" id="winVersion">加载中...</span>
+                </div>
+            </a>
+        </div>
     </section>
 
     <!-- 核心功能 -->
@@ -374,7 +482,111 @@
 
     <!-- 底部 -->
     <footer>
-        <p>&copy; 2024 Toolkit Studio. Demo版本</p>
+        <p>&copy; 2025 Toolkit Studio </p>
     </footer>
+
+    <script>
+        // S3 配置
+        const S3_BASE_URL = 'https://toolkit-studio-updates.s3.ap-southeast-2.amazonaws.com/app';
+
+        // 从 S3 获取 latest-mac.yml 解析版本和下载链接
+        async function fetchMacVersion() {
+            try {
+                const response = await fetch(`${S3_BASE_URL}/latest-mac.yml`);
+                if (!response.ok) throw new Error('Failed to fetch latest-mac.yml');
+
+                const text = await response.text();
+                console.log('latest-mac.yml:', text);
+
+                // 解析 YAML 内容（简单解析）
+                const versionMatch = text.match(/version:\s*([^\s]+)/);
+                const pathMatch = text.match(/path:\s*([^\s]+)/);
+
+                if (versionMatch && pathMatch) {
+                    const version = versionMatch[1];
+                    const filename = pathMatch[1];
+
+                    // 构建下载 URL
+                    const downloadUrl = `${S3_BASE_URL}/${filename}`;
+
+                    return { version, downloadUrl };
+                }
+
+                throw new Error('Failed to parse version info');
+            } catch (error) {
+                console.error('获取 macOS 版本失败:', error);
+                return null;
+            }
+        }
+
+        // 从 S3 获取 latest.yml 解析版本和下载链接
+        async function fetchWinVersion() {
+            try {
+                const response = await fetch(`${S3_BASE_URL}/latest.yml`);
+                if (!response.ok) throw new Error('Failed to fetch latest.yml');
+
+                const text = await response.text();
+                console.log('latest.yml:', text);
+
+                // 解析 YAML 内容（简单解析）
+                const versionMatch = text.match(/version:\s*([^\s]+)/);
+                const pathMatch = text.match(/path:\s*([^\s]+)/);
+
+                if (versionMatch && pathMatch) {
+                    const version = versionMatch[1];
+                    const filename = pathMatch[1];
+
+                    // 构建下载 URL
+                    const downloadUrl = `${S3_BASE_URL}/${filename}`;
+
+                    return { version, downloadUrl };
+                }
+
+                throw new Error('Failed to parse version info');
+            } catch (error) {
+                console.error('获取 Windows 版本失败:', error);
+                return null;
+            }
+        }
+
+        // 初始化下载按钮
+        async function initializeDownloadButtons() {
+            const macBtn = document.getElementById('macDownloadBtn');
+            const winBtn = document.getElementById('winDownloadBtn');
+            const macVersionEl = document.getElementById('macVersion');
+            const winVersionEl = document.getElementById('winVersion');
+
+            // 获取 macOS 版本
+            const macInfo = await fetchMacVersion();
+            if (macInfo) {
+                macVersionEl.textContent = `v${macInfo.version}`;
+                macBtn.href = macInfo.downloadUrl;
+                macBtn.classList.remove('loading');
+                console.log('macOS 下载链接:', macInfo.downloadUrl);
+            } else {
+                macVersionEl.textContent = '暂不可用';
+                macBtn.classList.remove('loading');
+                macBtn.style.opacity = '0.5';
+                macBtn.style.pointerEvents = 'none';
+            }
+
+            // 获取 Windows 版本
+            const winInfo = await fetchWinVersion();
+            if (winInfo) {
+                winVersionEl.textContent = `v${winInfo.version}`;
+                winBtn.href = winInfo.downloadUrl;
+                winBtn.classList.remove('loading');
+                console.log('Windows 下载链接:', winInfo.downloadUrl);
+            } else {
+                winVersionEl.textContent = '暂不可用';
+                winBtn.classList.remove('loading');
+                winBtn.style.opacity = '0.5';
+                winBtn.style.pointerEvents = 'none';
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initializeDownloadButtons);
+    </script>
 </body>
 </html>
