@@ -280,10 +280,6 @@ def extract_html_page_info(file_path):
             if 'humansensor2nd' in path_parts:
                 description = "人体传感器第二代专项测试报告"
 
-        elif 'ToolkitStudio' in path_parts:
-            page_type = "产品介绍页面"
-            description = "Toolkit Studio - AI驱动的自动化测试IDE"
-
         elif file_path == 'index.html':
             page_type = "主页"
             description = "测试报告中心主页"

@@ -12,12 +12,12 @@
         "stats": {
           "日报总数": "10",
           "月报总数": "4",
-          "发布版本": "39",
+          "发布版本": "57",
           "专项测试": "1"
         },
-        "file_size": 21166,
-        "modified_time": "2025-09-25 18:30:26",
-        "modified_timestamp": 1758789026.837387
+        "file_size": 25243,
+        "modified_time": "2025-10-22 18:20:00",
+        "modified_timestamp": 1761117600.3559072
       },
       {
         "url": "2025/09/index.html",
@@ -66,18 +66,6 @@
         "file_size": 2036673,
         "modified_time": "2025-08-11 18:52:18",
         "modified_timestamp": 1754902338.0386972
-      },
-      {
-        "url": "ToolkitStudio/index.html",
-        "file_path": "ToolkitStudio/index.html",
-        "title": "Toolkit Studio - AI驱动的自动化测试IDE",
-        "page_type": "产品介绍页面",
-        "description": "Toolkit Studio - AI驱动的自动化测试IDE",
-        "date_info": "",
-        "stats": {},
-        "file_size": 13210,
-        "modified_time": "2025-08-11 18:41:00",
-        "modified_timestamp": 1754901660.5147011
       },
       {
         "url": "2025/08/11/index.html",
@@ -224,12 +212,12 @@
           "stats": {
             "日报总数": "10",
             "月报总数": "4",
-            "发布版本": "39",
+            "发布版本": "57",
             "专项测试": "1"
           },
-          "file_size": 21166,
-          "modified_time": "2025-09-25 18:30:26",
-          "modified_timestamp": 1758789026.837387
+          "file_size": 25243,
+          "modified_time": "2025-10-22 18:20:00",
+          "modified_timestamp": 1761117600.3559072
         }
       ],
       "月度测试报告": [
@@ -404,20 +392,6 @@
           "modified_timestamp": 1752051459.6070278
         }
       ],
-      "产品介绍页面": [
-        {
-          "url": "ToolkitStudio/index.html",
-          "file_path": "ToolkitStudio/index.html",
-          "title": "Toolkit Studio - AI驱动的自动化测试IDE",
-          "page_type": "产品介绍页面",
-          "description": "Toolkit Studio - AI驱动的自动化测试IDE",
-          "date_info": "",
-          "stats": {},
-          "file_size": 13210,
-          "modified_time": "2025-08-11 18:41:00",
-          "modified_timestamp": 1754901660.5147011
-        }
-      ],
       "未知类型": [
         {
           "url": "focus/humansensor2nd/index.html",
@@ -434,17 +408,16 @@
       ]
     },
     "stats": {
-      "total_pages": 17,
+      "total_pages": 16,
       "pages_by_type": {
         "主页": 1,
         "月度测试报告": 4,
         "每日测试报告": 10,
-        "产品介绍页面": 1,
         "未知类型": 1
       },
-      "scan_time": "2025-09-25 18:30:27",
-      "last_updated": 1758789026.837387
+      "scan_time": "2025-10-22 18:20:00",
+      "last_updated": 1761117600.3559072
     }
   },
-  "generated_at": "2025-09-25T18:30:27.068442"
+  "generated_at": "2025-10-22T18:20:00.623922"
 }
